@@ -498,3 +498,150 @@ window.deleteCliente = deleteCliente;
 window.viewProposta = viewProposta;
 window.deleteProposta = deleteProposta;
 
+
+
+// Funções auxiliares para dashboard
+function getMonthlyProposals() {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    return AppState.data.proposals.filter(proposal => {
+        const proposalDate = new Date(proposal.created_at);
+        return proposalDate.getMonth() === currentMonth && proposalDate.getFullYear() === currentYear;
+    }).length;
+}
+
+function getMonthlyRevenue() {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    const monthlyTotal = AppState.data.proposals
+        .filter(proposal => {
+            const proposalDate = new Date(proposal.created_at);
+            return proposalDate.getMonth() === currentMonth && proposalDate.getFullYear() === currentYear;
+        })
+        .reduce((total, proposal) => total + (proposal.valor_total || 0), 0);
+    
+    return monthlyTotal.toFixed(2);
+}
+
+function getConversionRate() {
+    const totalProposals = AppState.data.proposals.length;
+    const approvedProposals = AppState.data.proposals.filter(p => p.status === 'aprovada').length;
+    
+    if (totalProposals === 0) return 0;
+    return Math.round((approvedProposals / totalProposals) * 100);
+}
+
+// Atualizar função loadDashboard
+function loadDashboard() {
+    const content = `
+        <div class="dashboard-content fade-in">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon proposals">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-proposals">${AppState.data.proposals.length}</h3>
+                        <p>Total de Propostas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon clients">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-clients">${AppState.data.clients.length}</h3>
+                        <p>Clientes Cadastrados</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-revenue">R$ ${calculateTotalRevenue()}</h3>
+                        <p>Valor Total em Propostas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pending-proposals">${getPendingProposals()}</h3>
+                        <p>Propostas Pendentes</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Propostas Recentes</h3>
+                        <a href="#" onclick="navigateTo('minhas-propostas')" class="btn btn-primary btn-sm">Ver Todas</a>
+                    </div>
+                    <div class="card-content">
+                        <div id="recent-proposals">
+                            ${getRecentProposalsHTML()}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ações Rápidas</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="quick-actions">
+                            <button onclick="navigateTo('gerar-proposta')" class="btn btn-primary w-100 mb-2">
+                                <i class="fas fa-plus"></i> Nova Proposta
+                            </button>
+                            <button onclick="navigateTo('clientes')" class="btn btn-secondary w-100 mb-2">
+                                <i class="fas fa-user-plus"></i> Novo Cliente
+                            </button>
+                            <button onclick="navigateTo('configuracoes')" class="btn btn-secondary w-100">
+                                <i class="fas fa-cog"></i> Configurações
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-charts">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Estatísticas do Mês</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">
+                            <div class="chart-info">
+                                <div class="chart-metric">
+                                    <span class="metric-value">${getMonthlyProposals()}</span>
+                                    <span class="metric-label">Propostas este mês</span>
+                                </div>
+                                <div class="chart-metric">
+                                    <span class="metric-value">R$ ${getMonthlyRevenue()}</span>
+                                    <span class="metric-label">Receita estimada</span>
+                                </div>
+                                <div class="chart-metric">
+                                    <span class="metric-value">${getConversionRate()}%</span>
+                                    <span class="metric-label">Taxa de conversão</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('page-content').innerHTML = content;
+}
+
+// Exportar novas funções
+window.getMonthlyProposals = getMonthlyProposals;
+window.getMonthlyRevenue = getMonthlyRevenue;
+window.getConversionRate = getConversionRate;
+
