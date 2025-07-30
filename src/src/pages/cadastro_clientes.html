@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Cadastro de Clientes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Principal */
+            --color-primary-blue: #0000CB;
+            --color-primary-purple: #B733F0;
+            --color-primary-pink: #FD7BF6;
+
+            /* Cores Neutras */
+            --color-neutral-dark: #1A1A1A;
+            --color-neutral-medium: #A0A0A0;
+            --color-neutral-light: #E5E5E5;
+            --color-neutral-extra-light: #FAFAFA;
+
+            /* Tons de Apoio / Complementares */
+            --color-support-blue: #5050FF;
+            --color-support-purple: #D9A8FA;
+            --color-support-pink: #FFA8F9;
+
+            /* Azul Base */
+            --color-blue-base-lightest: #D6D6FF;
+            --color-blue-base-light: #9999FF;
+            --color-blue-base: #0000CB;
+            --color-blue-base-dark: #000099;
+            --color-blue-base-darkest: #000066;
+
+            /* Rosa Base */
+            --color-pink-base-lightest: #FFE6FC;
+            --color-pink-base-light: #FFB3F8;
+            --color-pink-base: #FD7BF6;
+            --color-pink-base-dark: #C951B5;
+            --color-pink-base-darkest: #8A2C81;
+
+            /* Roxo Base */
+            --color-purple-base-lightest: #F3D6FE;
+            --color-purple-base-light: #D68BFA;
+            --color-purple-base: #B733F0;
+            --color-purple-base-dark: #8019B7;
+            --color-purple-base-darkest: #53067F;
+
+            /* Escala de Cinza Profissional */
+            --color-gray-lightest: #F9F9F9;
+            --color-gray-extra-light: #F0F0F0;
+            --color-gray-light: #E5E5E5;
+            --color-gray-medium-light: #CFCFCF;
+            --color-gray-medium: #A0A0A0;
+            --color-gray-medium-dark: #707070;
+            --color-gray-extra-dark: #2B2B2B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-neutral-extra-light);
+            color: var(--color-neutral-dark);
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: var(--color-primary-purple);
+            transition: width 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            padding: 20px 10px;
+        }
+
+        .logo {
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo {
+            display: none;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar.collapsed .menu-item {
+            padding: 15px 20px;
+            justify-content: center;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-item i {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .sidebar.collapsed .menu-item i {
+            margin-right: 0;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            display: none;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #FFFFFF;
+            border: 2px solid var(--color-primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-btn {
+            right: 15px;
+        }
+
+        .toggle-btn i {
+            color: var(--color-primary-purple);
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-btn i {
+            transform: rotate(180deg);
+        }
+
+        /* Área Principal */
+        .main-content {
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background-color: #FFFFFF;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--color-primary-purple), var(--color-purple-base-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .company-logo {
+            padding: 8px 16px;
+            background-color: var(--color-gray-extra-light);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--color-gray-medium-dark);
+        }
+
+        .company-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-neutral-dark);
+        }
+
+        .user-config {
+            color: var(--color-primary-purple);
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .header h1 {
+            color: var(--color-neutral-dark);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* Formulário */
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+            border: 1px solid var(--color-gray-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .form-section-header {
+            background-color: var(--color-gray-extra-light);
+            padding: 15px 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--color-neutral-dark);
+        }
+
+        .form-section-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .form-section-header.collapsed i {
+            transform: rotate(-90deg);
+        }
+
+        .form-section-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--color-neutral-dark);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid var(--color-gray-medium-light);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: var(--color-neutral-dark);
+            background-color: var(--color-gray-lightest);
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .form-group.checkbox-group {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary-purple), var(--color-purple-base-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(183, 51, 240, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-gray-medium);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-gray-medium-dark);
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--color-primary-blue);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-link:hover {
+            color: var(--color-blue-base-dark);
+        }
+
+        .input-with-button {
+            display: flex;
+            gap: 5px;
+        }
+
+        .input-with-button input {
+            flex-grow: 1;
+        }
+
+        .input-with-button button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--color-gray-medium-light);
+            background-color: var(--color-gray-light);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .input-with-button button:hover {
+            background-color: var(--color-gray-medium-light);
+        }
+
+        .dynamic-field-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .dynamic-field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .dynamic-field-group input {
+            flex-grow: 1;
+        }
+
+        .dynamic-field-group .remove-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .dynamic-field-group .add-btn {
+            background: none;
+            border: none;
+            color: var(--color-primary-blue);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+
+            .form-section-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="#" class="menu-item" data-page="gerar-proposta">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="#" class="menu-item" data-page="minhas-propostas">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="#" class="menu-item active" data-page="cadastro-clientes">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="#" class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-header">
+                    <div class="logo-icon">PC</div>
+                    <h1>Cadastro de Clientes</h1>
+                </div>
+            </div>
+            <div class="company-info">
+                <div class="company-logo">logotipo</div>
+                <div class="company-name">NOME DA EMPRESA</div>
+                <a href="#" class="user-config">Configurações de usuário</a>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="form-container">
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Dados gerais
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content">
+                        <div class="form-group">
+                            <label for="tipoPessoa">Tipo de pessoa *</label>
+                            <select id="tipoPessoa">
+                                <option value="fisica">Física</option>
+                                <option value="juridica" selected>Jurídica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cnpj">CNPJ</label>
+                            <div class="input-with-button">
+                                <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                                <button type="button">Buscar dados</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nomeFantasia">Nome fantasia *</label>
+                            <input type="text" id="nomeFantasia">
+                        </div>
+                        <div class="form-group">
+                            <label for="codigoCadastro">Código do cadastro</label>
+                            <input type="text" id="codigoCadastro">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="cliente" checked>
+                            <label for="cliente">Cliente</label>
+                            <input type="checkbox" id="fornecedor">
+                            <label for="fornecedor">Fornecedor</label>
+                            <input type="checkbox" id="transportadora">
+                            <label for="transportadora">Transportadora</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Informações adicionais
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content">
+                        <div class="form-group">
+                            <label for="email">E-mail(s)</label>
+                            <input type="text" id="email" placeholder="Para inserir mais de um e-mail, use a vírgula ou pressione a tecla Tab ou Enter">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefoneComercial">Telefone comercial</label>
+                            <input type="tel" id="telefoneComercial" placeholder="(00) 0000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefoneCelular">Telefone celular</label>
+                            <input type="tel" id="telefoneCelular" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="aberturaEmpresa">Abertura da empresa</label>
+                            <input type="text" id="aberturaEmpresa">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Informações fiscais
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content">
+                        <div class="form-group">
+                            <label>Optante pelo simples?</label>
+                            <div class="checkbox-group">
+                                <input type="radio" id="simSimples" name="optanteSimples" value="sim">
+                                <label for="simSimples">Sim</label>
+                                <input type="radio" id="naoSimples" name="optanteSimples" value="nao" checked>
+                                <label for="naoSimples">Não</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="indicadorInscricaoEstadual">Indicador de inscrição estadual</label>
+                            <select id="indicadorInscricaoEstadual">
+                                <option value="contribuinte">Contribuinte</option>
+                                <option value="isento">Isento</option>
+                                <option value="naoContribuinte">Não Contribuinte</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inscricaoEstadual">Inscrição estadual</label>
+                            <input type="text" id="inscricaoEstadual">
+                        </div>
+                        <div class="form-group">
+                            <label for="inscricaoMunicipal">Inscrição municipal</label>
+                            <input type="text" id="inscricaoMunicipal">
+                        </div>
+                        <div class="form-group">
+                            <label for="inscricaoSuframa">Inscrição suframa</label>
+                            <input type="text" id="inscricaoSuframa">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Endereço
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content">
+                        <div class="form-group">
+                            <label for="pais">País</label>
+                            <input type="text" id="pais" value="Brasil">
+                        </div>
+                        <div class="form-group">
+                            <label for="cep">CEP</label>
+                            <div class="input-with-button">
+                                <input type="text" id="cep" placeholder="00000-000">
+                                <button type="button">Buscar dados</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endereco">Endereço</label>
+                            <input type="text" id="endereco">
+                        </div>
+                        <div class="form-group">
+                            <label for="numero">Número</label>
+                            <input type="text" id="numero">
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select id="estado">
+                                <option value="">Selecione</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade">
+                        </div>
+                        <div class="form-group">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" id="bairro">
+                        </div>
+                        <div class="form-group">
+                            <label for="complemento">Complemento</label>
+                            <input type="text" id="complemento">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Outros contatos
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content" id="outrosContatosContainer">
+                        <div class="dynamic-field-group">
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="contatoNome">Pessoa de contato</label>
+                                <input type="text" class="contato-nome" placeholder="Nome">
+                            </div>
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="contatoEmail">E-mail</label>
+                                <input type="email" class="contato-email" placeholder="E-mail">
+                            </div>
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="contatoTelComercial">Telefone comercial</label>
+                                <input type="tel" class="contato-tel-comercial" placeholder="(00) 0000-0000">
+                            </div>
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="contatoTelCelular">Telefone celular</label>
+                                <input type="tel" class="contato-tel-celular" placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="form-group" style="flex-grow: 1;">
+                                <label for="contatoCargo">Cargo</label>
+                                <input type="text" class="contato-cargo" placeholder="Cargo">
+                            </div>
+                            <button type="button" class="add-btn" onclick="addDynamicField('outrosContatosContainer', 'contato')">➕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-header" onclick="toggleSection(this)">
+                        Observações gerais
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="form-section-content">
+                        <div class="form-group">
+                            <label for="observacoes">Observações</label>
+                            <textarea id="observacoes" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle do menu lateral
+        const sidebar = document.getElementById("sidebar");
+        const toggleBtn = document.getElementById("toggleBtn");
+
+        toggleBtn.addEventListener("click", function() {
+            sidebar.classList.toggle("collapsed");
+        });
+
+        // Navegação do menu
+        const menuItems = document.querySelectorAll(".menu-item");
+        
+        menuItems.forEach(item => {
+            item.addEventListener("click", function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll(".menu-item").forEach(menuItem => {
+                    menuItem.classList.remove("active");
+                });
+                
+                this.classList.add("active");
+                
+                const page = this.getAttribute("data-page");
+                console.log("Navegando para:", page);
+
+                // Redireciona para a página correspondente
+                if (page === "configuracoes") {
+                    window.location.href = "configuracoes_menu.html";
+                } else if (page === "gerar-proposta") {
+                    window.location.href = "gerar_proposta_form_corrigido.html";
+                } else if (page === "cadastro-clientes") {
+                    window.location.href = "cadastro_clientes.html";
+                } else if (page === "minhas-propostas") {
+                    window.location.href = "minhas_propostas.html";
+                } else if (page === "dashboard") {
+                    window.location.href = "main_dashboard.html";
+                }
+            });
+        });
+
+        // Responsividade
+        function checkScreenSize() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add("collapsed");
+            }
+        }
+
+        window.addEventListener("resize", checkScreenSize);
+        checkScreenSize();
+
+        // Toggle de seções do formulário
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector("i");
+            
+            if (content.style.display === "none") {
+                content.style.display = "grid";
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-down');
+                header.classList.remove('collapsed');
+            } else {
+                content.style.display = "none";
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-right');
+                header.classList.add('collapsed');
+            }
+        }
+
+        // Inicializa todas as seções recolhidas, exceto a primeira
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll(".form-section").forEach((section, index) => {
+                const header = section.querySelector(".form-section-header");
+                const content = section.querySelector(".form-section-content");
+                const icon = header.querySelector("i");
+
+                if (index > 0) { // Recolhe todas exceto a primeira
+                    header.classList.add('collapsed');
+                    content.style.display = "none";
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                } else { // Expande a primeira
+                    header.classList.remove('collapsed');
+                    content.style.display = "grid";
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Máscaras de input
+        function applyMasks() {
+            const cnpjInput = document.getElementById(\'cnpj\');
+            if (cnpjInput) {
+                cnpjInput.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 14) value = value.slice(0, 14);
+                    if (value.length > 12) {
+                        value = value.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$/, \'$1.$2.$3/$4-$5\');
+                    } else if (value.length > 8) {
+                        value = value.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{1,4})$/, \'$1.$2.$3/$4\');
+                    } else if (value.length > 5) {
+                        value = value.replace(/^(\\d{2})(\\d{3})(\\d{1,3})$/, \'$1.$2.$3\');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\\d{2})(\\d{1,3})$/, \'$1.$2\');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            const cepInput = document.getElementById(\'cep\');
+            if (cepInput) {
+                cepInput.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 8) value = value.slice(0, 8);
+                    if (value.length > 5) {
+                        value = value.replace(/^(\\d{5})(\\d{1,3})$/, \'$1-$2\');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            const telComercialInput = document.getElementById(\'telefoneComercial\');
+            if (telComercialInput) {
+                telComercialInput.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 10) value = value.slice(0, 10);
+                    if (value.length > 6) {
+                        value = value.replace(/^(\\d{2})(\\d{4})(\\d{1,4})$/, \'($1) $2-$3\');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\\d{2})(\\d{1,4})$/, \'($1) $2\');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            const telCelularInput = document.getElementById(\'telefoneCelular\');
+            if (telCelularInput) {
+                telCelularInput.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 11) value = value.slice(0, 11);
+                    if (value.length > 7) {
+                        value = value.replace(/^(\\d{2})(\\d{5})(\\d{1,4})$/, \'($1) $2-$3\');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\\d{2})(\\d{1,5})$/, \'($1) $2\');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            document.querySelectorAll(\'.contato-tel-comercial\').forEach(input => {
+                input.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 10) value = value.slice(0, 10);
+                    if (value.length > 6) {
+                        value = value.replace(/^(\\d{2})(\\d{4})(\\d{1,4})$/, \'($1) $2-$3\');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\\d{2})(\\d{1,4})$/, \'($1) $2\');
+                    }
+                    e.target.value = value;
+                });
+            });
+
+            document.querySelectorAll(\'.contato-tel-celular\').forEach(input => {
+                input.addEventListener(\'input\', function (e) {
+                    let value = e.target.value.replace(/\\D/g, \'\');
+                    if (value.length > 11) value = value.slice(0, 11);
+                    if (value.length > 7) {
+                        value = value.replace(/^(\\d{2})(\\d{5})(\\d{1,4})$/, \'($1) $2-$3\');
+                    } else if (value.length > 2) {
+                        value = value.replace(/^(\\d{2})(\\d{1,5})$/, \'($1) $2\');
+                    }
+                    e.target.value = value;
+                });
+            });
+
+            document.querySelectorAll(\'input[type="text"]\[id\]:not(#cnpj):not(#cep), input[type="email"], input[type="tel"], input[type="number"], textarea\').forEach(input => {
+                input.addEventListener(\'input\', function (e) {
+                    let value = e.target.value;
+                    if (value.length > 0) {
+                        e.target.value = value.charAt(0).toUpperCase() + value.slice(1);
+                    }
+                });
+            });
+        }
+        applyMasks();
+
+        // Campos dinâmicos para Outros Contatos
+        function addDynamicField(containerId, fieldPrefix) {
+            const container = document.getElementById(containerId);
+            
+            // Encontra o último grupo de campos e troca o botão + por ❌
+            const lastGroup = container.querySelector('.dynamic-field-group:last-child');
+            const addBtn = lastGroup.querySelector('.add-btn');
+            if (addBtn) {
+                addBtn.outerHTML = '<button type="button" class="remove-btn" onclick="removeDynamicField(this)">❌</button>';
+            }
+            
+            // Cria novo grupo de campos
+            const newFieldGroup = document.createElement('div');
+            newFieldGroup.classList.add('dynamic-field-group');
+            newFieldGroup.innerHTML = `
+                <div class="form-group" style="flex-grow: 1;">
+                    <label for="${fieldPrefix}Nome">Pessoa de contato</label>
+                    <input type="text" class="${fieldPrefix}-nome" placeholder="Nome">
+                </div>
+                <div class="form-group" style="flex-grow: 1;">
+                    <label for="${fieldPrefix}Email">E-mail</label>
+                    <input type="email" class="${fieldPrefix}-email" placeholder="E-mail">
+                </div>
+                <div class="form-group" style="flex-grow: 1;">
+                    <label for="${fieldPrefix}TelComercial">Telefone comercial</label>
+                    <input type="tel" class="${fieldPrefix}-tel-comercial" placeholder="(00) 0000-0000">
+                </div>
+                <div class="form-group" style="flex-grow: 1;">
+                    <label for="${fieldPrefix}TelCelular">Telefone celular</label>
+                    <input type="tel" class="${fieldPrefix}-tel-celular" placeholder="(00) 00000-0000">
+                </div>
+                <div class="form-group" style="flex-grow: 1;">
+                    <label for="${fieldPrefix}Cargo">Cargo</label>
+                    <input type="text" class="${fieldPrefix}-cargo" placeholder="Cargo">
+                </div>
+                <button type="button" class="add-btn" onclick="addDynamicField('${containerId}', '${fieldPrefix}')">➕</button>
+            `;
+            container.appendChild(newFieldGroup);
+            applyMasks(); // Re-apply masks to new inputs
+        }
+
+        function removeDynamicField(button) {
+            const fieldGroup = button.closest('.dynamic-field-group');
+            const container = fieldGroup.parentElement;
+            
+            fieldGroup.remove();
+            
+            // Se não há mais grupos, ou se o último grupo não tem botão +, adiciona o botão + ao último grupo
+            const remainingGroups = container.querySelectorAll('.dynamic-field-group');
+            if (remainingGroups.length > 0) {
+                const lastGroup = remainingGroups[remainingGroups.length - 1];
+                const hasAddBtn = lastGroup.querySelector('.add-btn');
+                if (!hasAddBtn) {
+                    const removeBtn = lastGroup.querySelector('.remove-btn');
+                    if (removeBtn) {
+                        removeBtn.outerHTML = '<button type="button" class="add-btn" onclick="addDynamicField(\'outrosContatosContainer\', \'contato\')">➕</button>';
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
+
+
