@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item" data-page="gerar-proposta">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item" data-page="minhas-propostas">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item" data-page="cadastro-clientes">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Dashboard</h1>
+            <div class="user-info">
+                <span>Bem-vindo, Emerson!</span>
+                <div class="user-avatar">E</div>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Propostas Enviadas</span>
+                        <div class="stat-icon icon-purple">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-change positive">+12% este mês</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Em Negociação</span>
+                        <div class="stat-icon icon-blue">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change positive">+3 esta semana</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Contratadas</span>
+                        <div class="stat-icon icon-green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-change positive">+5 este mês</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Taxa de Conversão</span>
+                        <div class="stat-icon icon-orange">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">62.5%</div>
+                    <div class="stat-change positive">+8% este mês</div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="quick-actions">
+                <h3>Ações Rápidas</h3>
+                <div class="actions-grid">
+                    <a href="gerar-proposta.html" class="action-btn" data-page="gerar-proposta">
+                        <i class="fas fa-plus"></i>
+                        Nova Proposta
+                    </a>
+                    <a href="minhas-propostas.html" class="action-btn" data-page="minhas-propostas">
+                        <i class="fas fa-eye"></i>
+                        Ver Propostas
+                    </a>
+                    <a href="clientes.html" class="action-btn" data-page="cadastro-clientes">
+                        <i class="fas fa-user-plus"></i>
+                        Novo Cliente
+                    </a>
+                    <a href="configuracoes.html" class="action-btn" data-page="configuracoes">
+                        <i class="fas fa-cog"></i>
+                        Configurações
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Gerar Nova Proposta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item active" data-page="gerar-proposta">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item" data-page="minhas-propostas">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item" data-page="cadastro-clientes">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Gerar Nova Proposta</h1>
+            <div class="user-info">
+                <span>Bem-vindo, Emerson!</span>
+                <div class="user-avatar">E</div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" data-tab="tab-dados-cliente">Dados do Cliente</button>
+                    <button class="tab-button" data-tab="tab-servicos">Serviços</button>
+                    <button class="tab-button" data-tab="tab-resumo">Resumo</button>
+                </div>
+        
+                <div class="tab-content active" id="tab-dados-cliente">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome-cliente">Nome do Cliente</label>
+                                <input type="text" id="nome-cliente" class="form-control" placeholder="Nome completo ou Razão Social" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email-cliente">E-mail do Cliente</label>
+                                <input type="email" id="email-cliente" class="form-control" placeholder="email@cliente.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefone-cliente">Telefone</label>
+                                <input type="text" id="telefone-cliente" class="form-control" placeholder="(XX) XXXXX-XXXX" data-format="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="documento-cliente">CPF/CNPJ</label>
+                                <input type="text" id="documento-cliente" class="form-control" placeholder="XXX.XXX.XXX-XX ou XX.XXX.XXX/XXXX-XX" data-format="cpf-cnpj">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endereco-cliente">Endereço</label>
+                            <input type="text" id="endereco-cliente" class="form-control" placeholder="Rua, Número, Bairro, Cidade - UF">
+                        </div>
+                        <div class="form-group">
+                            <label for="observacoes-cliente">Observações</label>
+                            <textarea id="observacoes-cliente" class="form-control" rows="3" placeholder="Informações adicionais sobre o cliente..."></textarea>
+                        </div>
+                        <div class="form-navigation">
+                            <div></div>
+                            <button type="button" class="btn btn-next" data-next-tab="tab-servicos">Próximo <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+        
+                <div class="tab-content" id="tab-servicos">
+                    <div id="services-list">
+                        <!-- Exemplo de serviço -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <input type="text" class="service-title-input" value="Contabilidade Completa" placeholder="Nome do Serviço">
+                                <input type="text" class="service-value-input" value="R$ 1.500,00" data-format="currency">
+                                <button type="button" class="btn-remove-dynamic"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="service-descriptions">
+                                <div class="description-item">
+                                    <input type="text" value="Escrituração contábil e fiscal">
+                                    <button type="button" class="btn-remove-dynamic"><i class="fas fa-minus-circle"></i></button>
+                                </div>
+                                <div class="description-item">
+                                    <input type="text" value="Apuração de impostos e emissão de guias">
+                                    <button type="button" class="btn-remove-dynamic"><i class="fas fa-minus-circle"></i></button>
+                                </div>
+                                <div class="description-item">
+                                    <input type="text" value="Elaboração de demonstrações financeiras">
+                                    <button type="button" class="btn-remove-dynamic"><i class="fas fa-minus-circle"></i></button>
+                                </div>
+                                <div class="description-item">
+                                    <input type="text" placeholder="Adicionar descrição...">
+                                    <button type="button" class="btn-add-dynamic"><i class="fas fa-plus-circle"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="add-service-btn"><i class="fas fa-plus"></i> Adicionar Novo Serviço</button>
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-prev-tab="tab-dados-cliente"><i class="fas fa-arrow-left"></i> Anterior</button>
+                        <button type="button" class="btn btn-next" data-next-tab="tab-resumo">Próximo <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+        
+                <div class="tab-content" id="tab-resumo">
+                    <h3>Resumo da Proposta</h3>
+                    <div class="summary-section">
+                        <div class="summary-header">
+                            <h4>Dados do Cliente</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="summary-content">
+                            <p><strong>Nome:</strong> <span id="resumo-nome-cliente"></span></p>
+                            <p><strong>E-mail:</strong> <span id="resumo-email-cliente"></span></p>
+                            <p><strong>Telefone:</strong> <span id="resumo-telefone-cliente"></span></p>
+                            <p><strong>Documento:</strong> <span id="resumo-documento-cliente"></span></p>
+                            <p><strong>Endereço:</strong> <span id="resumo-endereco-cliente"></span></p>
+                            <p><strong>Observações:</strong> <span id="resumo-observacoes-cliente"></span></p>
+                        </div>
+                    </div>
+        
+                    <div class="summary-section">
+                        <div class="summary-header">
+                            <h4>Serviços Selecionados</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="summary-content" id="resumo-servicos">
+                            <!-- Serviços serão injetados aqui -->
+                        </div>
+                    </div>
+        
+                    <div class="summary-section">
+                        <div class="summary-header">
+                            <h4>Valor Total da Proposta</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="summary-content">
+                            <p style="font-size: 24px; font-weight: 700; color: #B733F0;">Total: <span id="resumo-valor-total">R$ 0,00</span></p>
+                        </div>
+                    </div>
+        
+                    <div class="share-buttons">
+                        <button type="button" class="btn btn-pdf"><i class="fas fa-file-pdf"></i> Gerar PDF</button>
+                        <button type="button" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+                        <button type="button" class="btn btn-email"><i class="fas fa-envelope"></i> Enviar E-mail</button>
+                        <button type="button" class="btn btn-copy-link"><i class="fas fa-link"></i> Copiar Link</button>
+                    </div>
+        
+                    <div class="form-navigation">
+                        <button type="button" class="btn btn-prev" data-prev-tab="tab-servicos"><i class="fas fa-arrow-left"></i> Anterior</button>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Salvar Proposta</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const nextButtons = document.querySelectorAll('.btn-next');
+            const prevButtons = document.querySelectorAll('.btn-prev');
+            const addServiceBtn = document.getElementById('add-service-btn');
+            const servicesList = document.getElementById('services-list');
+        
+            function activateTab(tabId) {
+                tabs.forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.getAttribute('data-tab') === tabId) {
+                        tab.classList.add('active');
+                    }
+                });
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    }
+                });
+            }
+        
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    activateTab(this.getAttribute('data-tab'));
+                });
+            });
+        
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const nextTabId = this.getAttribute('data-next-tab');
+                    activateTab(nextTabId);
+                    updateSummary();
+                });
+            });
+        
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const prevTabId = this.getAttribute('data-prev-tab');
+                    activateTab(prevTabId);
+                });
+            });
+        
+            // Ativar a primeira aba por padrão
+            activateTab('tab-dados-cliente');
+        
+            // Adicionar novo serviço
+            addServiceBtn.addEventListener('click', function() {
+                const newServiceHtml = `
+                    <div class="service-item">
+                        <div class="service-header">
+                            <input type="text" class="service-title-input" placeholder="Nome do Serviço">
+                            <input type="text" class="service-value-input" placeholder="R$ 0,00" data-format="currency">
+                            <button type="button" class="btn-remove-dynamic"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="service-descriptions">
+                            <div class="description-item">
+                                <input type="text" placeholder="Adicionar descrição...">
+                                <button type="button" class="btn-add-dynamic"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                servicesList.insertAdjacentHTML('beforeend', newServiceHtml);
+                attachDynamicFieldListeners();
+                attachCurrencyFormatListeners();
+            });
+        
+            // Função para anexar listeners a campos dinâmicos (descrições e serviços)
+            function attachDynamicFieldListeners() {
+                document.querySelectorAll('.btn-remove-dynamic').forEach(button => {
+                    button.onclick = function() {
+                        if (this.closest('.description-item')) {
+                            this.closest('.description-item').remove();
+                        } else if (this.closest('.service-item')) {
+                            this.closest('.service-item').remove();
+                        }
+                        updateSummary();
+                    };
+                });
+        
+                document.querySelectorAll('.btn-add-dynamic').forEach(button => {
+                    button.onclick = function() {
+                        const descriptionItem = this.closest('.description-item');
+                        const newDescriptionHtml = `
+                            <div class="description-item">
+                                <input type="text" placeholder="Adicionar descrição...">
+                                <button type="button" class="btn-add-dynamic"><i class="fas fa-plus-circle"></i></button>
+                            </div>
+                        `;
+                        descriptionItem.insertAdjacentHTML('afterend', newDescriptionHtml);
+                        attachDynamicFieldListeners(); // Reanexar para os novos botões
+                    };
+                });
+            }
+        
+            // Função para anexar listeners de formatação de moeda
+            function attachCurrencyFormatListeners() {
+                document.querySelectorAll('[data-format="currency"]').forEach(field => {
+                    field.removeEventListener('input', formatCurrency); // Evitar duplicação
+                    field.addEventListener('input', () => formatCurrency(field));
+                });
+            }
+        
+            // Anexar listeners iniciais
+            attachDynamicFieldListeners();
+            attachCurrencyFormatListeners();
+        
+            // Resumo da Proposta
+            const summarySections = document.querySelectorAll('.summary-section .summary-header');
+            summarySections.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+        
+            function updateSummary() {
+                // Dados do Cliente
+                document.getElementById('resumo-nome-cliente').textContent = document.getElementById('nome-cliente').value;
+                document.getElementById('resumo-email-cliente').textContent = document.getElementById('email-cliente').value;
+                document.getElementById('resumo-telefone-cliente').textContent = document.getElementById('telefone-cliente').value;
+                document.getElementById('resumo-documento-cliente').textContent = document.getElementById('documento-cliente').value;
+                document.getElementById('resumo-endereco-cliente').textContent = document.getElementById('endereco-cliente').value;
+                document.getElementById('resumo-observacoes-cliente').textContent = document.getElementById('observacoes-cliente').value;
+        
+                // Serviços
+                const resumoServicosDiv = document.getElementById('resumo-servicos');
+                resumoServicosDiv.innerHTML = '';
+                let totalValue = 0;
+        
+                document.querySelectorAll('.service-item').forEach(serviceItem => {
+                    const title = serviceItem.querySelector('.service-title-input').value;
+                    const value = parseFloat(serviceItem.querySelector('.service-value-input').value.replace('R$', '').replace('.', '').replace(',', '.'));
+                    totalValue += isNaN(value) ? 0 : value;
+        
+                    const serviceHtml = `
+                        <div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee;">
+                            <p><strong>${title}</strong>: ${formatCurrencyDisplay(value)}</p>
+                            <ul>
+                                ${Array.from(serviceItem.querySelectorAll('.description-item input')).map(input => `<li>${input.value}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    resumoServicosDiv.insertAdjacentHTML('beforeend', serviceHtml);
+                });
+        
+                document.getElementById('resumo-valor-total').textContent = formatCurrencyDisplay(totalValue);
+            }
+        
+            function formatCurrencyDisplay(value) {
+                return 'R$ ' + value.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+        
+            // Event listeners para atualização do resumo em tempo real
+            document.querySelectorAll('.form-control, .service-title-input, .service-value-input, .description-item input').forEach(input => {
+                input.addEventListener('input', updateSummary);
+            });
+        
+            // Inicializar resumo
+            updateSummary();
+        });
+        </script>
+</body>
+</html>
+
+

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Configurações</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item" data-page="gerar-proposta">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item" data-page="minhas-propostas">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item" data-page="cadastro-clientes">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item active" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Configurações</h1>
+            <div class="user-info">
+                <span>Bem-vindo, Emerson!</span>
+                <div class="user-avatar">E</div>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" data-tab="tab-escritorio">Escritório</button>
+                    <button class="tab-button" data-tab="tab-servicos">Serviços</button>
+                    <button class="tab-button" data-tab="tab-usuarios">Usuários</button>
+                    <button class="tab-button" data-tab="tab-template">Template</button>
+                </div>
+        
+                <div class="tab-content active" id="tab-escritorio">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome-escritorio">Nome do Escritório</label>
+                                <input type="text" id="nome-escritorio" class="form-control" placeholder="Nome completo do seu escritório" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cnpj-escritorio">CNPJ</label>
+                                <input type="text" id="cnpj-escritorio" class="form-control" placeholder="XX.XXX.XXX/XXXX-XX" data-format="cnpj">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email-escritorio">E-mail de Contato</label>
+                                <input type="email" id="email-escritorio" class="form-control" placeholder="contato@seu-escritorio.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefone-escritorio">Telefone</label>
+                                <input type="tel" id="telefone-escritorio" class="form-control" placeholder="(XX) XXXXX-XXXX" data-format="phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="endereco-escritorio">Endereço Completo</label>
+                            <input type="text" id="endereco-escritorio" class="form-control" placeholder="Rua, Número, Bairro, Cidade - UF">
+                        </div>
+                        <div class="form-group">
+                            <label for="logo-escritorio">Logo do Escritório</label>
+                            <div class="file-upload">
+                                <input type="file" id="logo-escritorio" accept="image/*">
+                                <label for="logo-escritorio" class="file-upload-label">
+                                    <i class="fas fa-upload"></i> Escolher arquivo ou arrastar e soltar
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Configurações</button>
+                        </div>
+                    </form>
+                </div>
+        
+                <div class="tab-content" id="tab-servicos">
+                    <h3>Gerenciar Serviços Oferecidos</h3>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Nome do Serviço</th>
+                                <th>Valor Padrão</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-table-body">
+                            <tr>
+                                <td>Contabilidade Completa</td>
+                                <td>R$ 1.500,00</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Abertura de Empresa</td>
+                                <td>R$ 800,00</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary" style="margin-top: 20px;"><i class="fas fa-plus"></i> Adicionar Novo Serviço</button>
+                </div>
+        
+                <div class="tab-content" id="tab-usuarios">
+                    <h3>Gerenciar Usuários</h3>
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Permissão</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td>Emerson</td>
+                                <td>emerson@email.com</td>
+                                <td>Administrador</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Usuário Teste</td>
+                                <td>teste@email.com</td>
+                                <td>Padrão</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary" style="margin-top: 20px;"><i class="fas fa-user-plus"></i> Adicionar Novo Usuário</button>
+                </div>
+        
+                <div class="tab-content" id="tab-template">
+                    <h3>Configurações de Template da Proposta</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="template-header">Cabeçalho do Template</label>
+                            <textarea id="template-header" class="form-control" rows="3" placeholder="Texto que aparecerá no cabeçalho de todas as propostas."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="template-footer">Rodapé do Template</label>
+                            <textarea id="template-footer" class="form-control" rows="3" placeholder="Texto que aparecerá no rodapé de todas as propostas."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="template-logo">Logo do Template (opcional)</label>
+                            <div class="file-upload">
+                                <input type="file" id="template-logo" accept="image/*">
+                                <label for="template-logo" class="file-upload-label">
+                                    <i class="fas fa-upload"></i> Escolher arquivo ou arrastar e soltar
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cores do Template</label>
+                            <div class="color-picker-group">
+                                <div class="color-picker-item">
+                                    <label for="primary-color">Cor Primária</label>
+                                    <input type="color" id="primary-color" value="#B733F0">
+                                </div>
+                                <div class="color-picker-item">
+                                    <label for="secondary-color">Cor Secundária</label>
+                                    <input type="color" id="secondary-color" value="#0000CB">
+                                </div>
+                                <div class="color-picker-item">
+                                    <label for="text-color">Cor do Texto</label>
+                                    <input type="color" id="text-color" value="#1A1A1A">
+                                </div>
+                                <div class="color-picker-item">
+                                    <label for="background-color">Cor de Fundo</label>
+                                    <input type="color" id="background-color" value="#FAFAFA">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Template</button>
+                        </div>
+                    </form>
+                    <div class="template-preview">
+                        <h4>Pré-visualização do Template</h4>
+                        <p>Este é um exemplo de como sua proposta aparecerá com as configurações atuais.</p>
+                        <div class="template-actions">
+                            <button class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> Ver Pré-visualização</button>
+                            <button class="btn btn-secondary btn-sm"><i class="fas fa-download"></i> Baixar Exemplo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabs = document.querySelectorAll(".tab-button");
+            const tabContents = document.querySelectorAll(".tab-content");
+
+            function activateTab(tabId) {
+                tabs.forEach(tab => {
+                    tab.classList.remove("active");
+                    if (tab.getAttribute("data-tab") === tabId) {
+                        tab.classList.add("active");
+                    }
+                });
+                tabContents.forEach(content => {
+                    content.classList.remove("active");
+                    if (content.id === tabId) {
+                        content.classList.add("active");
+                    }
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function() {
+                    activateTab(this.getAttribute("data-tab"));
+                });
+            });
+
+            // Ativar a primeira aba por padrão
+            activateTab("tab-escritorio");
+        });
+    </script>
+</body>
+</html>
+
+
