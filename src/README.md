@@ -1,229 +1,198 @@
-# Proposta Contábil - Sistema de Gestão
+# Proposta Contábil - Sistema Completo
 
-Sistema web para geração e gerenciamento de propostas contábeis, desenvolvido com HTML, CSS e JavaScript puro.
+## 📋 Descrição
 
-## 📋 Sobre o Projeto
-
-O **Proposta Contábil** é um sistema completo para escritórios de contabilidade gerenciarem seus clientes e criarem propostas comerciais de forma profissional e eficiente.
+Sistema completo para geração e gestão de propostas contábeis, desenvolvido com HTML, CSS e JavaScript puro. Funciona 100% offline no navegador, sem necessidade de servidor.
 
 ## 🚀 Funcionalidades
 
-### 🔐 Autenticação
-- Sistema de login seguro
-- Gerenciamento de usuários
-- Controle de sessão
+### ✅ Sistema de Autenticação
+- Login e logout funcional
+- Usuário padrão: `admin` / `123456`
+- Dados salvos no localStorage
 
 ### 📊 Dashboard
-- Visão geral das métricas
-- Contadores de propostas e clientes
-- Valor total em propostas
-- Propostas recentes
+- Visão geral do sistema
+- Estatísticas de propostas e clientes
+- Ações rápidas
+- Cards informativos
 
-### 📝 Gestão de Propostas
-- Criação de propostas personalizadas
+### 📝 Gerar Propostas
+- Formulário completo para criação de propostas
+- Seleção ou cadastro de novos clientes
 - Múltiplos serviços por proposta
 - Cálculo automático de valores
-- Visualização e gerenciamento
+- Condições personalizáveis
 
-### 👥 Gestão de Clientes
+### 📋 Gerenciar Propostas
+- Lista de todas as propostas criadas
+- Busca e filtros
+- Ações de visualizar, editar e excluir
+- Estatísticas por status
+
+### 👥 Gerenciar Clientes
 - Cadastro completo de clientes
-- Edição e exclusão
-- Histórico de propostas
+- Dados gerais, endereço e contatos
+- Seções recolhíveis/expansíveis
+- Busca e edição
+- Integração com geração de propostas
 
 ### ⚙️ Configurações
 - Dados do escritório
-- Configurações de usuários
-- Personalização do sistema
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Frontend:** HTML5, CSS3, JavaScript ES6+
-- **Armazenamento:** LocalStorage
-- **Ícones:** Font Awesome 6
-- **Fontes:** Google Fonts (Poppins)
-
-## 📁 Estrutura do Projeto
-
-```
-proposta-contabil-app/
-├── index.html                 # Arquivo principal
-├── README.md                  # Documentação
-├── src/
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── main.css      # Estilos principais
-│   │   ├── js/
-│   │   │   ├── app.js        # Aplicação principal
-│   │   │   ├── auth.js       # Autenticação
-│   │   │   └── pages.js      # Páginas específicas
-│   │   └── images/           # Imagens e ícones
-│   ├── components/           # Componentes reutilizáveis
-│   └── pages/               # Páginas HTML originais
-├── docs/                    # Documentação adicional
-└── public/                  # Arquivos públicos
-```
-
-## 🔧 Instalação e Uso
-
-### Pré-requisitos
-- Navegador web moderno (Chrome, Firefox, Safari, Edge)
-- Servidor web local (opcional, para desenvolvimento)
-
-### Instalação Local
-1. Clone ou baixe o repositório
-2. Abra o arquivo `index.html` no navegador
-3. Use as credenciais padrão: `admin` / `123456`
-
-### Para Desenvolvimento
-```bash
-# Usando Python (se disponível)
-python -m http.server 8000
-
-# Usando Node.js (se disponível)
-npx serve .
-
-# Acesse: http://localhost:8000
-```
-
-## 👤 Credenciais Padrão
-
-- **Usuário:** admin
-- **Senha:** 123456
-
-## 📱 Responsividade
-
-O sistema é totalmente responsivo e funciona em:
-- 💻 Desktops
-- 📱 Tablets
-- 📱 Smartphones
+- Personalização visual (cores e logo)
+- Templates de proposta
+- Backup e restauração de dados
+- Limpeza de dados
 
 ## 🎨 Design
 
 ### Paleta de Cores
-- **Primária:** #B733F0 (Roxo)
-- **Secundária:** #9c2bd1 (Roxo escuro)
-- **Sucesso:** #28a745 (Verde)
-- **Erro:** #dc3545 (Vermelho)
-- **Neutro:** #f8f9fa (Cinza claro)
+- **Azul Primário:** #0000CB
+- **Roxo Primário:** #B733F0
+- **Neutros:** Escala de cinzas profissional
+- **Status:** Verde, laranja, vermelho para diferentes estados
 
-### Tipografia
-- **Fonte:** Poppins (Google Fonts)
-- **Pesos:** 300, 400, 500, 600, 700
+### Características Visuais
+- Design moderno e profissional
+- Responsivo (desktop, tablet, mobile)
+- Sidebar fixa com navegação
+- Cards e componentes bem estruturados
+- Animações suaves
+- Ícones Font Awesome
+
+## 📁 Estrutura de Arquivos
+
+```
+proposta-contabil-separado/
+├── index.html              # Página de login
+├── dashboard.html           # Dashboard principal
+├── gerar-proposta.html      # Formulário de propostas
+├── minhas-propostas.html    # Lista de propostas
+├── clientes.html           # Gestão de clientes
+├── configuracoes.html      # Configurações do sistema
+├── assets/
+│   ├── css/
+│   │   └── main.css        # Estilos principais
+│   ├── js/
+│   │   └── common.js       # JavaScript comum
+│   └── images/             # Imagens (vazio)
+└── pages/                  # Diretório auxiliar (vazio)
+```
+
+## 🔧 Como Usar
+
+### Instalação Local
+1. Baixe e extraia o arquivo ZIP
+2. Abra o arquivo `index.html` no navegador
+3. Use as credenciais: `admin` / `123456`
+4. Navegue pelo sistema usando o menu lateral
+
+### Upload para GitHub
+1. Crie um repositório no GitHub
+2. Faça upload de todos os arquivos
+3. Configure GitHub Pages (opcional)
+4. Acesse via URL do GitHub Pages
+
+### Deploy no Vercel
+1. Conecte o repositório GitHub ao Vercel
+2. Configure o domínio `app.propostacontabil.com.br`
+3. Deploy automático a cada commit
 
 ## 💾 Armazenamento de Dados
 
-Os dados são armazenados localmente no navegador usando `localStorage`:
+O sistema utiliza `localStorage` do navegador para persistir dados:
 
-- **users:** Usuários do sistema
-- **clients:** Clientes cadastrados
-- **proposals:** Propostas criadas
-- **services:** Serviços disponíveis
-- **office:** Dados do escritório
+- **Usuários:** Autenticação e sessão
+- **Clientes:** Cadastro completo
+- **Propostas:** Dados das propostas criadas
+- **Configurações:** Dados do escritório e personalização
+
+### Estrutura dos Dados
+
+```javascript
+// Clientes
+{
+  id: "unique_id",
+  nome: "Nome do Cliente",
+  documento: "CPF/CNPJ",
+  email: "email@cliente.com",
+  telefone: "(00) 00000-0000",
+  endereco: { /* dados completos */ },
+  contatos: [ /* contatos adicionais */ ],
+  dataCadastro: "2024-01-01T00:00:00.000Z"
+}
+
+// Configurações
+{
+  escritorio: { /* dados do escritório */ },
+  visual: { /* cores e logo */ },
+  templates: { /* textos padrão */ }
+}
+```
 
 ## 🔒 Segurança
 
-- Validação de formulários
-- Controle de sessão
-- Verificação de permissões
-- Logs de auditoria
+- Dados armazenados localmente no navegador
+- Não há transmissão de dados para servidores externos
+- Sistema funciona completamente offline
+- Backup manual dos dados disponível
 
-## 🌐 Deploy
+## 📱 Responsividade
 
-### Hospedagem Estática
-O sistema pode ser hospedado em qualquer servidor web estático:
-- Netlify
-- Vercel
-- GitHub Pages
-- Hostinger
-- AWS S3
+O sistema é totalmente responsivo e funciona em:
+- **Desktop:** Layout completo com sidebar
+- **Tablet:** Layout adaptado
+- **Mobile:** Menu colapsível, layout vertical
 
-### Configuração de Domínio
-Para usar com domínio personalizado (ex: app.propostacontabil.com.br):
-1. Configure o DNS para apontar para o servidor
-2. Configure SSL/HTTPS
-3. Teste todas as funcionalidades
+## 🎯 Próximos Passos
 
-## 📚 Documentação Adicional
+### Melhorias Futuras
+1. **Geração de PDF:** Converter propostas para PDF
+2. **Envio por Email:** Integração com serviços de email
+3. **Templates Avançados:** Mais opções de personalização
+4. **Relatórios:** Dashboards com gráficos
+5. **Multi-usuário:** Sistema com múltiplos usuários
+6. **Banco de Dados:** Migração para banco real
 
-### Estrutura de Dados
+### Integrações Possíveis
+- **Supabase:** Banco de dados na nuvem
+- **EmailJS:** Envio de emails
+- **jsPDF:** Geração de PDFs
+- **Chart.js:** Gráficos e relatórios
 
-#### Usuário
-```javascript
-{
-  id: string,
-  nome_completo: string,
-  username: string,
-  email: string,
-  telefone: string,
-  password: string,
-  role: string,
-  created_at: string
-}
-```
+## 🐛 Solução de Problemas
 
-#### Cliente
-```javascript
-{
-  id: string,
-  nome: string,
-  documento: string,
-  email: string,
-  telefone: string,
-  endereco: string,
-  created_at: string,
-  user_id: string
-}
-```
+### Dados Não Salvam
+- Verifique se o navegador permite localStorage
+- Teste em modo privado/incógnito
+- Limpe o cache do navegador
 
-#### Proposta
-```javascript
-{
-  id: string,
-  cliente: object,
-  servicos: array,
-  valor_total: number,
-  observacoes: string,
-  status: string,
-  created_at: string,
-  user_id: string
-}
-```
+### Layout Quebrado
+- Verifique se todos os arquivos CSS estão carregando
+- Teste em navegadores diferentes
+- Verifique console do navegador para erros
 
-## 🤝 Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+### Funcionalidades Não Funcionam
+- Verifique se JavaScript está habilitado
+- Abra console do navegador (F12) para ver erros
+- Teste em navegador atualizado
 
 ## 📞 Suporte
 
-Para suporte e dúvidas:
-- Email: suporte@propostacontabil.com.br
-- Website: www.propostacontabil.com.br
+Para dúvidas ou problemas:
+1. Verifique a documentação acima
+2. Teste em navegador diferente
+3. Verifique console do navegador para erros
+4. Entre em contato com o desenvolvedor
 
-## 🔄 Versões
+## 📄 Licença
 
-### v1.0.0 (Atual)
-- Sistema básico de autenticação
-- CRUD de clientes e propostas
-- Dashboard com métricas
-- Interface responsiva
-- Armazenamento local
-
-### Próximas Versões
-- Geração de PDF
-- Envio por email
-- Relatórios avançados
-- Integração com APIs
-- Backup na nuvem
+Sistema desenvolvido para uso comercial. Todos os direitos reservados.
 
 ---
 
-**Desenvolvido com ❤️ para escritórios de contabilidade**
+**Versão:** 1.0.0  
+**Data:** Janeiro 2024  
+**Desenvolvido por:** Manus AI  
+**Tecnologias:** HTML5, CSS3, JavaScript ES6, Font Awesome
 

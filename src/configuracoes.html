@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Proposta Contábil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        /* Estilos específicos para configurações */
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .config-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .config-header {
+            background: linear-gradient(135deg, var(--color-primary-blue), var(--color-blue-base-dark));
+            color: white;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .config-header i {
+            font-size: 24px;
+        }
+        
+        .config-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .config-body {
+            padding: 30px;
+        }
+        
+        .config-description {
+            color: var(--color-neutral-medium);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .logo-upload {
+            border: 2px dashed var(--color-gray-medium-light);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+        
+        .logo-upload:hover {
+            border-color: var(--color-primary-purple);
+            background: var(--color-gray-lightest);
+        }
+        
+        .logo-upload.has-logo {
+            border-style: solid;
+            border-color: var(--color-success);
+            background: #F0FFF4;
+        }
+        
+        .logo-preview {
+            max-width: 200px;
+            max-height: 100px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .upload-text {
+            color: var(--color-neutral-medium);
+            font-size: 14px;
+        }
+        
+        .upload-text.success {
+            color: var(--color-success);
+        }
+        
+        .color-picker-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .color-input {
+            width: 60px;
+            height: 40px;
+            border: 1px solid var(--color-gray-medium-light);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .template-preview {
+            border: 1px solid var(--color-gray-medium-light);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: var(--color-gray-lightest);
+        }
+        
+        .preview-header {
+            background: var(--color-primary-blue);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .preview-content {
+            font-size: 14px;
+            color: var(--color-neutral-dark);
+            line-height: 1.6;
+        }
+        
+        .backup-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .backup-info {
+            background: var(--color-gray-lightest);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .backup-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+        
+        .backup-item:last-child {
+            border-bottom: none;
+        }
+        
+        .backup-date {
+            font-weight: 600;
+            color: var(--color-neutral-dark);
+        }
+        
+        .backup-size {
+            font-size: 12px;
+            color: var(--color-neutral-medium);
+        }
+        
+        .danger-zone {
+            border: 2px solid var(--color-error);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .danger-title {
+            color: var(--color-error);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .danger-description {
+            color: var(--color-neutral-medium);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .backup-actions {
+                flex-direction: column;
+            }
+            
+            .backup-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">Proposta Contábil</a>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="gerar-proposta.html" class="menu-item">
+                    <i class="fas fa-file-plus"></i>
+                    <span>Gerar Proposta</span>
+                </a>
+                
+                <a href="minhas-propostas.html" class="menu-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Minhas Propostas</span>
+                </a>
+                
+                <a href="clientes.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+                
+                <a href="configuracoes.html" class="menu-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Configurações</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="user-info">
+                        <div id="user-avatar" class="user-avatar">A</div>
+                        <span id="user-name" class="user-name">Administrador</span>
+                    </div>
+                    <button id="logout-btn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </header>
+
+            <!-- Área de Conteúdo -->
+            <div class="page-content fade-in">
+                <div class="config-grid">
+                    <!-- Dados do Escritório -->
+                    <div class="config-section">
+                        <div class="config-header">
+                            <i class="fas fa-building"></i>
+                            <h3 class="config-title">Dados do Escritório</h3>
+                        </div>
+                        <div class="config-body">
+                            <p class="config-description">
+                                Configure as informações do seu escritório que aparecerão nas propostas.
+                            </p>
+                            
+                            <form id="escritorio-form">
+                                <div class="form-group">
+                                    <label class="form-label">Nome do Escritório *</label>
+                                    <input type="text" id="escritorio-nome" class="form-control" 
+                                           placeholder="Nome do seu escritório" required>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">CNPJ</label>
+                                        <input type="text" id="escritorio-cnpj" class="form-control" 
+                                               placeholder="00.000.000/0001-00">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">CRC</label>
+                                        <input type="text" id="escritorio-crc" class="form-control" 
+                                               placeholder="CRC/UF 000000">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" id="escritorio-email" class="form-control" 
+                                               placeholder="contato@escritorio.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Telefone</label>
+                                        <input type="text" id="escritorio-telefone" class="form-control" 
+                                               placeholder="(00) 0000-0000">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Endereço Completo</label>
+                                    <textarea id="escritorio-endereco" class="form-control" rows="3" 
+                                              placeholder="Rua, número, bairro, cidade - UF, CEP"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-save"></i>
+                                    Salvar Dados do Escritório
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Personalização Visual -->
+                    <div class="config-section">
+                        <div class="config-header">
+                            <i class="fas fa-palette"></i>
+                            <h3 class="config-title">Personalização Visual</h3>
+                        </div>
+                        <div class="config-body">
+                            <p class="config-description">
+                                Personalize a aparência das suas propostas com logo e cores.
+                            </p>
+                            
+                            <!-- Upload de Logo -->
+                            <div class="form-group">
+                                <label class="form-label">Logo do Escritório</label>
+                                <div class="logo-upload" onclick="document.getElementById('logo-input').click()">
+                                    <div id="logo-preview-container">
+                                        <i class="fas fa-cloud-upload-alt" style="font-size: 32px; color: var(--color-gray-medium); margin-bottom: 10px;"></i>
+                                        <div class="upload-text">
+                                            Clique para fazer upload do logo<br>
+                                            <small>Formatos: PNG, JPG (máx. 2MB)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="file" id="logo-input" accept="image/*" style="display: none;">
+                            </div>
+                            
+                            <!-- Cores -->
+                            <div class="form-group">
+                                <label class="form-label">Cor Principal</label>
+                                <div class="color-picker-group">
+                                    <input type="text" id="cor-principal-text" class="form-control" 
+                                           value="#0000CB" placeholder="#0000CB">
+                                    <input type="color" id="cor-principal" class="color-input" value="#0000CB">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Cor Secundária</label>
+                                <div class="color-picker-group">
+                                    <input type="text" id="cor-secundaria-text" class="form-control" 
+                                           value="#B733F0" placeholder="#B733F0">
+                                    <input type="color" id="cor-secundaria" class="color-input" value="#B733F0">
+                                </div>
+                            </div>
+                            
+                            <!-- Preview -->
+                            <div class="template-preview">
+                                <div class="preview-header" id="preview-header">
+                                    Proposta Comercial
+                                </div>
+                                <div class="preview-content">
+                                    <strong>Exemplo de proposta</strong><br>
+                                    Este é um exemplo de como sua proposta aparecerá com as cores selecionadas.
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary w-100" onclick="saveVisualConfig()">
+                                <i class="fas fa-save"></i>
+                                Salvar Personalização
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Templates de Proposta -->
+                    <div class="config-section">
+                        <div class="config-header">
+                            <i class="fas fa-file-alt"></i>
+                            <h3 class="config-title">Templates de Proposta</h3>
+                        </div>
+                        <div class="config-body">
+                            <p class="config-description">
+                                Configure textos padrão que aparecerão nas suas propostas.
+                            </p>
+                            
+                            <form id="template-form">
+                                <div class="form-group">
+                                    <label class="form-label">Texto de Apresentação</label>
+                                    <textarea id="template-apresentacao" class="form-control" rows="4" 
+                                              placeholder="Texto que aparecerá no início da proposta..."></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Condições Gerais</label>
+                                    <textarea id="template-condicoes" class="form-control" rows="4" 
+                                              placeholder="Condições gerais dos serviços..."></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Texto de Encerramento</label>
+                                    <textarea id="template-encerramento" class="form-control" rows="3" 
+                                              placeholder="Texto final da proposta..."></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-save"></i>
+                                    Salvar Templates
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Backup e Dados -->
+                    <div class="config-section">
+                        <div class="config-header">
+                            <i class="fas fa-database"></i>
+                            <h3 class="config-title">Backup e Dados</h3>
+                        </div>
+                        <div class="config-body">
+                            <p class="config-description">
+                                Gerencie backups dos seus dados e configurações.
+                            </p>
+                            
+                            <div class="backup-actions">
+                                <button class="btn btn-primary" onclick="createBackup()">
+                                    <i class="fas fa-download"></i>
+                                    Fazer Backup
+                                </button>
+                                
+                                <button class="btn btn-secondary" onclick="document.getElementById('restore-input').click()">
+                                    <i class="fas fa-upload"></i>
+                                    Restaurar
+                                </button>
+                                <input type="file" id="restore-input" accept=".json" style="display: none;">
+                            </div>
+                            
+                            <div class="backup-info">
+                                <h4 style="margin: 0 0 15px 0; color: var(--color-neutral-dark);">Backups Recentes</h4>
+                                <div id="backup-list">
+                                    <div style="text-align: center; color: var(--color-neutral-medium); padding: 20px;">
+                                        Nenhum backup encontrado
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Zona de Perigo -->
+                            <div class="danger-zone">
+                                <div class="danger-title">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Zona de Perigo
+                                </div>
+                                <div class="danger-description">
+                                    Ações irreversíveis que podem causar perda de dados.
+                                </div>
+                                <button class="btn btn-error" onclick="resetAllData()">
+                                    <i class="fas fa-trash"></i>
+                                    Limpar Todos os Dados
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/common.js"></script>
+    <script>
+        // Configurações padrão
+        const defaultConfig = {
+            escritorio: {
+                nome: '',
+                cnpj: '',
+                crc: '',
+                email: '',
+                telefone: '',
+                endereco: ''
+            },
+            visual: {
+                logo: null,
+                corPrincipal: '#0000CB',
+                corSecundaria: '#B733F0'
+            },
+            templates: {
+                apresentacao: 'Apresentamos nossa proposta comercial para prestação de serviços contábeis.',
+                condicoes: 'Os serviços serão prestados conforme legislação vigente e normas do CFC.',
+                encerramento: 'Aguardamos sua aprovação e ficamos à disposição para esclarecimentos.'
+            }
+        };
+
+        // Carregar configurações
+        function loadConfig() {
+            const config = JSON.parse(localStorage.getItem('config') || JSON.stringify(defaultConfig));
+            
+            // Dados do escritório
+            document.getElementById('escritorio-nome').value = config.escritorio.nome;
+            document.getElementById('escritorio-cnpj').value = config.escritorio.cnpj;
+            document.getElementById('escritorio-crc').value = config.escritorio.crc;
+            document.getElementById('escritorio-email').value = config.escritorio.email;
+            document.getElementById('escritorio-telefone').value = config.escritorio.telefone;
+            document.getElementById('escritorio-endereco').value = config.escritorio.endereco;
+            
+            // Visual
+            document.getElementById('cor-principal').value = config.visual.corPrincipal;
+            document.getElementById('cor-principal-text').value = config.visual.corPrincipal;
+            document.getElementById('cor-secundaria').value = config.visual.corSecundaria;
+            document.getElementById('cor-secundaria-text').value = config.visual.corSecundaria;
+            
+            // Templates
+            document.getElementById('template-apresentacao').value = config.templates.apresentacao;
+            document.getElementById('template-condicoes').value = config.templates.condicoes;
+            document.getElementById('template-encerramento').value = config.templates.encerramento;
+            
+            updatePreview();
+        }
+
+        // Salvar dados do escritório
+        document.getElementById('escritorio-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const config = JSON.parse(localStorage.getItem('config') || JSON.stringify(defaultConfig));
+            
+            config.escritorio = {
+                nome: document.getElementById('escritorio-nome').value,
+                cnpj: document.getElementById('escritorio-cnpj').value,
+                crc: document.getElementById('escritorio-crc').value,
+                email: document.getElementById('escritorio-email').value,
+                telefone: document.getElementById('escritorio-telefone').value,
+                endereco: document.getElementById('escritorio-endereco').value
+            };
+            
+            localStorage.setItem('config', JSON.stringify(config));
+            showAlert('Dados do escritório salvos com sucesso!', 'success');
+        });
+
+        // Salvar templates
+        document.getElementById('template-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const config = JSON.parse(localStorage.getItem('config') || JSON.stringify(defaultConfig));
+            
+            config.templates = {
+                apresentacao: document.getElementById('template-apresentacao').value,
+                condicoes: document.getElementById('template-condicoes').value,
+                encerramento: document.getElementById('template-encerramento').value
+            };
+            
+            localStorage.setItem('config', JSON.stringify(config));
+            showAlert('Templates salvos com sucesso!', 'success');
+        });
+
+        // Salvar configuração visual
+        function saveVisualConfig() {
+            const config = JSON.parse(localStorage.getItem('config') || JSON.stringify(defaultConfig));
+            
+            config.visual.corPrincipal = document.getElementById('cor-principal').value;
+            config.visual.corSecundaria = document.getElementById('cor-secundaria').value;
+            
+            localStorage.setItem('config', JSON.stringify(config));
+            showAlert('Personalização visual salva com sucesso!', 'success');
+        }
+
+        // Atualizar preview
+        function updatePreview() {
+            const corPrincipal = document.getElementById('cor-principal').value;
+            const previewHeader = document.getElementById('preview-header');
+            previewHeader.style.background = corPrincipal;
+        }
+
+        // Sincronizar color pickers
+        document.getElementById('cor-principal').addEventListener('change', function() {
+            document.getElementById('cor-principal-text').value = this.value;
+            updatePreview();
+        });
+
+        document.getElementById('cor-principal-text').addEventListener('change', function() {
+            document.getElementById('cor-principal').value = this.value;
+            updatePreview();
+        });
+
+        document.getElementById('cor-secundaria').addEventListener('change', function() {
+            document.getElementById('cor-secundaria-text').value = this.value;
+        });
+
+        document.getElementById('cor-secundaria-text').addEventListener('change', function() {
+            document.getElementById('cor-secundaria').value = this.value;
+        });
+
+        // Upload de logo
+        document.getElementById('logo-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoUpload = document.querySelector('.logo-upload');
+                    const previewContainer = document.getElementById('logo-preview-container');
+                    
+                    previewContainer.innerHTML = `
+                        <img src="${e.target.result}" class="logo-preview" alt="Logo">
+                        <div class="upload-text success">
+                            <i class="fas fa-check"></i> Logo carregado com sucesso
+                        </div>
+                    `;
+                    
+                    logoUpload.classList.add('has-logo');
+                    
+                    // Salvar logo
+                    const config = JSON.parse(localStorage.getItem('config') || JSON.stringify(defaultConfig));
+                    config.visual.logo = e.target.result;
+                    localStorage.setItem('config', JSON.stringify(config));
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Backup
+        function createBackup() {
+            const data = {
+                config: JSON.parse(localStorage.getItem('config') || '{}'),
+                clientes: JSON.parse(localStorage.getItem('clientes') || '[]'),
+                propostas: JSON.parse(localStorage.getItem('propostas') || '[]'),
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup-proposta-contabil-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showAlert('Backup criado e baixado com sucesso!', 'success');
+        }
+
+        // Restaurar backup
+        document.getElementById('restore-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (confirm('Tem certeza que deseja restaurar este backup? Todos os dados atuais serão substituídos.')) {
+                            localStorage.setItem('config', JSON.stringify(data.config || {}));
+                            localStorage.setItem('clientes', JSON.stringify(data.clientes || []));
+                            localStorage.setItem('propostas', JSON.stringify(data.propostas || []));
+                            
+                            showAlert('Backup restaurado com sucesso! Recarregando página...', 'success');
+                            setTimeout(() => location.reload(), 2000);
+                        }
+                    } catch (error) {
+                        showAlert('Erro ao restaurar backup. Arquivo inválido.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Limpar todos os dados
+        function resetAllData() {
+            if (confirm('ATENÇÃO: Esta ação irá apagar TODOS os dados do sistema (clientes, propostas, configurações). Esta ação é IRREVERSÍVEL. Tem certeza?')) {
+                if (confirm('Última confirmação: Todos os dados serão perdidos permanentemente. Continuar?')) {
+                    localStorage.clear();
+                    showAlert('Todos os dados foram limpos. Redirecionando para login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            }
+        }
+
+        // Máscaras
+        document.addEventListener('input', function(e) {
+            if (e.target.id === 'escritorio-cnpj') {
+                maskDocument(e.target);
+            }
+            if (e.target.id === 'escritorio-telefone') {
+                maskPhone(e.target);
+            }
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+        });
+    </script>
+</body>
+</html>
+
