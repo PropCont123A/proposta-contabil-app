@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial - [Nome da Empresa]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho da Proposta -->
+        <div class="header-section">
+            <div class="header-title">PROPOSTA COMERCIAL</div>
+            <div class="company-name">[NOME DO ESCRITÓRIO]</div>
+            <div class="divider"></div>
+        </div>
+
+        <!-- Informações da Proposta -->
+        <div class="proposal-info">
+            <div class="info-item">
+                <i class="fas fa-user"></i>
+                <span class="info-label">Cliente:</span>
+                <span class="info-value">[Nome do Cliente]</span>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-building"></i>
+                <span class="info-label">Empresa:</span>
+                <span class="info-value">[Nome da Empresa]</span>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-calendar"></i>
+                <span class="info-label">Data:</span>
+                <span class="info-value">[Data da Proposta]</span>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-clock"></i>
+                <span class="info-label">Validade:</span>
+                <span class="info-value">[Validade da Proposta]</span>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-user-tie"></i>
+                <span class="info-label">Responsável:</span>
+                <span class="info-value">[Vendedor Responsável]</span>
+            </div>
+        </div>
+
+        <!-- Acordeões -->
+        <div class="accordion-container">
+            <!-- Dados do Cliente -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Dados do Cliente</span>
+                    <i class="fas fa-chevron-right accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <div class="client-data">
+                            <div class="client-item">
+                                <span class="client-label">Nome:</span>
+                                <span class="client-value">[Nome do Cliente]</span>
+                            </div>
+                            <div class="client-item">
+                                <span class="client-label">Empresa:</span>
+                                <span class="client-value">[Nome da Empresa]</span>
+                            </div>
+                            <div class="client-item">
+                                <span class="client-label">Telefone:</span>
+                                <span class="client-value">[Telefone do Cliente]</span>
+                            </div>
+                            <div class="client-item">
+                                <span class="client-label">E-mail:</span>
+                                <span class="client-value">[E-mail do Cliente]</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Serviços -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Serviços</span>
+                    <i class="fas fa-chevron-right accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <!-- Serviços Recorrentes -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <div class="service-title">
+                                    <i class="fas fa-sync service-icon"></i>
+                                    [Nome do Serviço Recorrente]
+                                </div>
+                                <div class="service-value">R$ [Valor]/mês</div>
+                            </div>
+                            <div class="service-type">Serviço Recorrente</div>
+                            <div class="service-description">
+                                [Descrição detalhada do serviço recorrente]
+                            </div>
+                        </div>
+
+                        <!-- Serviços Eventuais -->
+                        <div class="service-item">
+                            <div class="service-header">
+                                <div class="service-title">
+                                    <i class="fas fa-star service-icon"></i>
+                                    [Nome do Serviço Eventual]
+                                </div>
+                                <div class="service-value">R$ [Valor]</div>
+                            </div>
+                            <div class="service-type">Serviço Eventual</div>
+                            <div class="service-description">
+                                [Descrição detalhada do serviço eventual]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Condições de Pagamento -->
+            <div class="accordion-item">
+                <button class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>Condições de Pagamento</span>
+                    <i class="fas fa-chevron-right accordion-icon"></i>
+                </button>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <!-- Resumo -->
+                        <div class="payment-summary">
+                            <div class="summary-title">Resumo da Proposta</div>
+                            <div class="summary-item">
+                                <span class="summary-label">Serviços Recorrentes:</span>
+                                <span class="summary-value">R$ [Valor Recorrente]/mês</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Serviços Eventuais:</span>
+                                <span class="summary-value">R$ [Valor Eventual]</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Total Mensal:</span>
+                                <span class="summary-value">R$ [Total Mensal]</span>
+                            </div>
+                        </div>
+
+                        <!-- Condições -->
+                        <div class="payment-item">
+                            <i class="fas fa-credit-card payment-icon"></i>
+                            <div class="payment-content">
+                                <div class="payment-label">Forma de Pagamento:</div>
+                                <div class="payment-value">[Forma de Pagamento]</div>
+                            </div>
+                        </div>
+
+                        <div class="payment-item">
+                            <i class="fas fa-calendar-alt payment-icon"></i>
+                            <div class="payment-content">
+                                <div class="payment-label">Vencimento:</div>
+                                <div class="payment-value">[Vencimento]</div>
+                            </div>
+                        </div>
+
+                        <div class="payment-item">
+                            <i class="fas fa-info-circle payment-icon"></i>
+                            <div class="payment-content">
+                                <div class="payment-label">Observações:</div>
+                                <div class="payment-value">[Observações sobre Pagamento]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logo do Escritório -->
+        <div class="logo-section">
+            <div class="company-logo">
+                <!-- Aqui seria inserida a imagem do logotipo -->
+                <div class="company-logo-placeholder">[LOGO]</div>
+            </div>
+        </div>
+
+        <!-- Marketing -->
+        <div class="marketing-section">
+            <div class="marketing-title">Conte com nossa experiência e dedicação</div>
+            <div class="marketing-subtitle">para o sucesso do seu negócio!</div>
+        </div>
+
+        <!-- Redes Sociais -->
+        <div class="social-section">
+            <div class="social-title">Siga-nos nas redes sociais</div>
+            <div class="social-links">
+                <a href="[Link Facebook]" class="social-link" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="[Link Instagram]" class="social-link" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="[Link LinkedIn]" class="social-link" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="[Link YouTube]" class="social-link" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Sobre Nós -->
+        <div class="about-section">
+            <div class="about-text">
+                [Descrição do escritório - texto sobre a empresa, sua história, missão e valores]
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="footer-section">
+            <div class="footer-text">
+                <strong>Contato:</strong> [Telefone] | [E-mail] | [Website]
+            </div>
+            <div class="footer-text">
+                <strong>Endereço:</strong> [Endereço Completo]
+            </div>
+            <div class="footer-logo">[Nome do Escritório]</div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    
+    <script>
+        // Script específico para a página de template
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aqui você pode adicionar lógica específica para esta página
+            // Por exemplo, carregar dados da proposta via URL parameters
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const propostaId = urlParams.get('id');
+            
+            if (propostaId) {
+                // Carregar dados da proposta específica
+                console.log('Carregando proposta ID:', propostaId);
+            }
+        });
+    </script>
+</body>
+</html>
+

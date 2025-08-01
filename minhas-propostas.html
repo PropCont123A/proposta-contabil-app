@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Minhas Propostas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item" data-page="gerar-proposta">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item active" data-page="minhas-propostas">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item" data-page="cadastro-clientes">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item" data-page="configuracoes">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-header">
+                    <div class="logo-icon">PC</div>
+                    <h1>Minhas Propostas</h1>
+                </div>
+            </div>
+            <div class="company-info">
+                <div class="company-logo">logotipo</div>
+                <div class="company-name">NOME DA EMPRESA</div>
+                <a href="#" class="user-config">Configurações de usuário</a>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- Filtros e Ações -->
+            <div class="page-header">
+                <div class="header-actions">
+                    <a href="gerar-proposta.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Nova Proposta
+                    </a>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="filtroStatus">Status:</label>
+                        <select id="filtroStatus" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="aceita">Aceita</option>
+                            <option value="rejeitada">Rejeitada</option>
+                            <option value="expirada">Expirada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filtroData">Período:</label>
+                        <select id="filtroData" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                            <option value="trimestre">Este trimestre</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="buscarCliente">Buscar cliente:</label>
+                        <input type="text" id="buscarCliente" class="form-control" placeholder="Nome do cliente...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="stats-summary">
+                <div class="stat-item">
+                    <span class="stat-label">Total de Propostas</span>
+                    <span class="stat-value">24</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Aceitas</span>
+                    <span class="stat-value success">18</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Pendentes</span>
+                    <span class="stat-value warning">4</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rejeitadas</span>
+                    <span class="stat-value danger">2</span>
+                </div>
+            </div>
+
+            <!-- Tabela de Propostas -->
+            <div class="proposals-container">
+                <table class="proposals-table">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Empresa</th>
+                            <th>Data</th>
+                            <th>Valor Total</th>
+                            <th>Status</th>
+                            <th>Validade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>João Silva</td>
+                            <td>Silva & Associados</td>
+                            <td>15/01/2024</td>
+                            <td>R$ 2.500,00</td>
+                            <td><span class="status aceita">Aceita</span></td>
+                            <td>14/02/2024</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" onclick="visualizarProposta('1')" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="editarProposta('1')" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="gerarLink('1')" title="Gerar Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="compartilharWhatsApp('1')" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="enviarEmail('1')" title="E-mail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn-action danger" onclick="excluirProposta('1')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Maria Santos</td>
+                            <td>Santos Comércio Ltda</td>
+                            <td>14/01/2024</td>
+                            <td>R$ 1.800,00</td>
+                            <td><span class="status pendente">Pendente</span></td>
+                            <td>13/02/2024</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" onclick="visualizarProposta('2')" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="editarProposta('2')" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="gerarLink('2')" title="Gerar Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="compartilharWhatsApp('2')" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="enviarEmail('2')" title="E-mail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn-action danger" onclick="excluirProposta('2')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carlos Oliveira</td>
+                            <td>Oliveira Transportes</td>
+                            <td>13/01/2024</td>
+                            <td>R$ 3.200,00</td>
+                            <td><span class="status aceita">Aceita</span></td>
+                            <td>12/02/2024</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" onclick="visualizarProposta('3')" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="editarProposta('3')" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="gerarLink('3')" title="Gerar Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="compartilharWhatsApp('3')" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="enviarEmail('3')" title="E-mail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn-action danger" onclick="excluirProposta('3')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ana Costa</td>
+                            <td>Costa Consultoria</td>
+                            <td>12/01/2024</td>
+                            <td>R$ 1.500,00</td>
+                            <td><span class="status rejeitada">Rejeitada</span></td>
+                            <td>11/02/2024</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" onclick="visualizarProposta('4')" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="editarProposta('4')" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="gerarLink('4')" title="Gerar Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="compartilharWhatsApp('4')" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="enviarEmail('4')" title="E-mail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn-action danger" onclick="excluirProposta('4')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pedro Almeida</td>
+                            <td>Almeida & Filhos</td>
+                            <td>11/01/2024</td>
+                            <td>R$ 2.800,00</td>
+                            <td><span class="status pendente">Pendente</span></td>
+                            <td>10/02/2024</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action" onclick="visualizarProposta('5')" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="editarProposta('5')" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="gerarLink('5')" title="Gerar Link">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="compartilharWhatsApp('5')" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                    <button class="btn-action" onclick="enviarEmail('5')" title="E-mail">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button class="btn-action danger" onclick="excluirProposta('5')" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="pagination">
+                <button class="btn-page" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="page-info">Página 1 de 3</span>
+                <button class="btn-page">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    
+    <style>
+        /* Estilos específicos para minhas propostas */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-gray-medium-dark);
+        }
+
+        .filter-group .form-control {
+            min-width: 150px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 14px;
+            color: var(--color-gray-medium-dark);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-neutral-dark);
+        }
+
+        .stat-value.success {
+            color: #28a745;
+        }
+
+        .stat-value.warning {
+            color: #ffc107;
+        }
+
+        .stat-value.danger {
+            color: #dc3545;
+        }
+
+        .proposals-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .proposals-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .proposals-table th,
+        .proposals-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+
+        .proposals-table th {
+            background-color: var(--color-gray-extra-light);
+            font-weight: 600;
+            color: var(--color-neutral-dark);
+            font-size: 14px;
+        }
+
+        .proposals-table tr:hover {
+            background-color: var(--color-gray-lightest);
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status.aceita {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.pendente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.rejeitada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.expirada {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            color: var(--color-primary-purple);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-action:hover {
+            background-color: var(--color-purple-base-lightest);
+        }
+
+        .btn-action.danger {
+            color: #dc3545;
+        }
+
+        .btn-action.danger:hover {
+            background-color: #f8d7da;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-page {
+            background: white;
+            border: 1px solid var(--color-gray-light);
+            color: var(--color-neutral-dark);
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-page:hover:not(:disabled) {
+            background-color: var(--color-primary-purple);
+            color: white;
+            border-color: var(--color-primary-purple);
+        }
+
+        .btn-page:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-size: 14px;
+            color: var(--color-gray-medium-dark);
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filters {
+                justify-content: space-between;
+            }
+            
+            .filter-group .form-control {
+                min-width: 120px;
+            }
+            
+            .proposals-table {
+                font-size: 12px;
+            }
+            
+            .proposals-table th,
+            .proposals-table td {
+                padding: 10px 8px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .filter-group .form-control {
+                min-width: auto;
+            }
+        }
+    </style>
+</body>
+</html>
+
