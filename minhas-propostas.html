@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Minhas Propostas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta Principal */
+            --color-primary-blue: #0000CB;
+            --color-primary-purple: #B733F0;
+            --color-primary-pink: #FD7BF6;
+
+            /* Cores Neutras */
+            --color-neutral-dark: #1A1A1A;
+            --color-neutral-medium: #A0A0A0;
+            --color-neutral-light: #E5E5E5;
+            --color-neutral-extra-light: #FAFAFA;
+
+            /* Tons de Apoio / Complementares */
+            --color-support-blue: #5050FF;
+            --color-support-purple: #D9A8FA;
+            --color-support-pink: #FFA8F9;
+
+            /* Azul Base */
+            --color-blue-base-lightest: #D6D6FF;
+            --color-blue-base-light: #9999FF;
+            --color-blue-base: #0000CB;
+            --color-blue-base-dark: #000099;
+            --color-blue-base-darkest: #000066;
+
+            /* Rosa Base */
+            --color-pink-base-lightest: #FFE6FC;
+            --color-pink-base-light: #FFB3F8;
+            --color-pink-base: #FD7BF6;
+            --color-pink-base-dark: #C951B5;
+            --color-pink-base-darkest: #8A2C81;
+
+            /* Roxo Base */
+            --color-purple-base-lightest: #F3D6FE;
+            --color-purple-base-light: #D68BFA;
+            --color-purple-base: #B733F0;
+            --color-purple-base-dark: #8019B7;
+            --color-purple-base-darkest: #53067F;
+
+            /* Escala de Cinza Profissional */
+            --color-gray-lightest: #F9F9F9;
+            --color-gray-extra-light: #F0F0F0;
+            --color-gray-light: #E5E5E5;
+            --color-gray-medium-light: #CFCFCF;
+            --color-gray-medium: #A0A0A0;
+            --color-gray-medium-dark: #707070;
+            --color-gray-extra-dark: #2B2B2B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-neutral-extra-light);
+            color: var(--color-neutral-dark);
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: var(--color-primary-purple);
+            transition: width 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            padding: 20px 10px;
+        }
+
+        .logo {
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo {
+            display: none;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar.collapsed .menu-item {
+            padding: 15px 20px;
+            justify-content: center;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-item i {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .sidebar.collapsed .menu-item i {
+            margin-right: 0;
+        }
+
+        .menu-text {
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            display: none;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #FFFFFF;
+            border: 2px solid var(--color-primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-btn {
+            right: 15px;
+        }
+
+        .toggle-btn i {
+            color: var(--color-primary-purple);
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed .toggle-btn i {
+            transform: rotate(180deg);
+        }
+
+        /* Área Principal */
+        .main-content {
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background-color: #FFFFFF;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: var(--color-neutral-dark);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--color-primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* Filtros e Ações */
+        .filters-section {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-gray-medium-dark);
+        }
+
+        .filter-control {
+            padding: 8px 12px;
+            border: 2px solid var(--color-gray-light);
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 120px;
+        }
+
+        .filter-control:focus {
+            outline: none;
+            border-color: var(--color-primary-purple);
+        }
+
+        .btn-new-proposal {
+            background: linear-gradient(135deg, var(--color-primary-purple), var(--color-purple-base-dark));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-new-proposal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(183, 51, 240, 0.3);
+        }
+
+        /* Lista de Propostas */
+        .proposals-container {
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .proposals-header {
+            background-color: var(--color-gray-extra-light);
+            padding: 20px;
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+
+        .proposals-header h3 {
+            color: var(--color-neutral-dark);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .proposals-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .proposal-item {
+            padding: 20px;
+            border-bottom: 1px solid var(--color-gray-light);
+            transition: background-color 0.3s ease;
+        }
+
+        .proposal-item:hover {
+            background-color: var(--color-gray-lightest);
+        }
+
+        .proposal-item:last-child {
+            border-bottom: none;
+        }
+
+        .proposal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .proposal-info {
+            flex: 1;
+        }
+
+        .proposal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .proposal-client {
+            font-size: 14px;
+            color: var(--color-gray-medium-dark);
+            margin-bottom: 8px;
+        }
+
+        .proposal-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            color: var(--color-gray-medium);
+        }
+
+        .proposal-actions {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .proposal-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-enviada {
+            background-color: var(--color-blue-base-lightest);
+            color: var(--color-blue-base-dark);
+        }
+
+        .status-negociacao {
+            background-color: var(--color-pink-base-lightest);
+            color: var(--color-pink-base-dark);
+        }
+
+        .status-contratada {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejeitada {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-action {
+            background: none;
+            border: none;
+            color: var(--color-gray-medium-dark);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-action:hover {
+            background-color: var(--color-gray-extra-light);
+            color: var(--color-primary-purple);
+        }
+
+        .btn-action.delete:hover {
+            color: #dc3545;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--color-gray-light);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-neutral-dark);
+        }
+
+        .close {
+            color: var(--color-gray-medium);
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: var(--color-neutral-dark);
+        }
+
+        /* Estado vazio */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-gray-medium);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--color-gray-light);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--color-gray-medium-dark);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar .menu-text {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .filters-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-left {
+                justify-content: space-between;
+            }
+
+            .proposal-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .proposal-actions {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item active">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Minhas Propostas</h1>
+            <div class="user-info">
+                <span id="welcomeUser">Bem-vindo!</span>
+                <div class="user-avatar" id="userAvatar">U</div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- Filtros e Ações -->
+            <div class="filters-section">
+                <div class="filters-left">
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select class="filter-control" id="filterStatus" onchange="filterProposals()">
+                            <option value="">Todos</option>
+                            <option value="enviada">Enviada</option>
+                            <option value="negociacao">Em Negociação</option>
+                            <option value="contratada">Contratada</option>
+                            <option value="rejeitada">Rejeitada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Cliente</label>
+                        <input type="text" class="filter-control" id="filterClient" placeholder="Buscar cliente..." onkeyup="filterProposals()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Período</label>
+                        <select class="filter-control" id="filterPeriod" onchange="filterProposals()">
+                            <option value="">Todos</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                            <option value="ano">Este ano</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <a href="gerar-proposta.html" class="btn-new-proposal">
+                    <i class="fas fa-plus"></i>
+                    Nova Proposta
+                </a>
+            </div>
+
+            <!-- Lista de Propostas -->
+            <div class="proposals-container">
+                <div class="proposals-header">
+                    <h3>Lista de Propostas</h3>
+                </div>
+                
+                <div class="proposals-list" id="proposalsList">
+                    <!-- Propostas serão carregadas dinamicamente -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Visualização -->
+    <div id="proposalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Detalhes da Proposta</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div id="modalContent">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticação
+        function checkAuth() {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const currentUser = localStorage.getItem('currentUser') || 'Usuário';
+            document.getElementById('welcomeUser').textContent = `Bem-vindo, ${currentUser}!`;
+            document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        // Toggle do menu lateral
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Carregar propostas
+        function loadProposals() {
+            const propostas = JSON.parse(localStorage.getItem('propostas') || '[]');
+            const proposalsList = document.getElementById('proposalsList');
+            
+            if (propostas.length === 0) {
+                proposalsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Nenhuma proposta encontrada</h3>
+                        <p>Você ainda não criou nenhuma proposta. Comece criando sua primeira proposta!</p>
+                        <a href="gerar-proposta.html" class="btn-new-proposal">
+                            <i class="fas fa-plus"></i>
+                            Criar Primeira Proposta
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            propostas.forEach((proposta, index) => {
+                const valorTotal = proposta.servicos.reduce((total, servico) => {
+                    const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+                    return total + valor;
+                }, 0);
+                
+                html += `
+                    <div class="proposal-item" data-status="${proposta.status}" data-client="${proposta.cliente.nome.toLowerCase()}" data-date="${proposta.dataGeracao}">
+                        <div class="proposal-header">
+                            <div class="proposal-info">
+                                <div class="proposal-title">Proposta #${proposta.id.slice(-6)}</div>
+                                <div class="proposal-client">${proposta.cliente.nome}</div>
+                                <div class="proposal-meta">
+                                    <span><i class="fas fa-calendar"></i> ${proposta.dataGeracao}</span>
+                                    <span><i class="fas fa-dollar-sign"></i> R$ ${valorTotal.toFixed(2).replace('.', ',')}</span>
+                                    <span><i class="fas fa-envelope"></i> ${proposta.cliente.email}</span>
+                                </div>
+                            </div>
+                            <div class="proposal-actions">
+                                <span class="proposal-status status-${proposta.status}">${getStatusText(proposta.status)}</span>
+                                <button class="btn-action" onclick="viewProposal(${index})" title="Visualizar">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-action" onclick="editProposal(${index})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action" onclick="duplicateProposal(${index})" title="Duplicar">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="btn-action delete" onclick="deleteProposal(${index})" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            proposalsList.innerHTML = html;
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'enviada': 'Enviada',
+                'negociacao': 'Em Negociação',
+                'contratada': 'Contratada',
+                'rejeitada': 'Rejeitada'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Filtrar propostas
+        function filterProposals() {
+            const statusFilter = document.getElementById('filterStatus').value;
+            const clientFilter = document.getElementById('filterClient').value.toLowerCase();
+            const periodFilter = document.getElementById('filterPeriod').value;
+            
+            const proposalItems = document.querySelectorAll('.proposal-item');
+            
+            proposalItems.forEach(item => {
+                let show = true;
+                
+                // Filtro por status
+                if (statusFilter && item.dataset.status !== statusFilter) {
+                    show = false;
+                }
+                
+                // Filtro por cliente
+                if (clientFilter && !item.dataset.client.includes(clientFilter)) {
+                    show = false;
+                }
+                
+                // Filtro por período (implementação básica)
+                if (periodFilter) {
+                    const itemDate = new Date(item.dataset.date.split('/').reverse().join('-'));
+                    const today = new Date();
+                    
+                    switch (periodFilter) {
+                        case 'hoje':
+                            if (itemDate.toDateString() !== today.toDateString()) {
+                                show = false;
+                            }
+                            break;
+                        case 'semana':
+                            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            if (itemDate < weekAgo) {
+                                show = false;
+                            }
+                            break;
+                        case 'mes':
+                            if (itemDate.getMonth() !== today.getMonth() || itemDate.getFullYear() !== today.getFullYear()) {
+                                show = false;
+                            }
+                            break;
+                        case 'ano':
+                            if (itemDate.getFullYear() !== today.getFullYear()) {
+                                show = false;
+                            }
+                            break;
+                    }
+                }
+                
+                item.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        // Ações das propostas
+        function viewProposal(index) {
+            const propostas = JSON.parse(localStorage.getItem('propostas') || '[]');
+            const proposta = propostas[index];
+            
+            if (!proposta) return;
+            
+            const valorTotal = proposta.servicos.reduce((total, servico) => {
+                const valor = parseFloat(servico.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+                return total + valor;
+            }, 0);
+            
+            let servicosHtml = '';
+            proposta.servicos.forEach(servico => {
+                servicosHtml += `
+                    <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <h4 style="color: #0000CB; margin-bottom: 10px;">${servico.titulo} - ${servico.valor}</h4>
+                        <ul>
+                `;
+                servico.descricoes.forEach(desc => {
+                    servicosHtml += `<li>${desc}</li>`;
+                });
+                servicosHtml += `</ul></div>`;
+            });
+            
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h3>Cliente</h3>
+                    <p><strong>Nome:</strong> ${proposta.cliente.nome}</p>
+                    <p><strong>CNPJ/CPF:</strong> ${proposta.cliente.cnpj}</p>
+                    <p><strong>E-mail:</strong> ${proposta.cliente.email}</p>
+                    <p><strong>Telefone:</strong> ${proposta.cliente.telefone}</p>
+                    ${proposta.cliente.endereco ? `<p><strong>Endereço:</strong> ${proposta.cliente.endereco}</p>` : ''}
+                    ${proposta.cliente.cidade ? `<p><strong>Cidade:</strong> ${proposta.cliente.cidade}</p>` : ''}
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h3>Serviços</h3>
+                    ${servicosHtml}
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h3>Condições</h3>
+                    <p><strong>Forma de Pagamento:</strong> ${proposta.condicoes.formaPagamento}</p>
+                    <p><strong>Prazo de Entrega:</strong> ${proposta.condicoes.prazoEntrega}</p>
+                    <p><strong>Validade da Proposta:</strong> ${proposta.condicoes.validadeProposta}</p>
+                    ${proposta.condicoes.observacoes ? `<p><strong>Observações:</strong> ${proposta.condicoes.observacoes}</p>` : ''}
+                </div>
+                
+                <div style="text-align: center; padding: 20px; background: #e9ecef; border-radius: 8px;">
+                    <h3 style="color: #0000CB;">Valor Total: R$ ${valorTotal.toFixed(2).replace('.', ',')}</h3>
+                </div>
+            `;
+            
+            document.getElementById('proposalModal').style.display = 'block';
+        }
+
+        function editProposal(index) {
+            alert('Funcionalidade de edição será implementada em breve!');
+        }
+
+        function duplicateProposal(index) {
+            const propostas = JSON.parse(localStorage.getItem('propostas') || '[]');
+            const proposta = propostas[index];
+            
+            if (!proposta) return;
+            
+            const novaProposta = {
+                ...proposta,
+                id: Date.now().toString(),
+                dataGeracao: new Date().toLocaleDateString(),
+                status: 'enviada'
+            };
+            
+            propostas.push(novaProposta);
+            localStorage.setItem('propostas', JSON.stringify(propostas));
+            
+            loadProposals();
+            alert('Proposta duplicada com sucesso!');
+        }
+
+        function deleteProposal(index) {
+            if (confirm('Tem certeza que deseja excluir esta proposta?')) {
+                const propostas = JSON.parse(localStorage.getItem('propostas') || '[]');
+                propostas.splice(index, 1);
+                localStorage.setItem('propostas', JSON.stringify(propostas));
+                loadProposals();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('proposalModal').style.display = 'none';
+        }
+
+        // Fechar modal clicando fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('proposalModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Responsividade
+        function checkScreenSize() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        // Inicialização
+        window.addEventListener('load', function() {
+            checkAuth();
+            loadProposals();
+            checkScreenSize();
+        });
+
+        window.addEventListener('resize', checkScreenSize);
+    </script>
+</body>
+</html>
+
