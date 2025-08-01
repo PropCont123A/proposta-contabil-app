@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Configurações de Serviços</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Configurações de Serviços</h1>
+            <div class="user-info">
+                <span>Bem-vindo, admin!</span>
+                <div class="user-avatar">A</div>
+                <button class="btn-action" onclick="logout()" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="showTab(0)">
+                        <i class="fas fa-plus"></i> Novo Serviço
+                    </button>
+                    <button class="tab-button" onclick="showTab(1)">
+                        <i class="fas fa-list"></i> Lista de Serviços
+                    </button>
+                    <button class="tab-button" onclick="showTab(2)">
+                        <i class="fas fa-tags"></i> Categorias
+                    </button>
+                </div>
+
+                <!-- Aba 1: Novo Serviço -->
+                <div class="tab-content active">
+                    <form id="servicoForm" onsubmit="saveService(event)">
+                        <div class="config-section">
+                            <h4 class="section-title">Dados do Serviço</h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tipoServico">Tipo do Serviço *</label>
+                                    <input type="text" id="tipoServico" name="tipoServico" class="form-control" required placeholder="Ex: Contabilidade Mensal">
+                                </div>
+                                <div class="form-group">
+                                    <label for="valorServico">Valor do Serviço *</label>
+                                    <input type="text" id="valorServico" name="valorServico" class="form-control" required placeholder="R$ 0,00">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="categoriaServico">Categoria</label>
+                                    <select id="categoriaServico" name="categoriaServico" class="form-control">
+                                        <option value="">Selecione uma categoria...</option>
+                                        <option value="contabilidade">Contabilidade</option>
+                                        <option value="fiscal">Fiscal</option>
+                                        <option value="trabalhista">Trabalhista</option>
+                                        <option value="societario">Societário</option>
+                                        <option value="consultoria">Consultoria</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recorrenciaServico">Recorrência</label>
+                                    <select id="recorrenciaServico" name="recorrenciaServico" class="form-control">
+                                        <option value="eventual">Eventual</option>
+                                        <option value="mensal" selected>Mensal</option>
+                                        <option value="trimestral">Trimestral</option>
+                                        <option value="semestral">Semestral</option>
+                                        <option value="anual">Anual</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descricaoServico">Descrição do Serviço *</label>
+                                <textarea id="descricaoServico" name="descricaoServico" class="form-control" rows="4" required placeholder="Descreva detalhadamente o que está incluído neste serviço..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Itens Inclusos no Serviço</label>
+                                <div id="itensServico">
+                                    <div class="description-item">
+                                        <input type="text" placeholder="Ex: Escrituração contábil mensal" class="form-control">
+                                        <button type="button" class="btn-add-description" onclick="addServiceItem()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary" onclick="clearServiceForm()">Limpar</button>
+                            <button type="submit" class="btn-primary">Salvar Serviço</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Aba 2: Lista de Serviços -->
+                <div class="tab-content">
+                    <div class="filters-section">
+                        <div class="filters-left">
+                            <div class="filter-group">
+                                <label>Buscar Serviço</label>
+                                <input type="text" id="searchServices" class="filter-control" placeholder="Nome do serviço..." onkeyup="filterServices()">
+                            </div>
+                            <div class="filter-group">
+                                <label>Categoria</label>
+                                <select id="filterServiceCategory" class="filter-control" onchange="filterServices()">
+                                    <option value="">Todas</option>
+                                    <option value="contabilidade">Contabilidade</option>
+                                    <option value="fiscal">Fiscal</option>
+                                    <option value="trabalhista">Trabalhista</option>
+                                    <option value="societario">Societário</option>
+                                    <option value="consultoria">Consultoria</option>
+                                    <option value="outros">Outros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn-new-proposal" onclick="showTab(0)">
+                            <i class="fas fa-plus"></i>
+                            Novo Serviço
+                        </button>
+                    </div>
+
+                    <div class="clients-container">
+                        <div class="clients-header">
+                            <h3>Lista de Serviços</h3>
+                        </div>
+                        <div class="clients-list" id="servicesList">
+                            <!-- Serviços serão carregados dinamicamente aqui -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aba 3: Categorias -->
+                <div class="tab-content">
+                    <div class="config-section">
+                        <h4 class="section-title">Gerenciar Categorias</h4>
+                        
+                        <form id="categoriaForm" onsubmit="saveCategory(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nomeCategoria">Nome da Categoria</label>
+                                    <input type="text" id="nomeCategoria" name="nomeCategoria" class="form-control" placeholder="Ex: Consultoria Tributária">
+                                </div>
+                                <div class="form-group">
+                                    <label for="corCategoria">Cor da Categoria</label>
+                                    <input type="color" id="corCategoria" name="corCategoria" class="form-control" value="#B733F0">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="descricaoCategoria">Descrição</label>
+                                <textarea id="descricaoCategoria" name="descricaoCategoria" class="form-control" rows="3" placeholder="Descrição da categoria..."></textarea>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" class="btn-secondary" onclick="clearCategoryForm()">Limpar</button>
+                                <button type="submit" class="btn-primary">Salvar Categoria</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="clients-container">
+                        <div class="clients-header">
+                            <h3>Categorias Existentes</h3>
+                        </div>
+                        <div class="clients-list" id="categoriesList">
+                            <!-- Categorias serão carregadas dinamicamente aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Verificar se está logado
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Função de logout
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Funções específicas de serviços
+        function addServiceItem() {
+            const container = document.getElementById('itensServico');
+            const newItem = document.createElement('div');
+            newItem.className = 'description-item';
+            newItem.innerHTML = `
+                <input type="text" placeholder="Item do serviço" class="form-control">
+                <button type="button" class="btn-remove-description" onclick="removeServiceItem(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeServiceItem(button) {
+            button.parentElement.remove();
+        }
+
+        function saveService(event) {
+            event.preventDefault();
+            
+            const itens = Array.from(document.querySelectorAll('#itensServico input')).map(input => input.value).filter(value => value.trim());
+            
+            const servico = {
+                id: Date.now().toString(),
+                tipo: document.getElementById('tipoServico').value,
+                valor: document.getElementById('valorServico').value,
+                categoria: document.getElementById('categoriaServico').value,
+                recorrencia: document.getElementById('recorrenciaServico').value,
+                descricao: document.getElementById('descricaoServico').value,
+                itens: itens,
+                dataCadastro: new Date().toLocaleDateString()
+            };
+            
+            const servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+            servicos.push(servico);
+            localStorage.setItem('servicos', JSON.stringify(servicos));
+            
+            alert('Serviço cadastrado com sucesso!');
+            clearServiceForm();
+            loadServices();
+        }
+
+        function clearServiceForm() {
+            document.getElementById('servicoForm').reset();
+            // Resetar itens para apenas um campo
+            document.getElementById('itensServico').innerHTML = `
+                <div class="description-item">
+                    <input type="text" placeholder="Ex: Escrituração contábil mensal" class="form-control">
+                    <button type="button" class="btn-add-description" onclick="addServiceItem()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function loadServices() {
+            const servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+            const servicesList = document.getElementById('servicesList');
+            
+            if (!servicesList) return;
+            
+            if (servicos.length === 0) {
+                servicesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-list"></i>
+                        <h3>Nenhum serviço cadastrado</h3>
+                        <p>Cadastre serviços para facilitar a criação de propostas.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            servicos.forEach((servico, index) => {
+                html += `
+                    <div class="client-item" data-name="${servico.tipo.toLowerCase()}" data-category="${servico.categoria}">
+                        <div class="client-header">
+                            <div class="client-info">
+                                <div class="client-name">${servico.tipo}</div>
+                                <div class="client-details">
+                                    <div><strong>Valor:</strong> ${servico.valor}</div>
+                                    <div><strong>Categoria:</strong> ${getCategoriaText(servico.categoria)}</div>
+                                    <div><strong>Recorrência:</strong> ${getRecorrenciaText(servico.recorrencia)}</div>
+                                    <div><strong>Descrição:</strong> ${servico.descricao}</div>
+                                    ${servico.itens.length > 0 ? `<div><strong>Itens:</strong> ${servico.itens.join(', ')}</div>` : ''}
+                                    <div><strong>Cadastrado em:</strong> ${servico.dataCadastro}</div>
+                                </div>
+                            </div>
+                            <div class="client-actions">
+                                <button class="btn-action" onclick="editService(${index})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action" onclick="duplicateService(${index})" title="Duplicar">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="btn-action delete" onclick="deleteService(${index})" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            servicesList.innerHTML = html;
+        }
+
+        function getCategoriaText(categoria) {
+            const categorias = {
+                'contabilidade': 'Contabilidade',
+                'fiscal': 'Fiscal',
+                'trabalhista': 'Trabalhista',
+                'societario': 'Societário',
+                'consultoria': 'Consultoria',
+                'outros': 'Outros'
+            };
+            return categorias[categoria] || categoria;
+        }
+
+        function getRecorrenciaText(recorrencia) {
+            const recorrencias = {
+                'eventual': 'Eventual',
+                'mensal': 'Mensal',
+                'trimestral': 'Trimestral',
+                'semestral': 'Semestral',
+                'anual': 'Anual'
+            };
+            return recorrencias[recorrencia] || recorrencia;
+        }
+
+        function editService(index) {
+            alert('Funcionalidade de edição será implementada em breve!');
+        }
+
+        function duplicateService(index) {
+            const servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+            const servico = servicos[index];
+            
+            if (!servico) return;
+            
+            const novoServico = {
+                ...servico,
+                id: Date.now().toString(),
+                tipo: servico.tipo + ' (Cópia)',
+                dataCadastro: new Date().toLocaleDateString()
+            };
+            
+            servicos.push(novoServico);
+            localStorage.setItem('servicos', JSON.stringify(servicos));
+            loadServices();
+            alert('Serviço duplicado com sucesso!');
+        }
+
+        function deleteService(index) {
+            if (confirm('Tem certeza que deseja excluir este serviço?')) {
+                const servicos = JSON.parse(localStorage.getItem('servicos') || '[]');
+                servicos.splice(index, 1);
+                localStorage.setItem('servicos', JSON.stringify(servicos));
+                loadServices();
+            }
+        }
+
+        function filterServices() {
+            const searchTerm = document.getElementById('searchServices')?.value.toLowerCase() || '';
+            const categoryFilter = document.getElementById('filterServiceCategory')?.value || '';
+            const serviceItems = document.querySelectorAll('.client-item');
+            
+            serviceItems.forEach(item => {
+                const name = item.dataset.name || '';
+                const category = item.dataset.category || '';
+                
+                let show = true;
+                
+                if (searchTerm && !name.includes(searchTerm)) {
+                    show = false;
+                }
+                
+                if (categoryFilter && category !== categoryFilter) {
+                    show = false;
+                }
+                
+                item.style.display = show ? 'block' : 'none';
+            });
+        }
+
+        // Funções de categorias
+        function saveCategory(event) {
+            event.preventDefault();
+            
+            const categoria = {
+                id: Date.now().toString(),
+                nome: document.getElementById('nomeCategoria').value,
+                cor: document.getElementById('corCategoria').value,
+                descricao: document.getElementById('descricaoCategoria').value,
+                dataCadastro: new Date().toLocaleDateString()
+            };
+            
+            const categorias = JSON.parse(localStorage.getItem('categorias') || '[]');
+            categorias.push(categoria);
+            localStorage.setItem('categorias', JSON.stringify(categorias));
+            
+            alert('Categoria cadastrada com sucesso!');
+            clearCategoryForm();
+            loadCategories();
+        }
+
+        function clearCategoryForm() {
+            document.getElementById('categoriaForm').reset();
+            document.getElementById('corCategoria').value = '#B733F0';
+        }
+
+        function loadCategories() {
+            const categorias = JSON.parse(localStorage.getItem('categorias') || '[]');
+            const categoriesList = document.getElementById('categoriesList');
+            
+            if (!categoriesList) return;
+            
+            if (categorias.length === 0) {
+                categoriesList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-tags"></i>
+                        <h3>Nenhuma categoria personalizada</h3>
+                        <p>As categorias padrão estão disponíveis. Crie categorias personalizadas conforme necessário.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            categorias.forEach((categoria, index) => {
+                html += `
+                    <div class="client-item">
+                        <div class="client-header">
+                            <div class="client-info">
+                                <div class="client-name" style="color: ${categoria.cor};">
+                                    <i class="fas fa-circle" style="margin-right: 8px;"></i>
+                                    ${categoria.nome}
+                                </div>
+                                <div class="client-details">
+                                    <div><strong>Descrição:</strong> ${categoria.descricao}</div>
+                                    <div><strong>Cadastrada em:</strong> ${categoria.dataCadastro}</div>
+                                </div>
+                            </div>
+                            <div class="client-actions">
+                                <button class="btn-action" onclick="editCategory(${index})" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-action delete" onclick="deleteCategory(${index})" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            categoriesList.innerHTML = html;
+        }
+
+        function editCategory(index) {
+            alert('Funcionalidade de edição será implementada em breve!');
+        }
+
+        function deleteCategory(index) {
+            if (confirm('Tem certeza que deseja excluir esta categoria?')) {
+                const categorias = JSON.parse(localStorage.getItem('categorias') || '[]');
+                categorias.splice(index, 1);
+                localStorage.setItem('categorias', JSON.stringify(categorias));
+                loadCategories();
+            }
+        }
+
+        // Carregar dados ao inicializar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadServices();
+            loadCategories();
+        });
+    </script>
+</body>
+</html>
+
