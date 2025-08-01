@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Cadastro de Usuários</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Cadastro de Usuários</h1>
+            <div class="user-info">
+                <span>Bem-vindo, admin!</span>
+                <div class="user-avatar">A</div>
+                <button class="btn-action" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="showTab(0)">Gestão de Usuários</button>
+                    <button class="tab-button" onclick="showTab(1)">Usuário Regular</button>
+                </div>
+
+                <!-- Aba 1: Gestão de Usuários -->
+                <div class="tab-content active">
+                    <h3>Gestão de Usuários</h3>
+                    <p>Controle total sobre a plataforma, podendo gerenciar usuários, configurações, dados e outras funcionalidades avançadas.</p>
+
+                    <form id="gestorForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nomeGestor">Nome Completo *</label>
+                                <input type="text" id="nomeGestor" name="nomeGestor" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailGestor">E-mail *</label>
+                                <input type="email" id="emailGestor" name="emailGestor" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefoneGestor">Telefone</label>
+                                <input type="tel" id="telefoneGestor" name="telefoneGestor" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cargoGestor">Cargo/Função</label>
+                                <input type="text" id="cargoGestor" name="cargoGestor" class="form-control" placeholder="Ex: Contador Responsável">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="senhaGestor">Senha *</label>
+                                <input type="password" id="senhaGestor" name="senhaGestor" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmarSenhaGestor">Confirmar Senha *</label>
+                                <input type="password" id="confirmarSenhaGestor" name="confirmarSenhaGestor" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="statusGestor">Status</label>
+                                <select id="statusGestor" name="statusGestor" class="form-control">
+                                    <option value="ativo">Ativo</option>
+                                    <option value="inativo">Inativo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dataVencimentoGestor">Data de Vencimento</label>
+                                <input type="date" id="dataVencimentoGestor" name="dataVencimentoGestor" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary">Limpar</button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-user-plus"></i>
+                                Cadastrar Gestor
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Aba 2: Usuário Regular -->
+                <div class="tab-content">
+                    <h3>Usuário Regular</h3>
+                    <p>Possuem acesso às funcionalidades do software dentro das permissões definidas pelos administradores.</p>
+
+                    <form id="usuarioForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nomeUsuario">Nome Completo *</label>
+                                <input type="text" id="nomeUsuario" name="nomeUsuario" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="emailUsuario">E-mail *</label>
+                                <input type="email" id="emailUsuario" name="emailUsuario" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefoneUsuario">Telefone</label>
+                                <input type="tel" id="telefoneUsuario" name="telefoneUsuario" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cargoUsuario">Cargo/Função</label>
+                                <input type="text" id="cargoUsuario" name="cargoUsuario" class="form-control" placeholder="Ex: Assistente Contábil">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="senhaUsuario">Senha *</label>
+                                <input type="password" id="senhaUsuario" name="senhaUsuario" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmarSenhaUsuario">Confirmar Senha *</label>
+                                <input type="password" id="confirmarSenhaUsuario" name="confirmarSenhaUsuario" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nivelAcesso">Nível de Acesso</label>
+                                <select id="nivelAcesso" name="nivelAcesso" class="form-control">
+                                    <option value="basico">Básico</option>
+                                    <option value="intermediario">Intermediário</option>
+                                    <option value="avancado">Avançado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="statusUsuario">Status</label>
+                                <select id="statusUsuario" name="statusUsuario" class="form-control">
+                                    <option value="ativo">Ativo</option>
+                                    <option value="inativo">Inativo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dataVencimentoUsuario">Data de Vencimento</label>
+                                <input type="date" id="dataVencimentoUsuario" name="dataVencimentoUsuario" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Permissões -->
+                        <div class="quick-actions" style="margin-top: 30px;">
+                            <h4>Permissões</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="permissoes[]" value="gerar_propostas"> 
+                                        Gerar Propostas
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="permissoes[]" value="gerenciar_clientes"> 
+                                        Gerenciar Clientes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="permissoes[]" value="visualizar_relatorios"> 
+                                        Visualizar Relatórios
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" name="permissoes[]" value="configurar_sistema"> 
+                                        Configurar Sistema
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary">Limpar</button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-user-plus"></i>
+                                Cadastrar Usuário
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+

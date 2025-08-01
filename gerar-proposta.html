@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Gerar Nova Proposta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item active">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-header">
+                    <div class="logo-icon">P</div>
+                </div>
+                <h1>Gerar Nova Proposta</h1>
+            </div>
+            <div class="company-info">
+                <div class="company-logo">LOGO</div>
+                <div class="company-name">Nome da Empresa</div>
+                <a href="configuracoes_escritorio.html" class="user-config">Configurar</a>
+            </div>
+            <div class="user-info">
+                <span>Bem-vindo, admin!</span>
+                <div class="user-avatar">A</div>
+                <button class="btn-action" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="showTab(0)">Dados do Cliente</button>
+                    <button class="tab-button" onclick="showTab(1)">Serviços</button>
+                    <button class="tab-button" onclick="showTab(2)">Condições de Pagamento</button>
+                    <button class="tab-button" onclick="showTab(3)">Resumo da Proposta</button>
+                </div>
+
+                <!-- Aba 1: Dados do Cliente -->
+                <div class="tab-content active">
+                    <h3>Dados do Cliente</h3>
+                    <form id="clienteForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nomeCliente">Nome/Razão Social *</label>
+                                <input type="text" id="nomeCliente" name="nomeCliente" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cnpjCliente">CNPJ/CPF *</label>
+                                <input type="text" id="cnpjCliente" name="cnpjCliente" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="emailCliente">E-mail *</label>
+                                <input type="email" id="emailCliente" name="emailCliente" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefoneCliente">Telefone *</label>
+                                <input type="tel" id="telefoneCliente" name="telefoneCliente" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="enderecoCliente">Endereço</label>
+                                <input type="text" id="enderecoCliente" name="enderecoCliente" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cidadeCliente">Cidade</label>
+                                <input type="text" id="cidadeCliente" name="cidadeCliente" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="estadoCliente">Estado</label>
+                                <select id="estadoCliente" name="estadoCliente" class="form-control">
+                                    <option value="">Selecione...</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cepCliente">CEP</label>
+                                <input type="text" id="cepCliente" name="cepCliente" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="form-navigation">
+                        <div></div>
+                        <button class="btn-next" onclick="nextTab()">Próximo</button>
+                    </div>
+                </div>
+
+                <!-- Aba 2: Serviços -->
+                <div class="tab-content">
+                    <h3>Serviços</h3>
+                    <div id="servicos-container">
+                        <div class="service-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Tipo de Serviço</label>
+                                    <input type="text" class="form-control" placeholder="Ex: Contabilidade Mensal">
+                                </div>
+                                <div class="form-group">
+                                    <label>Valor</label>
+                                    <input type="text" class="form-control" placeholder="R$ 0,00">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Descrição</label>
+                                    <textarea class="form-control" rows="3" placeholder="Descrição do serviço..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-secondary" onclick="addService()" style="margin-bottom: 20px;">
+                        <i class="fas fa-plus"></i> Adicionar Serviço
+                    </button>
+
+                    <div class="form-navigation">
+                        <button class="btn-prev" onclick="prevTab()">Anterior</button>
+                        <button class="btn-next" onclick="nextTab()">Próximo</button>
+                    </div>
+                </div>
+
+                <!-- Aba 3: Condições de Pagamento -->
+                <div class="tab-content">
+                    <h3>Condições de Pagamento</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="formaPagamento">Forma de Pagamento</label>
+                            <select id="formaPagamento" class="form-control">
+                                <option value="">Selecione...</option>
+                                <option value="boleto">Boleto Bancário</option>
+                                <option value="pix">PIX</option>
+                                <option value="transferencia">Transferência Bancária</option>
+                                <option value="cartao">Cartão de Crédito</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="vencimento">Vencimento</label>
+                            <select id="vencimento" class="form-control">
+                                <option value="">Selecione...</option>
+                                <option value="5">Todo dia 5</option>
+                                <option value="10">Todo dia 10</option>
+                                <option value="15">Todo dia 15</option>
+                                <option value="20">Todo dia 20</option>
+                                <option value="25">Todo dia 25</option>
+                                <option value="30">Todo dia 30</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="observacoes">Observações</label>
+                            <textarea id="observacoes" class="form-control" rows="4" placeholder="Observações adicionais sobre o pagamento..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="btn-prev" onclick="prevTab()">Anterior</button>
+                        <button class="btn-next" onclick="nextTab()">Próximo</button>
+                    </div>
+                </div>
+
+                <!-- Aba 4: Resumo da Proposta -->
+                <div class="tab-content">
+                    <h3>Resumo da Proposta</h3>
+                    
+                    <div class="summary-section">
+                        <div class="summary-header" onclick="toggleSummary()">
+                            <h4>Resumo da Proposta</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="summary-content active" id="summary-content">
+                            <div class="summary-item">
+                                <strong>Cliente:</strong> <span id="resumo-cliente">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>CNPJ/CPF:</strong> <span id="resumo-cnpj">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>E-mail:</strong> <span id="resumo-email">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Telefone:</strong> <span id="resumo-telefone">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Serviços:</strong>
+                                <ul class="summary-list" id="resumo-servicos">
+                                    <li>Nenhum serviço adicionado</li>
+                                </ul>
+                            </div>
+                            <div class="summary-item">
+                                <strong>Valor Total:</strong> <span id="resumo-total">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="share-buttons">
+                        <button class="btn-share btn-pdf" onclick="generatePDF()">
+                            <i class="fas fa-file-pdf"></i>
+                            Gerar PDF
+                        </button>
+                        <button class="btn-share btn-link" onclick="generateLink()">
+                            <i class="fas fa-link"></i>
+                            Gerar Link
+                        </button>
+                        <button class="btn-share btn-whatsapp" onclick="sendWhatsApp()">
+                            <i class="fab fa-whatsapp"></i>
+                            Compartilhar por WhatsApp
+                        </button>
+                        <button class="btn-share btn-email" onclick="sendEmail()">
+                            <i class="fas fa-envelope"></i>
+                            Enviar por E-mail
+                        </button>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="btn-prev" onclick="prevTab()">Anterior</button>
+                        <button class="btn-primary" onclick="saveProposta()">Salvar Proposta</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
+
