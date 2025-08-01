@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Contábil - Configurações do Escritório</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Menu Lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">Proposta Contábil</div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="gerar-proposta.html" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                <span class="menu-text">Gerar nova proposta</span>
+            </a>
+            <a href="minhas-propostas.html" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span class="menu-text">Minhas propostas</span>
+            </a>
+            <a href="clientes.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span class="menu-text">Cadastro de clientes</span>
+            </a>
+            <a href="configuracoes.html" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span class="menu-text">Configurações</span>
+            </a>
+        </nav>
+        
+        <div class="toggle-btn" id="toggleBtn">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <!-- Área Principal -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Configurações do Escritório</h1>
+            <div class="user-info">
+                <span>Bem-vindo, admin!</span>
+                <div class="user-avatar">A</div>
+                <button class="btn-action" onclick="logout()" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="config-container">
+                <div class="config-header">
+                    <h3>Dados do Escritório</h3>
+                    <p>Configure as informações do seu escritório contábil</p>
+                </div>
+                
+                <div class="config-content">
+                    <div id="alert" class="alert"></div>
+                    
+                    <form id="escritorioForm" onsubmit="saveConfig(event)">
+                        <div class="config-section">
+                            <h4 class="section-title">Informações Básicas</h4>
+                            
+                            <div class="logo-upload">
+                                <div class="logo-preview" id="logoPreview">
+                                    <i class="fas fa-image"></i>
+                                </div>
+                                <div>
+                                    <input type="file" id="logoInput" accept="image/*" style="display: none;" onchange="handleLogoUpload(event)">
+                                    <button type="button" class="upload-btn" onclick="document.getElementById('logoInput').click()">
+                                        <i class="fas fa-upload"></i> Carregar Logo
+                                    </button>
+                                    <p style="font-size: 12px; color: var(--color-gray-medium); margin-top: 5px;">
+                                        Formatos aceitos: JPG, PNG, GIF (máx. 2MB)
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nomeEscritorio">Nome do Escritório *</label>
+                                    <input type="text" id="nomeEscritorio" name="nomeEscritorio" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cnpjEscritorio">CNPJ *</label>
+                                    <input type="text" id="cnpjEscritorio" name="cnpjEscritorio" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emailEscritorio">E-mail *</label>
+                                    <input type="email" id="emailEscritorio" name="emailEscritorio" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefoneEscritorio">Telefone *</label>
+                                    <input type="tel" id="telefoneEscritorio" name="telefoneEscritorio" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="websiteEscritorio">Website</label>
+                                    <input type="url" id="websiteEscritorio" name="websiteEscritorio" class="form-control" placeholder="https://www.seusite.com.br">
+                                </div>
+                                <div class="form-group">
+                                    <label for="crcEscritorio">CRC</label>
+                                    <input type="text" id="crcEscritorio" name="crcEscritorio" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <h4 class="section-title">Endereço</h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="enderecoEscritorio">Endereço</label>
+                                    <input type="text" id="enderecoEscritorio" name="enderecoEscritorio" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bairroEscritorio">Bairro</label>
+                                    <input type="text" id="bairroEscritorio" name="bairroEscritorio" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cidadeEscritorio">Cidade</label>
+                                    <input type="text" id="cidadeEscritorio" name="cidadeEscritorio" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="estadoEscritorio">Estado</label>
+                                    <select id="estadoEscritorio" name="estadoEscritorio" class="form-control">
+                                        <option value="">Selecione...</option>
+                                        <option value="AC">Acre</option>
+                                        <option value="AL">Alagoas</option>
+                                        <option value="AP">Amapá</option>
+                                        <option value="AM">Amazonas</option>
+                                        <option value="BA">Bahia</option>
+                                        <option value="CE">Ceará</option>
+                                        <option value="DF">Distrito Federal</option>
+                                        <option value="ES">Espírito Santo</option>
+                                        <option value="GO">Goiás</option>
+                                        <option value="MA">Maranhão</option>
+                                        <option value="MT">Mato Grosso</option>
+                                        <option value="MS">Mato Grosso do Sul</option>
+                                        <option value="MG">Minas Gerais</option>
+                                        <option value="PA">Pará</option>
+                                        <option value="PB">Paraíba</option>
+                                        <option value="PR">Paraná</option>
+                                        <option value="PE">Pernambuco</option>
+                                        <option value="PI">Piauí</option>
+                                        <option value="RJ">Rio de Janeiro</option>
+                                        <option value="RN">Rio Grande do Norte</option>
+                                        <option value="RS">Rio Grande do Sul</option>
+                                        <option value="RO">Rondônia</option>
+                                        <option value="RR">Roraima</option>
+                                        <option value="SC">Santa Catarina</option>
+                                        <option value="SP">São Paulo</option>
+                                        <option value="SE">Sergipe</option>
+                                        <option value="TO">Tocantins</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cepEscritorio">CEP</label>
+                                    <input type="text" id="cepEscritorio" name="cepEscritorio" class="form-control" placeholder="00000-000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <h4 class="section-title">Responsável Técnico</h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="responsavelTecnico">Nome do Responsável Técnico</label>
+                                    <input type="text" id="responsavelTecnico" name="responsavelTecnico" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="crcResponsavel">CRC do Responsável</label>
+                                    <input type="text" id="crcResponsavel" name="crcResponsavel" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <h4 class="section-title">Descrição</h4>
+                            
+                            <div class="form-group">
+                                <label for="descricaoEscritorio">Descrição do Escritório</label>
+                                <textarea id="descricaoEscritorio" name="descricaoEscritorio" class="form-control" rows="4" placeholder="Descreva os serviços e diferenciais do seu escritório..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary" onclick="resetForm()">Restaurar</button>
+                            <button type="submit" class="btn-primary">Salvar Configurações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Verificar se está logado
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Função de logout
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Carregar configurações ao inicializar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+        });
+    </script>
+</body>
+</html>
+
