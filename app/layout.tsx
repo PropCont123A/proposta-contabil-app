@@ -27,7 +27,7 @@ export default function RootLayout({
                       <i className="fas fa-chart-line"></i>
                       <span className="menu-text">Dashboard</span>
                   </Link>
-                  <Link href="#" className="menu-item" data-page="gerar-proposta">
+                  <Link href="/propostas/nova" className="menu-item" data-page="gerar-proposta">
                       <i className="fas fa-plus-circle"></i>
                       <span className="menu-text">Gerar nova proposta</span>
                   </Link>
