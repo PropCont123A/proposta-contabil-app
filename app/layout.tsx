@@ -1,5 +1,6 @@
 import './globals.css';
 import Link from 'next/link';
+import Script from 'next/script';
 
 export default function RootLayout({
   children,
@@ -16,7 +17,7 @@ export default function RootLayout({
       </head>
       <body>
         <div className="flex-container">
-          {/* ===== MENU LATERAL (Fixo e Correto ) ===== */}
+          {/* ===== MENU LATERAL ===== */}
           <div className="sidebar" id="sidebar">
               <div className="sidebar-header">
                   <div className="logo">Proposta Contábil</div>
@@ -34,7 +35,7 @@ export default function RootLayout({
                       <i className="fas fa-file-alt"></i>
                       <span className="menu-text">Minhas propostas</span>
                   </Link>
-                  <Link href="#" className="menu-item" data-page="cadastro-clientes">
+                  <Link href="/clientes" className="menu-item" data-page="cadastro-clientes">
                       <i className="fas fa-users"></i>
                       <span className="menu-text">Cadastro de clientes</span>
                   </Link>
@@ -48,13 +49,12 @@ export default function RootLayout({
               </div>
           </div>
 
-          {/* ===== ÁREA PRINCIPAL (Agora mais simples) ===== */}
-          <div className="main-content">
-              {/* O header e o content agora são responsabilidade de cada página */}
-              {children}
-          </div>
+          {/* ===== ÁREA PRINCIPAL ===== */}
+          <main className="main-content">
+            {children} {/* AQUI ENTRA O CONTEÚDO DA PÁGINA ATUAL */}
+          </main>
         </div>
       </body>
     </html>
-  );
+   );
 }
