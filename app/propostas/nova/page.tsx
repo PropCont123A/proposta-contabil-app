@@ -15,13 +15,25 @@ export default function GerarNovaProposta() {
   const supabase = createClientComponentClient();
 
   return (
-    // CORREÇÃO: Usando a sintaxe de colchetes para nomes de classe com hífen
-    <div className={styles['gerar-proposta-container']}>
-      <header className={styles.header}>
+    <>
+      {/* Cabeçalho Padrão da Página */}
+      <header className="header">
         <h1>Gerar Nova Proposta</h1>
+        <div className="user-info">
+            <span>Bem-vindo, Emerson!</span>
+            <div className="user-avatar">E</div>
+        </div>
       </header>
 
-      <main className={styles.content}>
+      {/* Conteúdo Principal da Página */}
+      <main className="content">
+        {/*
+          CORREÇÃO:
+          Removemos o HTML duplicado das abas daqui.
+          Agora, apenas o componente <TabsContainer /> é responsável
+          por renderizar tanto o cabeçalho das abas quanto o seu conteúdo.
+          Isso garante que ele apareça apenas uma vez.
+        */}
         <TabsContainer
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -30,6 +42,6 @@ export default function GerarNovaProposta() {
           supabase={supabase}
         />
       </main>
-    </div>
+    </>
   );
 }

@@ -5,9 +5,12 @@ import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  
+  // Array atualizado com o novo item de menu
   const menuItems = [
     { href: '/dashboard', icon: 'fa-chart-line', text: 'Dashboard' },
     { href: '/propostas/nova', icon: 'fa-plus-circle', text: 'Gerar nova proposta' },
+    { href: '/propostas', icon: 'fa-file-alt', text: 'Minhas propostas' },
     { href: '/clientes', icon: 'fa-users', text: 'Cadastro de clientes' },
     { href: '/configuracoes', icon: 'fa-cog', text: 'Configurações' },
   ];
