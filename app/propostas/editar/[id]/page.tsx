@@ -1,13 +1,17 @@
 // app/propostas/editar/[id]/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+// 1. IMPORTAR 'use' DO REACT
+import { useState, useEffect, use } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-// Caminhos ajustados para a nova estrutura
 import TabsContainer from '../../nova/components/TabsContainer';
 import styles from '../../nova/styles/gerar-proposta.module.css';
 
-export default function EditarPropostaPage({ params }: { params: { id: string } }) {
+// A assinatura da função muda um pouco para aceitar a Promise
+export default function EditarPropostaPage({ params }: { params: Promise<{ id: string }> }) {
+  // 2. USAR React.use() PARA ACESSAR O ID
+  const { id } = use(params);
+
   const [formData, setFormData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
@@ -15,12 +19,12 @@ export default function EditarPropostaPage({ params }: { params: { id: string } 
 
   useEffect(() => {
     const fetchPropostaData = async () => {
-      if (!params.id) return; // Guarda de segurança
+      if (!id) return;
 
       const { data, error } = await supabase
         .from('propostas')
         .select('*')
-        .eq('id', params.id)
+        .eq('id', id) // Usa o 'id' que foi extraído com use()
         .single();
 
       if (error) {
@@ -52,25 +56,25 @@ export default function EditarPropostaPage({ params }: { params: { id: string } 
         setFormData(loadedFormData);
         setLoading(false);
       } else {
-        setLoading(false); // Caso não encontre dados
+        setLoading(false);
       }
     };
 
     fetchPropostaData();
-  }, [params.id, supabase]);
+  }, [id, supabase]); // A dependência agora é o 'id' extraído
 
   if (loading) {
     return <div>Carregando dados da proposta...</div>;
   }
 
   if (!formData) {
-    return <div>Proposta com ID {params.id} não encontrada.</div>;
+    return <div>Proposta com ID {id} não encontrada.</div>;
   }
 
   return (
     <>
       <header className="header">
-        <h1>Editar Proposta #{params.id}</h1>
+        <h1>Editar Proposta #{id}</h1>
         <div className="user-info">
             <span>Bem-vindo, Emerson!</span>
             <div className="user-avatar">E</div>
@@ -84,7 +88,7 @@ export default function EditarPropostaPage({ params }: { params: { id: string } 
           formData={formData}
           setFormData={setFormData}
           supabase={supabase}
-          propostaId={params.id} 
+          propostaId={id} 
         />
       </main>
     </>

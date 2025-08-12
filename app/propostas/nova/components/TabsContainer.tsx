@@ -1,20 +1,22 @@
+// app/propostas/nova/components/TabsContainer.tsx
 'use client';
 import { useState } from 'react';
+import styles from '../styles/gerar-proposta.module.css';
+
+// Importe todos os componentes de aba
 import DadosClienteTab from './DadosClienteTab';
 import ServicosTab from './ServicosTab';
 import CondicoesTab from './CondicoesTab';
 import ResumoTab from './ResumoTab';
 
-// Importando os estilos como um módulo
-import styles from '../styles/gerar-proposta.module.css';
-
-// Interface de propriedades
+// 1. ATUALIZE A INTERFACE DE PROPS PARA INCLUIR O ID OPCIONAL
 interface TabsContainerProps {
   activeTab: number;
   setActiveTab: (tab: number) => void;
   formData: any;
   setFormData: (data: any) => void;
   supabase: any;
+  propostaId?: string; // ID opcional para o modo de edição
 }
 
 export default function TabsContainer({
@@ -23,6 +25,7 @@ export default function TabsContainer({
   formData,
   setFormData,
   supabase,
+  propostaId, // Recebe a prop aqui
 }: TabsContainerProps) {
   const tabs = [
     { id: 0, label: 'Dados do cliente', component: DadosClienteTab },
@@ -44,16 +47,13 @@ export default function TabsContainer({
   };
 
   return (
-    // CORREÇÃO: Usando a sintaxe de colchetes para as classes
     <div className={styles['tabs-container']}>
+      {/* Cabeçalho das Abas */}
       <div className={styles['tabs-header']}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            // A lógica para a classe 'active' também usa a sintaxe de colchetes
-            className={`${styles['tab-button']} ${
-              activeTab === tab.id ? styles.active : ''
-            }`}
+            className={`${styles['tab-button']} ${activeTab === tab.id ? styles.active : ''}`}
             onClick={() => setActiveTab(tab.id)}
           >
             {tab.label}
@@ -61,15 +61,14 @@ export default function TabsContainer({
         ))}
       </div>
 
+      {/* Conteúdo das Abas */}
       <div className={styles['tab-content']}>
         {tabs.map((tab) => {
           const Component = tab.component;
           return (
             <div
               key={tab.id}
-              className={`${styles['tab-panel']} ${
-                activeTab === tab.id ? styles.active : ''
-              }`}
+              className={`${styles['tab-panel']} ${activeTab === tab.id ? styles.active : ''}`}
             >
               {activeTab === tab.id && (
                 <Component
@@ -80,6 +79,9 @@ export default function TabsContainer({
                   prevTab={prevTab}
                   isFirst={activeTab === 0}
                   isLast={activeTab === tabs.length - 1}
+                  // 2. PASSE O ID DA PROPOSTA PARA O COMPONENTE DA ABA ATIVA
+                  // O ResumoTab vai receber isso, os outros componentes vão ignorar
+                  propostaId={propostaId}
                 />
               )}
             </div>

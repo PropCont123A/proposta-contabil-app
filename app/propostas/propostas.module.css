@@ -1,21 +1,145 @@
 /* app/propostas/propostas.module.css */
-.mainContent { padding: 0; }
-.header { background-color: #FFFFFF; padding: 20px 30px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; }
-.header h1 { color: #343a40; font-size: 24px; font-weight: 600; }
-.content { padding: 30px; }
-.tableContainer { margin-top: 20px; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
-.proposalsTable { width: 100%; border-collapse: collapse; }
-.proposalsTable th, .proposalsTable td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #E5E5E5; font-size: 14px; }
-.proposalsTable th { background-color: #F9F9F9; font-weight: 600; color: #707070; }
-.proposalsTable tr:hover { background-color: #faf8ff; }
-.proposalsTable td { color: #1A1A1A; }
-.proposalsTable tr td:first-child { font-weight: 600; color: #B733F0; }
-.actionsCell { text-align: right; display: flex; gap: 10px; justify-content: flex-end; }
-.btn { padding: 12px 24px; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
-.btnPrimary { background: #B733F0; color: white; }
-.btnPrimary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(183, 51, 240, 0.3); }
-.btnAction { padding: 8px 12px; font-size: 12px; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; color: white; }
-.btnView { background-color: #5050FF; }
-.btnView:hover { background-color: #3a3ad8; }
-.btnDelete { background-color: #dc3545; }
-.btnDelete:hover { background-color: #c82333; }
+
+/* --- ESTRUTURA GERAL DA PÁGINA --- */
+.mainContent {
+  padding: 0;
+}
+
+.header {
+  background-color: #FFFFFF;
+  padding: 20px 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  color: #343a40;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.content {
+  padding: 30px;
+}
+
+/* --- BOTÃO PRINCIPAL (GERAR NOVA PROPOSTA) --- */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: #B733F0;
+  color: white;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(183, 51, 240, 0.3);
+}
+
+
+/* --- TABELA DE PROPOSTAS --- */
+.tableContainer {
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.proposalsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.proposalsTable th,
+.proposalsTable td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #E5E5E5;
+  font-size: 14px;
+  white-space: nowrap; /* Impede que o conteúdo quebre linha */
+}
+
+.proposalsTable th {
+  background-color: #F9F9F9;
+  font-weight: 600;
+  color: #707070;
+}
+
+.proposalsTable tr:hover {
+  background-color: #faf8ff;
+}
+
+.proposalsTable td {
+  color: #1A1A1A;
+}
+
+.proposalsTable tr td:first-child {
+  font-weight: 600;
+  color: #B733F0;
+}
+
+/* --- CABEÇALHO ORDENÁVEL (NOVA CLASSE) --- */
+.sortableHeader {
+  cursor: pointer;
+  user-select: none; /* Impede que o texto seja selecionado ao clicar */
+}
+.sortableHeader:hover {
+  background-color: #f0eef3;
+}
+
+
+/* --- CÉLULA DE AÇÕES --- */
+.actionsCell {
+  text-align: right;
+  display: flex;
+  gap: 4px; /* Diminuído o espaçamento entre os ícones */
+  justify-content: flex-end;
+}
+
+
+/* ================================================================== */
+/*  NOVOS ESTILOS PARA BOTÕES DE AÇÃO (MAIS LIMPOS) - SUBSTITUIÇÃO   */
+/* ================================================================== */
+
+/* Estilo base para todos os botões de ação */
+.btnAction {
+  background: none; /* Remove o fundo */
+  border: none; /* Remove a borda */
+  padding: 6px 8px; /* Espaçamento interno para área de clique */
+  cursor: pointer;
+  font-size: 16px; /* Tamanho do ícone */
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  line-height: 1; /* Garante alinhamento vertical do ícone */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Adiciona um fundo sutil ao passar o mouse */
+.btnAction:hover {
+  background-color: #f0f0f0;
+}
+
+/* Cores específicas para cada ícone */
+.btnAction.btnView i { color: #007bff; }
+.btnAction.btnEdit i { color: #ffc107; }
+.btnAction.btnPdf i { color: #e63946; }
+.btnAction.btnLink i { color: #17a2b8; }
+.btnAction.btnNotes i { color: #6c757d; }
+.btnAction.btnDelete i { color: #dc3545; }

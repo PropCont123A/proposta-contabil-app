@@ -1,24 +1,22 @@
+// app/propostas/nova/components/ResumoTab.tsx
 'use client';
 import { useState } from 'react';
 import styles from '../styles/gerar-proposta.module.css';
 
-// Interfaces para garantir que os dados do formData sejam lidos corretamente
 interface Servico {
   nome: string;
   valor: number;
   descricoes: { texto: string }[];
 }
 
-// 1. ATUALIZAÇÃO DA INTERFACE DE PROPS
 interface ResumoTabProps {
   formData: any;
   setFormData: (data: any) => void;
   supabase: any;
   prevTab: () => void;
-  propostaId?: string; // ID opcional para o modo de edição
+  propostaId?: string;
 }
 
-// 2. ATUALIZAÇÃO DA ASSINATURA DA FUNÇÃO
 export default function ResumoTab({ formData, setFormData, supabase, prevTab, propostaId }: ResumoTabProps) {
   const [openAccordion, setOpenAccordion] = useState<string | null>('dados');
 
@@ -32,7 +30,6 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   };
 
-  // 3. ATUALIZAÇÃO DA LÓGICA DE SALVAMENTO
   const handleSaveProposal = async () => {
     alert('Salvando proposta, por favor aguarde...');
 
@@ -40,6 +37,7 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
       tipo_negociacao: dadosCliente?.tipoNegociacao,
       status_negociacao: dadosCliente?.statusNegociacao,
       vendedor_responsavel: dadosCliente?.vendedorResponsavel,
+      // Agora enviamos o texto direto, que já está correto
       clientes_contato: dadosCliente?.clientes,
       empresas: dadosCliente?.empresas,
       telefone: dadosCliente?.telefone,
@@ -54,11 +52,10 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
     };
 
     if (propostaId) {
-      // MODO UPDATE: Se um ID de proposta foi passado, atualizamos a existente.
       const { data, error } = await supabase
         .from('propostas')
         .update(propostaParaSalvar)
-        .eq('id', propostaId) // A condição WHERE para saber qual proposta atualizar
+        .eq('id', propostaId)
         .select();
 
       if (error) {
@@ -67,11 +64,9 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
       } else {
         console.log('Proposta atualizada com sucesso:', data);
         alert('Proposta atualizada com sucesso!');
-        // Redireciona para a lista de propostas após a edição
         window.location.href = '/propostas';
       }
     } else {
-      // MODO INSERT: Se não há ID, criamos uma nova proposta.
       const { data, error } = await supabase
         .from('propostas')
         .insert([propostaParaSalvar])
@@ -83,7 +78,6 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
       } else {
         console.log('Proposta salva com sucesso:', data);
         alert('Proposta salva com sucesso!');
-        // Redireciona para a lista de propostas após a criação
         window.location.href = '/propostas';
       }
     }
@@ -93,9 +87,7 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
     <div>
       <h2 className={styles['review-main-title']}>Resumo da Proposta</h2>
 
-      {/* --- ACORDEÃO --- */}
       <div className={styles['accordion-container']}>
-        {/* Seção Dados do Cliente */}
         <div className={styles['accordion-item']}>
           <button type="button" className={styles['accordion-header']} onClick={() => toggleAccordion('dados')}>
             Dados do Cliente
@@ -104,8 +96,12 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
           {openAccordion === 'dados' && (
             <div className={styles['accordion-content']}>
               <p><strong>Vendedor:</strong> {dadosCliente?.vendedorResponsavel || 'Não informado'}</p>
-              <p><strong>Cliente:</strong> {dadosCliente?.clientes?.join(', ') || 'Não informado'}</p>
-              <p><strong>Empresa:</strong> {dadosCliente?.empresas?.join(', ') || 'Não informado'}</p>
+              {/* ================================================================== */}
+              {/*  CORREÇÃO AQUI: Removido o .join() */}
+              {/* ================================================================== */}
+              <p><strong>Cliente:</strong> {dadosCliente?.clientes || 'Não informado'}</p>
+              <p><strong>Empresa:</strong> {dadosCliente?.empresas || 'Não informado'}</p>
+              {/* ================================================================== */}
               <p><strong>Telefone:</strong> {dadosCliente?.telefone || 'Não informado'}</p>
               <p><strong>Data da proposta:</strong> {dadosCliente?.dataProposta ? new Date(dadosCliente.dataProposta).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'Não informado'}</p>
               <p><strong>Validade:</strong> {dadosCliente?.validadeProposta ? `${dadosCliente.validadeProposta} dias` : 'Não informado'}</p>
@@ -113,7 +109,6 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
           )}
         </div>
 
-        {/* Seção Serviços */}
         <div className={styles['accordion-item']}>
           <button type="button" className={styles['accordion-header']} onClick={() => toggleAccordion('servicos')}>
             Serviços
@@ -135,7 +130,6 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
           )}
         </div>
 
-        {/* Seção Condições de Pagamento */}
         <div className={styles['accordion-item']}>
           <button type="button" className={styles['accordion-header']} onClick={() => toggleAccordion('condicoes')}>
             Condições de Pagamento
@@ -154,7 +148,6 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
         </div>
       </div>
 
-      {/* --- BARRA DE AÇÕES INFERIOR --- */}
       <div className={styles['actions-bar']}>
         <button type="button" className={styles['action-btn-pdf']}><i className="fas fa-file-pdf"></i> Gerar PDF</button>
         <button type="button" className={styles['action-btn-link']}><i className="fas fa-link"></i> Gerar Link</button>
@@ -162,13 +155,11 @@ export default function ResumoTab({ formData, setFormData, supabase, prevTab, pr
         <button type="button" className={styles['action-btn-email']}><i className="fas fa-envelope"></i> Enviar por E-mail</button>
       </div>
 
-      {/* --- NAVEGAÇÃO FINAL --- */}
       <div className={`${styles['form-navigation']} ${styles['space-between']}`}>
         <button type="button" onClick={prevTab} className={`${styles['btn-nav']} ${styles['btn-prev']}`}>
           Anterior
         </button>
         <button type="button" onClick={handleSaveProposal} className={`${styles['btn-nav']} ${styles['btn-save']}`}>
-          {/* O texto do botão muda se estivermos em modo de edição */}
           {propostaId ? 'Atualizar Proposta' : 'Salvar Proposta'}
         </button>
       </div>

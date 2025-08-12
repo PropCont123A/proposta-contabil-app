@@ -1,8 +1,9 @@
+// app/propostas/nova/components/DadosClienteTab.tsx
 'use client';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { InputMask } from '@react-input/mask';
+import { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form'; // Importe o Controller
 import styles from '../styles/gerar-proposta.module.css';
+import { IMaskInput } from 'react-imask'; // Importe o IMaskInput da nova biblioteca
 
 interface DadosClienteTabProps {
   formData: any;
@@ -11,129 +12,139 @@ interface DadosClienteTabProps {
   nextTab: () => void;
 }
 
-export default function DadosClienteTab({ formData, setFormData, supabase, nextTab }: DadosClienteTabProps) {
-  const [clientesSelecionados, setClientesSelecionados] = useState(['']);
-  const [empresas, setEmpresas] = useState(['']);
-  const { register, handleSubmit } = useForm({ defaultValues: formData.dadosCliente || {} });
+export default function DadosClienteTab({ formData, setFormData, nextTab, supabase }: DadosClienteTabProps) {
+  const { register, handleSubmit, watch, control } = useForm({ // Adicione 'control'
+    defaultValues: formData.dadosCliente || {},
+  });
 
-  const addCliente = () => setClientesSelecionados([...clientesSelecionados, '']);
-  const removeCliente = (index: number) => setClientesSelecionados(clientesSelecionados.filter((_, i) => i !== index));
-  const addEmpresa = () => setEmpresas([...empresas, '']);
-  const removeEmpresa = (index: number) => setEmpresas(empresas.filter((_, i) => i !== index));
+  const formValues = watch();
 
-  const onSubmit = (data: any) => {
-    setFormData({
-      ...formData,
-      dadosCliente: {
-        ...data,
-        clientes: clientesSelecionados.filter((c) => c.trim()),
-        empresas: empresas.filter((e) => e.trim()),
-      },
-    });
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setFormData({
+        ...formData,
+        dadosCliente: formValues,
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [formValues, setFormData, formData]);
+
+  const onSubmit = () => {
     nextTab();
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className={styles['form-row']}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles['form-container']}>
+      <div className={styles['form-grid']}>
+        {/* Tipo de negociação */}
         <div className={styles['form-group']}>
           <label>Tipo de negociação</label>
           <select {...register('tipoNegociacao')} className={styles['form-control']}>
             <option value="">Selecione</option>
             <option value="cliente-novo">Cliente novo</option>
             <option value="cliente-existente">Cliente existente</option>
+            <option value="cliente-outra-contabilidade">Cliente de outra contabilidade</option>
           </select>
         </div>
+
+        {/* Status da negociação */}
         <div className={styles['form-group']}>
           <label>Status da negociação</label>
           <select {...register('statusNegociacao')} className={styles['form-control']}>
             <option value="">Selecione</option>
-            <option value="em-negociacao">Em negociação</option>
-            <option value="contratado">Contratado</option>
+            <option value="Em negociação">Em negociação</option>
+            <option value="Contratado">Contratado</option>
+            <option value="Desistente">Desistente</option>
           </select>
         </div>
+
+        {/* Vendedor responsável */}
         <div className={styles['form-group']}>
           <label>Vendedor responsável</label>
           <select {...register('vendedorResponsavel')} className={styles['form-control']}>
             <option value="">Selecione</option>
             <option value="emerson">Emerson Silva</option>
+            <option value="maria">Maria Santos</option>
+            <option value="joao">João Oliveira</option>
           </select>
         </div>
       </div>
 
-      <div className={styles['form-group']} style={{ marginBottom: '25px' }}>
+      {/* Clientes e Empresas */}
+      <div className={styles['form-group']}>
         <label>Nome do cliente (pessoa de contato)</label>
-        <div className={styles['dynamic-fields-container']}>
-          {clientesSelecionados.map((cliente, index) => (
-            <div key={index} className={styles['dynamic-field']}>
-              <input
-                type="text"
-                className={styles['form-control']}
-                placeholder="Adicionar novo cliente"
-                value={cliente}
-                onChange={(e) => {
-                  const newClientes = [...clientesSelecionados];
-                  newClientes[index] = e.target.value;
-                  setClientesSelecionados(newClientes);
-                }}
-              />
-              {index === clientesSelecionados.length - 1 ? (
-                <button type="button" className={styles['btn-add-dynamic']} onClick={addCliente}>+</button>
-              ) : (
-                <button type="button" className={`${styles['btn-remove-dynamic']} ${styles['btn-danger']}`} onClick={() => removeCliente(index)}>x</button>
-              )}
-            </div>
-          ))}
-        </div>
+        <input
+          type="text"
+          {...register('clientes')}
+          className={styles['form-control']}
+          placeholder="Digite o nome do cliente"
+        />
       </div>
 
-      <div className={styles['form-group']} style={{ marginBottom: '25px' }}>
-        {/* APLICAÇÃO DA CLASSE CORRETA */}
-        <label className={styles['label-with-button']}>
-          <span>Nome da empresa</span>
-          <button type="button" className={styles['btn-special']} onClick={() => window.open('/clientes', '_blank')}>
-            CADASTRO DE CLIENTES
+      <div className={styles['form-group']}>
+        <div className={styles['label-with-button']}>
+          <label>Nome da empresa</label>
+          <button type="button" className={styles['btn-special']}>
+            <i className="fas fa-users"></i> CADASTRO DE CLIENTES
           </button>
-        </label>
-        <div className={styles['dynamic-fields-container']}>
-          {empresas.map((empresa, index) => (
-            <div key={index} className={styles['dynamic-field']}>
-              <input
-                type="text"
-                className={styles['form-control']}
-                placeholder="Adicionar nova empresa"
-                value={empresa}
-                onChange={(e) => {
-                  const newEmpresas = [...empresas];
-                  newEmpresas[index] = e.target.value;
-                  setEmpresas(newEmpresas);
-                }}
-              />
-              {index === empresas.length - 1 ? (
-                <button type="button" className={styles['btn-add-dynamic']} onClick={addEmpresa}>+</button>
-              ) : (
-                <button type="button" className={`${styles['btn-remove-dynamic']} ${styles['btn-danger']}`} onClick={() => removeEmpresa(index)}>x</button>
-              )}
-            </div>
-          ))}
         </div>
+        <input
+          type="text"
+          {...register('empresas')}
+          className={styles['form-control']}
+          placeholder="Digite o nome da empresa"
+        />
       </div>
 
-      <div className={styles['form-row']}>
+      {/* Outros campos */}
+      <div className={styles['form-grid']}>
         <div className={styles['form-group']}>
           <label>Telefone / WhatsApp</label>
-          <InputMask {...register('telefone')} component="input" mask="(__) _____-____" replacement={{ _: /\d/ }} className={styles['form-control']} placeholder="(00) 00000-0000" />
+          {/* ================================================================== */}
+          {/*  A MUDANÇA PARA USAR react-imask */}
+          {/* ================================================================== */}
+          <Controller
+            name="telefone"
+            control={control}
+            render={({ field }) => (
+              <IMaskInput
+                {...field}
+                mask="(00) 00000-0000"
+                placeholder="(00) 00000-0000"
+                className={styles['form-control']}
+                onAccept={(value: any) => field.onChange(value)}
+              />
+            )}
+          />
+          {/* ================================================================== */}
         </div>
         <div className={styles['form-group']}>
           <label>Data da Proposta</label>
-          <input type="date" {...register('dataProposta')} className={styles['form-control']} defaultValue={new Date().toISOString().split('T')[0]} />
+          <input
+            type="date"
+            {...register('dataProposta')}
+            className={styles['form-control']}
+            defaultValue={new Date().toISOString().split('T')[0]}
+          />
         </div>
         <div className={styles['form-group']}>
           <label>Validade da proposta (dias)</label>
-          <input type="number" {...register('validadeProposta')} className={styles['form-control']} placeholder="30" min="1" max="365" defaultValue="30" />
+          <input
+            type="number"
+            {...register('validadeProposta')}
+            className={styles['form-control']}
+            placeholder="30"
+            min="1"
+            max="365"
+            defaultValue="30"
+          />
         </div>
       </div>
 
+      {/* Navegação */}
       <div className={styles['form-navigation']}>
         <button type="submit" className={`${styles['btn-nav']} ${styles['btn-next']}`}>
           Próximo

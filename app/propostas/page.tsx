@@ -2,15 +2,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link'; // A importação já está aqui, perfeito!
+import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import styles from './propostas.module.css';
 
-// Definindo a interface para os dados que esperamos do Supabase
 interface Proposta {
   id: number;
-  clientes_contato: string[]; // Ajustado para array de strings simples
-  empresas: string[];
+  clientes_contato: string;
+  empresas: string;
   data_proposta: string;
   status: string;
   valor_total_recorrente: number;
@@ -20,6 +19,8 @@ interface Proposta {
 export default function MinhasPropostasPage() {
   const [propostas, setPropostas] = useState<Proposta[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortColumn, setSortColumn] = useState('id');
+  const [sortDirection, setSortDirection] = useState('desc');
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -28,11 +29,10 @@ export default function MinhasPropostasPage() {
       const { data, error } = await supabase
         .from('propostas')
         .select(`id,clientes_contato,empresas,data_proposta,status,valor_total_recorrente,valor_total_eventual`)
-        .order('data_proposta', { ascending: false });
+        .order(sortColumn, { ascending: sortDirection === 'asc' });
 
       if (error) {
         console.error('Erro ao buscar propostas:', error);
-        alert('Não foi possível carregar as propostas.');
       } else {
         setPropostas(data || []);
       }
@@ -40,7 +40,13 @@ export default function MinhasPropostasPage() {
     };
 
     fetchPropostas();
-  }, [supabase]);
+  }, [supabase, sortColumn, sortDirection]);
+
+  const handleSort = (columnName: string) => {
+    const newDirection = sortColumn === columnName && sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortColumn(columnName);
+    setSortDirection(newDirection);
+  };
 
   const formatCurrency = (value: number = 0) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -51,12 +57,15 @@ export default function MinhasPropostasPage() {
       const { error } = await supabase.from('propostas').delete().match({ id });
       if (error) {
         alert('Falha ao excluir a proposta.');
-        console.error(error);
       } else {
-        alert('Proposta excluída com sucesso!');
         setPropostas(propostas.filter(p => p.id !== id));
       }
     }
+  };
+
+  const getSortIcon = (columnName: string) => {
+    if (sortColumn !== columnName) return null;
+    return sortDirection === 'asc' ? ' ▲' : ' ▼';
   };
 
   return (
@@ -75,34 +84,54 @@ export default function MinhasPropostasPage() {
           <table className={styles.proposalsTable}>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Empresa</th>
-                <th>Data</th>
-                <th>Status</th>
+                <th onClick={() => handleSort('id')} className={styles.sortableHeader}>
+                  Nº da Proposta{getSortIcon('id')}
+                </th>
+                <th onClick={() => handleSort('clientes_contato')} className={styles.sortableHeader}>
+                  Cliente{getSortIcon('clientes_contato')}
+                </th>
+                <th onClick={() => handleSort('empresas')} className={styles.sortableHeader}>
+                  Empresa{getSortIcon('empresas')}
+                </th>
+                <th onClick={() => handleSort('data_proposta')} className={styles.sortableHeader}>
+                  Data{getSortIcon('data_proposta')}
+                </th>
+                <th onClick={() => handleSort('status')} className={styles.sortableHeader}>
+                  Status{getSortIcon('status')}
+                </th>
                 <th>Valor Total</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center' }}>Carregando propostas...</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center' }}>Carregando...</td></tr>
               ) : propostas.length > 0 ? (
                 propostas.map(proposta => (
                   <tr key={proposta.id}>
                     <td>#{proposta.id}</td>
-                    <td>{proposta.clientes_contato?.[0] || 'N/A'}</td>
-                    <td>{proposta.empresas?.[0] || 'N/A'}</td>
+                    <td>{proposta.clientes_contato || 'N/A'}</td>
+                    <td>{proposta.empresas || 'N/A'}</td>
                     <td>{new Date(proposta.data_proposta).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</td>
                     <td>{proposta.status}</td>
                     <td>{formatCurrency((proposta.valor_total_recorrente || 0) + (proposta.valor_total_eventual || 0))}</td>
                     <td className={styles.actionsCell}>
-                      {/* ===== AQUI ESTÁ A MUDANÇA ===== */}
-                      <Link href={`/propostas/editar/${proposta.id}`} className={`${styles.btnAction} ${styles.btnView}`}>
+                      {/* ================================================================== */}
+                      {/*  CORREÇÃO AQUI: Aplicando as classes corretamente */}
+                      {/* ================================================================== */}
+                      <Link href={`/propostas/editar/${proposta.id}`} className={`${styles.btnAction} ${styles.btnView}`} title="Visualizar/Editar Proposta">
                         <i className="fas fa-eye"></i>
                       </Link>
-                      {/* ================================ */}
-                      <button onClick={() => handleDelete(proposta.id)} className={`${styles.btnAction} ${styles.btnDelete}`}>
+                      <button onClick={() => alert(`Gerar PDF para proposta #${proposta.id}`)} className={`${styles.btnAction} ${styles.btnPdf}`} title="Gerar PDF">
+                        <i className="fas fa-file-pdf"></i>
+                      </button>
+                      <button onClick={() => alert(`Gerar link para proposta #${proposta.id}`)} className={`${styles.btnAction} ${styles.btnLink}`} title="Gerar Link">
+                        <i className="fas fa-link"></i>
+                      </button>
+                      <button onClick={() => alert(`Ver observações da proposta #${proposta.id}`)} className={`${styles.btnAction} ${styles.btnNotes}`} title="Adicionar/Ver Observações">
+                        <i className="fas fa-comment-dots"></i>
+                      </button>
+                      <button onClick={() => handleDelete(proposta.id)} className={`${styles.btnAction} ${styles.btnDelete}`} title="Excluir Proposta">
                         <i className="fas fa-trash"></i>
                       </button>
                     </td>
