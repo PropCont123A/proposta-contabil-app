@@ -1,57 +1,43 @@
+'use client';
+
 import './globals.css';
-import Link from 'next/link';
-import Script from 'next/script';
+import { useState } from 'react';
+import Sidebar from './components/Sidebar'; // Caminho CORRETO
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Estado para controlar se o menu está recolhido ou não (inicia revelado)
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // Função para alternar o estado do menu, passada para o componente Sidebar
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <html lang="pt-BR">
       <head>
+        {/* O Next.js gerencia o <head>, mas manteremos o Font Awesome aqui por simplicidade */}
         <link
           rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
         />
       </head>
       <body>
         <div className="flex-container">
-          {/* ===== MENU LATERAL ===== */}
-          <div className="sidebar" id="sidebar">
-              <div className="sidebar-header">
-                  <div className="logo">Proposta Contábil</div>
-              </div>
-              <nav className="sidebar-menu">
-                  <Link href="/" className="menu-item" data-page="dashboard">
-                      <i className="fas fa-chart-line"></i>
-                      <span className="menu-text">Dashboard</span>
-                  </Link>
-                  <Link href="/propostas/nova" className="menu-item" data-page="gerar-proposta">
-                      <i className="fas fa-plus-circle"></i>
-                      <span className="menu-text">Gerar nova proposta</span>
-                  </Link>
-                  <Link href="#" className="menu-item" data-page="minhas-propostas">
-                      <i className="fas fa-file-alt"></i>
-                      <span className="menu-text">Minhas propostas</span>
-                  </Link>
-                  <Link href="/clientes" className="menu-item" data-page="cadastro-clientes">
-                      <i className="fas fa-users"></i>
-                      <span className="menu-text">Cadastro de clientes</span>
-                  </Link>
-                  <Link href="/configuracoes" className="menu-item" data-page="configuracoes">
-                      <i className="fas fa-cog"></i>
-                      <span className="menu-text">Configurações</span>
-                  </Link>
-              </nav>
-              <div className="toggle-btn" id="toggleBtn">
-                  <i className="fas fa-chevron-left"></i>
-              </div>
-          </div>
+          {/* ===== MENU LATERAL DINÂMICO ===== */}
+          <Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 
           {/* ===== ÁREA PRINCIPAL ===== */}
-          <main className="main-content">
-            {children} {/* AQUI ENTRA O CONTEÚDO DA PÁGINA ATUAL */}
+          {/* A classe 'sidebar-collapsed' é adicionada dinamicamente para ajustar a margem */}
+          <main className={`main-content ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
+            {children} {/* Aqui entra o conteúdo da página atual */}
           </main>
         </div>
       </body>
