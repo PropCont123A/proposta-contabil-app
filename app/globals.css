@@ -703,8 +703,8 @@ body {
 .btn-action-delete:hover { background-color: #dc3545; color: white; }
 
 .services-table .service-name {
-  font-weight: 700;
-  color: #343a40; /* Um tom de preto um pouco mais suave */
+  font-weight: 500;
+  color: #000000; /* Um tom de preto um pouco mais suave */
 }
 
 /* Estilos para a barra de pesquisa */
@@ -783,4 +783,450 @@ body {
 .pagination-controls button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+/* ================== ESTILOS PARA O NOVO MODAL ================== */
+
+/* Aumenta o tamanho do modal para acomodar o novo layout */
+.modal-content.modal-lg {
+  max-width: 800px; /* Largura maior */
+}
+
+/* Reorganiza o modal para ter cabeçalho, corpo e rodapé */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.modal-body {
+  padding: 24px 0;
+}
+
+/* Estilos para as seções expansíveis (Accordion) */
+.form-section {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden; /* Garante que o conteúdo não vaze */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  user-select: none;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.section-header i {
+  transition: transform 0.3s ease;
+}
+
+.section-header i.open {
+  transform: rotate(180deg);
+}
+
+.section-content {
+  padding: 16px;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Layout em Grid para os campos do formulário */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Permite que um item ocupe mais de uma coluna */
+.span-2 {
+  grid-column: span 2;
+}
+.span-3 {
+  grid-column: span 3;
+}
+
+/* Estilos para agrupar um input com um botão */
+.input-with-button {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-button .modal-input {
+  flex-grow: 1; /* Faz o input ocupar o espaço disponível */
+}
+
+.btn-input-action {
+  flex-shrink: 0; /* Impede que o botão encolha */
+  padding: 0 12px;
+  border: 1px solid #ced4da;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-input-action:hover {
+  background-color: #e9ecef;
+}
+
+/* app/globals.css */
+
+/* ... (seus outros estilos) ... */
+
+/* Barra de Ferramentas da Tabela (Pesquisa e Filtros) */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+}
+
+/* Rodapé da Paginação */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Estilos para os botões de ação com ícones */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-action-icon:hover {
+  color: #343a40;
+}
+
+.btn-action-icon.btn-delete:hover {
+  color: #dc3545;
+}
+
+/* app/globals.css */
+
+/* ... (seus outros estilos existentes) ... */
+
+/* BARRA DE FERRAMENTAS PADRONIZADA (USADA EM SERVIÇOS, CLIENTES E PROPOSTAS) */
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+  font-size: 14px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+}
+
+/* Garante que a tabela não quebre o layout */
+.table-wrapper {
+  overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
+}
+
+/* RODAPÉ DA PAGINAÇÃO PADRONIZADO */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* BOTÕES DE AÇÃO PADRONIZADOS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-action-icon:hover {
+  color: #343a40;
+}
+
+.btn-action-icon.btn-delete:hover {
+  color: #dc3545;
+}
+
+/* =============================================================== */
+/* ESTILOS ADICIONAIS PARA A TELA DE PROPOSTAS E PADRONIZAÇÃO      */
+/* Adicione este bloco ao FINAL do seu arquivo app/globals.css     */
+/* =============================================================== */
+
+/* Remove o sublinhado de links com a classe de botão */
+.btn-primary, .btn-secondary {
+  text-decoration: none;
+}
+
+/* Cores para os ícones de ação específicos */
+.btn-action-icon.btn-view:hover { color: #007bff; } /* Azul para visualizar */
+.btn-action-icon.btn-pdf:hover { color: #dc3545; } /* Vermelho para PDF */
+.btn-action-icon.btn-link:hover { color: #28a745; } /* Verde para link */
+.btn-action-icon.btn-notes:hover { color: #ffc107; } /* Amarelo para notas */
+
+/* =============================================================== */
+/* ESTILOS FINAIS PARA PADRONIZAÇÃO DAS TABELAS                    */
+/* Substitua as regras anteriores por este bloco                   */
+/* =============================================================== */
+
+/* BARRA DE FERRAMENTAS PADRONIZADA */
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  gap: 16px; /* Adiciona um espaço entre os grupos */
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toolbar-right {
+  display: flex;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+  font-size: 14px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+}
+
+/* Garante que a tabela não quebre o layout */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* RODAPÉ DA PAGINAÇÃO PADRONIZADO */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* BOTÕES DE AÇÃO PADRONIZADOS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.btn-action-icon:hover {
+  transform: scale(1.1); /* Efeito de zoom sutil ao passar o mouse */
+}
+
+/* ÍCONES SEMPRE COLORIDOS */
+.btn-action-icon.btn-view { color: #007bff; }
+.btn-action-icon.btn-pdf { color: #dc3545; }
+.btn-action-icon.btn-link { color: #28a745; }
+.btn-action-icon.btn-notes { color: #ffc107; }
+.btn-action-icon.btn-delete { color: #6c757d; } /* Cinza padrão */
+.btn-action-icon.btn-delete:hover { color: #dc3545; } /* Vermelho ao passar o mouse */
+
+/* Remove o sublinhado de links com a classe de botão */
+.btn-primary, .btn-secondary {
+  text-decoration: none;
 }
