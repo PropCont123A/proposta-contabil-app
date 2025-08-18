@@ -12,9 +12,9 @@ interface SidebarProps {
 
 const menuItems = [
   { href: '/', icon: 'fa-solid fa-chart-pie', text: 'Dashboard' },
-  { href: '/propostas/nova', icon: 'fa-solid fa-plus-circle', text: 'Gerar nova proposta' },
-  { href: '/propostas', icon: 'fa-solid fa-file-invoice-dollar', text: 'Minhas propostas' },
-  { href: '/clientes', icon: 'fa-solid fa-users', text: 'Cadastro de clientes' },
+  { href: '/propostas/nova', icon: 'fa-solid fa-plus-circle', text: 'Gerar Nova Proposta' },
+  { href: '/propostas', icon: 'fa-solid fa-file-invoice-dollar', text: 'Minhas Propostas' },
+  { href: '/clientes', icon: 'fa-solid fa-users', text: 'Cadastro de Clientes' },
   { href: '/configuracoes', icon: 'fa-solid fa-cog', text: 'Configurações' },
 ];
 

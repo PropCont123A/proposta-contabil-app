@@ -1,97 +1,100 @@
-// app/configuracoes/servicos/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react'; // Importamos o useMemo
 import { supabase } from '../../../lib/supabaseClient';
+import ServiceModal from '../../components/ServiceModal';
+import CategoryTag from '../../components/CategoryTag';
 
-type Servico = {
+// Definindo o tipo de serviço para clareza
+export type Servico = {
   id: number;
   nome: string;
-  descricao: string; // Agora vamos tratar como um array de strings
+  descricao: string[];
   valor: number;
-  categoria: string;
+  categoria: 'Recorrente' | 'Eventual';
 };
+
+// Definindo o tipo para a configuração de ordenação
+type SortConfig = {
+  key: keyof Servico;
+  direction: 'ascending' | 'descending';
+} | null;
 
 export default function CadastroServicosPage() {
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentServico, setCurrentServico] = useState<Partial<Servico>>({});
-  const [descricoes, setDescricoes] = useState<string[]>(['']); // Estado para as descrições dinâmicas
-  const [isEditing, setIsEditing] = useState(false);
+  const [serviceToEdit, setServiceToEdit] = useState<Servico | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // ======================= ESTADOS PARA ORDENAÇÃO E PAGINAÇÃO =======================
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'nome', direction: 'ascending' });
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10; // Defina quantos itens por página você quer
+  // =================================================================================
 
+  // Função para buscar os serviços (sem alterações)
   async function fetchServicos() {
     const { data, error } = await supabase.from('servicos').select('*').order('id', { ascending: true });
-    if (error) {
-      console.error('Erro ao buscar serviços:', error);
-    } else {
-      setServicos(data);
-    }
+    if (error) console.error('Erro ao buscar serviços:', error);
+    else if (data) setServicos(data);
   }
 
-  useEffect(() => {
-    fetchServicos();
-  }, []);
+  useEffect(() => { fetchServicos(); }, []);
 
-  const handleOpenModal = (servico: Partial<Servico> = {}) => {
-    setIsEditing(!!servico.id);
-    setCurrentServico(servico);
-    // Se estiver editando e a descrição for um array, use-a. Senão, comece com um campo vazio.
-    const descricoesIniciais = Array.isArray(servico.descricao) ? servico.descricao : [''];
-    setDescricoes(descricoesIniciais.length > 0 ? descricoesIniciais : ['']);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setCurrentServico({});
-    setDescricoes(['']);
-  };
-
-  const handleSave = async () => {
-    // Filtra descrições vazias antes de salvar
-    const descricoesFinais = descricoes.filter(d => d.trim() !== '');
-
-    const servicoToSave = {
-      nome: currentServico.nome,
-      descricao: descricoesFinais, // Salva o array de descrições
-      valor: currentServico.valor,
-      categoria: currentServico.categoria,
-    };
-
-    if (isEditing) {
-      const { error } = await supabase.from('servicos').update(servicoToSave).eq('id', currentServico.id);
-      if (error) console.error('Erro ao atualizar:', error);
-    } else {
-      const { error } = await supabase.from('servicos').insert([servicoToSave]);
-      if (error) console.error('Erro ao inserir:', error);
-    }
-    
-    fetchServicos();
-    handleCloseModal();
-  };
-
+  // Funções do Modal (sem alterações)
+  const handleOpenModal = (servico?: Servico) => { setServiceToEdit(servico || null); setIsModalOpen(true); };
+  const handleCloseModal = () => { setIsModalOpen(false); setServiceToEdit(null); };
+  const handleSaveSuccess = () => { fetchServicos(); handleCloseModal(); };
   const handleDelete = async (id: number) => {
     if (window.confirm('Tem certeza que deseja excluir este serviço?')) {
       const { error } = await supabase.from('servicos').delete().eq('id', id);
-      if (error) console.error('Erro ao deletar:', error);
-      fetchServicos();
+      if (error) alert('Ocorreu um erro ao deletar o serviço.');
+      else fetchServicos();
     }
   };
 
-  // Funções para gerenciar as descrições dinâmicas
-  const handleDescricaoChange = (index: number, value: string) => {
-    const novasDescricoes = [...descricoes];
-    novasDescricoes[index] = value;
-    setDescricoes(novasDescricoes);
-  };
+  // ======================= LÓGICA DE PROCESSAMENTO DE DADOS =======================
+  const processedServicos = useMemo(() => {
+    let processableServicos = [...servicos];
 
-  const addDescricaoField = () => {
-    setDescricoes([...descricoes, '']);
-  };
+    // 1. Filtrar
+    if (searchTerm) {
+      processableServicos = processableServicos.filter(servico =>
+        servico.nome.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
 
-  const removeDescricaoField = (index: number) => {
-    const novasDescricoes = descricoes.filter((_, i) => i !== index);
-    setDescricoes(novasDescricoes);
+    // 2. Ordenar
+    if (sortConfig !== null) {
+      processableServicos.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    return processableServicos;
+  }, [servicos, searchTerm, sortConfig]);
+
+  // 3. Paginar (calculado a partir dos dados já processados)
+  const totalPages = Math.ceil(processedServicos.length / ITEMS_PER_PAGE);
+  const paginatedServicos = processedServicos.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+  // =================================================================================
+
+  // Função para solicitar a ordenação
+  const requestSort = (key: keyof Servico) => {
+    let direction: 'ascending' | 'descending' = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
   };
 
   return (
@@ -107,101 +110,76 @@ export default function CadastroServicosPage() {
       <main className="content">
         <div className="content-box">
           <div className="content-box-header">
-            <h2>Gerenciar Serviços</h2>
+            <div className="search-container" style={{ flexGrow: 1 }}>
+              <i className="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                placeholder="Pesquisar por nome do serviço..."
+                className="search-input"
+                value={searchTerm}
+                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} // Reseta para a pág 1 ao pesquisar
+              />
+            </div>
             <button onClick={() => handleOpenModal()} className="btn-primary">
-              <i className="fas fa-plus"></i> Adicionar Novo Serviço
+              <i className="fas fa-plus" style={{ marginRight: '8px' }}></i> Adicionar Novo Serviço
             </button>
           </div>
           
           <table className="services-table">
             <thead>
               <tr>
-                <th>Tipo de Serviço</th>
+                {/* ======================= CABEÇALHOS CLICÁVEIS ======================= */}
+                <th onClick={() => requestSort('nome')} className="sortable-header">
+                  Tipo de Serviço <i className={`fas ${sortConfig?.key === 'nome' ? (sortConfig.direction === 'ascending' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'}`}></i>
+                </th>
                 <th>Descrição</th>
-                <th>Valor</th>
-                <th>Categoria</th>
+                <th onClick={() => requestSort('valor')} className="sortable-header">
+                  Valor <i className={`fas ${sortConfig?.key === 'valor' ? (sortConfig.direction === 'ascending' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'}`}></i>
+                </th>
+                <th onClick={() => requestSort('categoria')} className="sortable-header">
+                  Categoria <i className={`fas ${sortConfig?.key === 'categoria' ? (sortConfig.direction === 'ascending' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'}`}></i>
+                </th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {servicos.map((servico) => (
+              {/* Mapeamos a lista PAGINADA */}
+              {paginatedServicos.map((servico) => (
                 <tr key={servico.id}>
-                  <td>{servico.nome}</td>
-                  <td>{Array.isArray(servico.descricao) ? servico.descricao.join(', ') : servico.descricao}</td>
-                  <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(servico.valor)}</td>
-                  <td>{servico.categoria}</td>
+                  <td className="service-name">{servico.nome}</td>
                   <td>
-                    <button onClick={() => handleOpenModal(servico)} className="btn-edit"><i className="fas fa-pencil-alt"></i></button>
-                    <button onClick={() => handleDelete(servico.id)} className="btn-delete"><i className="fas fa-trash"></i></button>
+                    {Array.isArray(servico.descricao) && servico.descricao.length > 0 ? (
+                      <ul style={{ margin: 0, paddingLeft: '20px', textAlign: 'left', listStyleType: 'disc' }}>
+                        {servico.descricao.slice(0, 2).map((desc, index) => (<li key={index}>{desc}</li>))}
+                        {servico.descricao.length > 2 && (<li style={{ listStyleType: 'none', color: '#6c757d', fontSize: '0.8em', paddingTop: '4px' }}>(+{servico.descricao.length - 2} mais...)</li>)}
+                      </ul>
+                    ) : (<span>-</span>)}
+                  </td>
+                  <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(servico.valor)}</td>
+                  <td><CategoryTag category={servico.categoria} /></td>
+                  <td>
+                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                      <button onClick={() => handleOpenModal(servico)} className="btn-action-edit" title="Editar"><i className="fas fa-pencil-alt"></i></button>
+                      <button onClick={() => handleDelete(servico.id)} className="btn-action-delete" title="Excluir"><i className="fas fa-trash"></i></button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* ======================= CONTROLES DE PAGINAÇÃO ======================= */}
+          <div className="pagination-controls">
+            <button onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>Anterior</button>
+            <span>Página {currentPage} de {totalPages}</span>
+            <button onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Próximo</button>
+          </div>
+          {/* ======================================================================= */}
+
         </div>
       </main>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>{isEditing ? 'Editar Serviço' : 'Adicionar Novo Serviço'}</h2>
-            <div className="modal-form-group">
-              <label>Nome do Serviço</label>
-              <input
-                type="text"
-                className="modal-input"
-                value={currentServico.nome || ''}
-                onChange={(e) => setCurrentServico({ ...currentServico, nome: e.target.value })}
-              />
-            </div>
-            
-            <div className="modal-form-group">
-              <label>Descrições</label>
-              {descricoes.map((desc, index) => (
-                <div key={index} className="dynamic-field-group">
-                  <input
-                    type="text"
-                    className="modal-input"
-                    value={desc}
-                    onChange={(e) => handleDescricaoChange(index, e.target.value)}
-                  />
-                  {index === descricoes.length - 1 ? (
-                    <button onClick={addDescricaoField} className="btn-add-dynamic"><i className="fas fa-plus"></i></button>
-                  ) : (
-                    <button onClick={() => removeDescricaoField(index)} className="btn-remove-dynamic"><i className="fas fa-times"></i></button>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className="modal-form-group">
-              <label>Valor</label>
-              <input
-                type="number"
-                className="modal-input"
-                value={currentServico.valor || ''}
-                onChange={(e) => setCurrentServico({ ...currentServico, valor: parseFloat(e.target.value) })}
-              />
-            </div>
-            <div className="modal-form-group">
-              <label>Categoria</label>
-              <select
-                className="modal-input"
-                value={currentServico.categoria || ''}
-                onChange={(e) => setCurrentServico({ ...currentServico, categoria: e.target.value })}
-              >
-                <option value="">Selecione</option>
-                <option value="Recorrente">Recorrente</option>
-                <option value="Eventual">Eventual</option>
-              </select>
-            </div>
-            <div className="modal-actions">
-              <button onClick={handleCloseModal} className="btn-secondary">Cancelar</button>
-              <button onClick={handleSave} className="btn-primary">Salvar</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ServiceModal isOpen={isModalOpen} onClose={handleCloseModal} onSaveSuccess={handleSaveSuccess} serviceToEdit={serviceToEdit} />
     </>
   );
 }

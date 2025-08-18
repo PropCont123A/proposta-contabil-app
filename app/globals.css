@@ -687,3 +687,100 @@ body {
   padding-top: 10px;
   border-top: 2px solid var(--color-primary-purple);
 }
+
+.btn-action-edit, .btn-action-delete {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-action-edit { color: #007bff; }
+.btn-action-edit:hover { background-color: #007bff; color: white; }
+.btn-action-delete { color: #dc3545; }
+.btn-action-delete:hover { background-color: #dc3545; color: white; }
+
+.services-table .service-name {
+  font-weight: 700;
+  color: #343a40; /* Um tom de preto um pouco mais suave */
+}
+
+/* Estilos para a barra de pesquisa */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px; /* Ajuste a largura máxima conforme necessário */
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 35px; /* Espaço à esquerda para o ícone */
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #8B2FC7; /* Cor roxa do seu tema */
+  box-shadow: 0 0 0 2px rgba(139, 47, 199, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #6c757d; /* Cinza */
+}
+
+/* Estilos para cabeçalhos de tabela ordenáveis */
+.sortable-header {
+  cursor: pointer;
+  user-select: none; /* Impede a seleção de texto ao clicar */
+}
+
+.sortable-header:hover {
+  background-color: #f1f3f5; /* Um cinza bem claro no hover */
+}
+
+.sortable-header i {
+  margin-left: 8px;
+  color: #adb5bd; /* Cor para o ícone de ordenação padrão */
+}
+
+.sortable-header i.fa-sort-up,
+.sortable-header i.fa-sort-down {
+  color: #343a40; /* Cor mais escura para o ícone ativo */
+}
+
+/* Estilos para os controles de paginação */
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 16px 0;
+  gap: 12px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
