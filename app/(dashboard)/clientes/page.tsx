@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { supabase } from '../../../lib/supabaseClient';
 import ClientModal from '../components/ClientModal'; // Importando o novo modal
-import { formatCnpjCpf, formatTelefone } from '../../utils/formatters'; // Utilitários de formatação (vamos criar)
+import { formatCnpjCpf, formatTelefone } from '../../../utils/formatters'; // Utilitários de formatação (vamos criar)
 
 // Definindo o tipo para um Cliente
 export type Cliente = {

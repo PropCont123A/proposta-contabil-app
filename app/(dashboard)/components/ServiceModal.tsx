@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
+import { supabase } from '../../../lib/supabaseClient';
 import { Servico } from '../configuracoes/servicos/page';
 import CurrencyInput from 'react-currency-input-field';
 

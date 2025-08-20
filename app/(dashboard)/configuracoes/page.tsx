@@ -14,21 +14,25 @@ export default function ConfiguracoesPage() {
 
       <main className="content">
         <div className="config-buttons">
-            <Link href="#" className="config-button">
+            {/* LINHA CORRIGIDA ABAIXO */}
+            <Link href="/configuracoes/escritorio" className="config-button">
                 <i className="fas fa-building"></i>
                 <h3>Cadastro do Escritório</h3>
                 <p>Gerencie as informações da sua empresa, logotipo e layout.</p>
             </Link>
+            
             <Link href="#" className="config-button">
                 <i className="fas fa-user-friends"></i>
                 <h3>Cadastro de Usuários</h3>
                 <p>Gerencie os usuários com acesso à plataforma e suas permissões.</p>
             </Link>
+            
             <Link href="/configuracoes/servicos" className="config-button">
                 <i className="fas fa-handshake"></i>
                 <h3>Cadastro de Serviços</h3>
                 <p>Adicione e organize os serviços contábeis oferecidos pela sua empresa.</p>
             </Link>
+            
             <Link href="#" className="config-button">
                 <i className="fas fa-file-contract"></i>
                 <h3>Templates</h3>

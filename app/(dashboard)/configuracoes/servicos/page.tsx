@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react'; // Importamos o useMemo
-import { supabase } from '../../../lib/supabaseClient';
+import { supabase } from '../../../../lib/supabaseClient';
 import ServiceModal from '../../components/ServiceModal';
 import CategoryTag from '../../components/CategoryTag';
 

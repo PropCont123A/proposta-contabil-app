@@ -2,8 +2,9 @@
 'use client';
 
 import { useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr'; // MUDANÇA CRUCIAL
+import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,6 @@ export default function LoginPage() {
   const [message, setMessage] = useState('');
   const router = useRouter();
   
-  // MUDANÇA CRUCIAL
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -22,57 +22,101 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
-      setMessage(`Erro ao fazer login: ${error.message}`);
+      setMessage(`Erro: ${error.message}`);
       setLoading(false);
     } else {
       router.refresh();
     }
   };
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSignUp = async () => {
     setLoading(true);
     setMessage('');
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
-      setMessage(`Erro ao cadastrar: ${error.message}`);
+      setMessage(`Erro: ${error.message}`);
     } else {
-      setMessage('Cadastro realizado! Agora você pode tentar fazer o login.');
+      setMessage('Cadastro realizado! Verifique seu e-mail para confirmação.');
     }
     setLoading(false);
   };
 
-  // O JSX do return permanece o mesmo
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Acessar Proposta Contábil</h2>
-        <form className="space-y-4" onSubmit={handleSignIn}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">E-mail</label>
-            <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"/>
+    <div className="login-page-container">
+      <div className="login-card">
+        <Image
+          className="login-logo"
+          src="https://propostacontabil.com.br/wp-content/uploads/2025/07/proposta-contabil-fundo-transparente.png"
+          alt="Proposta Contábil Logo"
+          width={200}
+          height={80}
+          priority
+        />
+        <h2 className="login-title">
+          Acesse sua conta
+        </h2>
+      </div>
+
+      <div className="login-form-container">
+        <form className="login-form" onSubmit={handleSignIn}>
+          <div className="login-form-group">
+            <label htmlFor="email">Endereço de e-mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e ) => setEmail(e.target.value)}
+              required
+              className="login-input"
+            />
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Senha</label>
-            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"/>
+
+          <div className="login-form-group">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label htmlFor="password">Senha</label>
+              <a href="#" className="forgot-password-link">
+                Esqueceu a senha?
+              </a>
+            </div>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="login-input"
+            />
           </div>
-          {message && <p className={`text-sm text-center ${message.includes('Erro') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
-          <div className="flex flex-col space-y-3 pt-2">
-            <button type="submit" disabled={loading} className="w-full flex justify-center py-2 px-4 border rounded-md text-white bg-indigo-600 disabled:opacity-50">
+          
+          {message && (
+            <p className={`login-message ${message.startsWith('Erro') ? 'error' : 'success'}`}>
+              {message}
+            </p>
+          )}
+
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="login-button"
+            >
               {loading ? 'Entrando...' : 'Entrar'}
-            </button>
-            <button type="button" onClick={handleSignUp} disabled={loading} className="w-full flex justify-center py-2 px-4 border rounded-md text-gray-700 bg-white disabled:opacity-50">
-              {loading ? 'Cadastrando...' : 'Cadastrar'}
             </button>
           </div>
         </form>
+
+        <p className="signup-text">
+          Não é um membro?{' '}
+          <button onClick={handleSignUp} className="signup-link">
+            Cadastre-se agora
+          </button>
+        </p>
       </div>
     </div>
   );
