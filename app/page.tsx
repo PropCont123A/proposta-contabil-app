@@ -3,7 +3,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; // LINHA ANTIGA REMOVIDA
+import { createBrowserClient } from '@supabase/ssr'; // LINHA NOVA ADICIONADA
 
 // Interface para definir o formato dos dados que vamos receber
 interface DashboardStats {
@@ -21,7 +22,16 @@ export default function DashboardPage() {
   // Estado para armazenar os dados e o status de carregamento
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  
+  // INICIALIZAÇÃO DO SUPABASE ATUALIZADA
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  //
+  // ===== TODO O RESTO DO SEU CÓDIGO PERMANECE IDÊNTICO =====
+  //
 
   useEffect(() => {
     const fetchDashboardData = async () => {

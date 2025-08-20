@@ -1,6 +1,8 @@
+// app/propostas/nova/page.tsx
 'use client';
 import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; // 1. LINHA ANTIGA REMOVIDA
+import { createBrowserClient } from '@supabase/ssr'; // 1. LINHA NOVA ADICIONADA
 import TabsContainer from './components/TabsContainer';
 import styles from './styles/gerar-proposta.module.css';
 
@@ -12,8 +14,18 @@ export default function GerarNovaProposta() {
     condicoes: {},
     resumo: {},
   });
-  const supabase = createClientComponentClient();
+  
+  // 2. INICIALIZAÇÃO DO SUPABASE ATUALIZADA
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
+  //
+  // ===== NENHUMA OUTRA MUDANÇA NECESSÁRIA =====
+  // Todo o seu código, design e lógica abaixo permanecem intactos.
+  //
+  
   return (
     <>
       {/* Cabeçalho Padrão da Página */}

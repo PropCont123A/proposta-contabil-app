@@ -3,7 +3,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; // 1. LINHA ANTIGA REMOVIDA
+import { createBrowserClient } from '@supabase/ssr'; // 1. LINHA NOVA ADICIONADA
 import ProposalsTable from '../components/ProposalsTable';
 
 // O tipo da Proposta
@@ -20,7 +21,17 @@ export interface Proposta {
 export default function MinhasPropostasPage() {
   const [propostas, setPropostas] = useState<Proposta[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  
+  // 2. INICIALIZAÇÃO DO SUPABASE ATUALIZADA
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  //
+  // ===== NENHUMA OUTRA MUDANÇA NECESSÁRIA =====
+  // Todo o resto do seu código permanece idêntico.
+  //
 
   const fetchPropostas = useCallback(async () => {
     setLoading(true);
