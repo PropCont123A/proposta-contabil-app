@@ -1,10 +1,6 @@
-// utils/supabase.ts
-import { createBrowserClient } from '@supabase/ssr'
+// ARQUIVO CORRIGIDO: lib/supabaseClient.js
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-export function createClient() {
-  // O '!' no final diz ao TypeScript que temos certeza que essas variáveis existem.
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
-}
+// Para Next.js 13+ com App Router, use createClientComponentClient
+// Ele gerencia automaticamente as sessões de autenticação
+export const supabase = createClientComponentClient()

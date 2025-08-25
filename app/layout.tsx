@@ -1,5 +1,7 @@
-// NOVO app/layout.tsx (simples e sem menu)
+// app/layout.tsx - CÓDIGO COMPLETO E CORRIGIDO
+
 import './globals.css';
+import { AuthProvider } from './context/AuthContext'; // Importa nosso novo provedor
 
 export const metadata = {
   title: 'Proposta Contábil',
@@ -20,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        {/* O children aqui vai renderizar ou a página de login, ou o layout do dashboard */}
-        {children}
+        {/* Envelopa toda a aplicação com o AuthProvider */}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
-   );
+    );
 }

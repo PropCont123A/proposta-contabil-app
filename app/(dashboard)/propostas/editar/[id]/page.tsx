@@ -1,57 +1,47 @@
-// app/propostas/editar/[id]/page.tsx
+// app/(dashboard)/propostas/editar/[id]/page.tsx - CÓDIGO COMPLETO COM TODOS OS IMPORTS CORRIGIDOS
 'use client';
 
-// 1. IMPORTAR 'use' DO REACT
 import { useState, useEffect, use } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// 1. IMPORTS CORRIGIDOS COM BASE NA SUA ESTRUTURA DE PASTAS
+import { createSupabaseBrowserClient } from '../../../../../lib/supabaseClient';
+import { useAuth } from '../../../../context/AuthContext';
 import TabsContainer from '../../nova/components/TabsContainer';
 import styles from '../../nova/styles/gerar-proposta.module.css';
 
-// A assinatura da função muda um pouco para aceitar a Promise
 export default function EditarPropostaPage({ params }: { params: Promise<{ id: string }> }) {
-  // 2. USAR React.use() PARA ACESSAR O ID
   const { id } = use(params);
+  
+  const supabase = createSupabaseBrowserClient();
+  const { user, loading: authLoading } = useAuth();
 
   const [formData, setFormData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     const fetchPropostaData = async () => {
-      if (!id) return;
+      if (!id || !user) {
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from('propostas')
         .select('*')
-        .eq('id', id) // Usa o 'id' que foi extraído com use()
+        .eq('id', id)
+        .eq('user_id', user.id)
         .single();
 
       if (error) {
         console.error('Erro ao buscar dados da proposta:', error);
-        alert('Não foi possível carregar os dados da proposta.');
+        alert('Não foi possível carregar os dados da proposta. Você tem permissão para vê-la?');
         setLoading(false);
       } else if (data) {
         const loadedFormData = {
-          dadosCliente: {
-            tipoNegociacao: data.tipo_negociacao,
-            statusNegociacao: data.status_negociacao,
-            vendedorResponsavel: data.vendedor_responsavel,
-            clientes: data.clientes_contato,
-            empresas: data.empresas,
-            telefone: data.telefone,
-            dataProposta: data.data_proposta,
-            validadeProposta: data.validade_dias,
-          },
+          dadosCliente: { tipoNegociacao: data.tipo_negociacao, statusNegociacao: data.status_negociacao, vendedorResponsavel: data.vendedor_responsavel, clientes: data.clientes_contato, empresas: data.empresas, telefone: data.telefone, dataProposta: data.data_proposta, validadeProposta: data.validade_dias, },
           servicos: data.servicos_detalhes || [],
-          condicoes: {
-            textoCondicoes: data.condicoes_pagamento,
-            textoComplementares: data.informacoes_complementares,
-          },
-          resumo: {
-            totalRecorrente: data.valor_total_recorrente,
-            totalEventual: data.valor_total_eventual,
-          },
+          condicoes: { textoCondicoes: data.condicoes_pagamento, textoComplementares: data.informacoes_complementares, },
+          resumo: { totalRecorrente: data.valor_total_recorrente, totalEventual: data.valor_total_eventual, },
         };
         setFormData(loadedFormData);
         setLoading(false);
@@ -60,15 +50,17 @@ export default function EditarPropostaPage({ params }: { params: Promise<{ id: s
       }
     };
 
-    fetchPropostaData();
-  }, [id, supabase]); // A dependência agora é o 'id' extraído
+    if (!authLoading) {
+      fetchPropostaData();
+    }
+  }, [id, user, authLoading, supabase]);
 
-  if (loading) {
-    return <div>Carregando dados da proposta...</div>;
+  if (loading || authLoading) {
+    return <div style={{ padding: '2rem' }}>Carregando dados da proposta...</div>;
   }
 
   if (!formData) {
-    return <div>Proposta com ID {id} não encontrada.</div>;
+    return <div style={{ padding: '2rem' }}>Proposta com ID {id} não encontrada ou você não tem permissão para acessá-la.</div>;
   }
 
   return (
@@ -76,8 +68,8 @@ export default function EditarPropostaPage({ params }: { params: Promise<{ id: s
       <header className="header">
         <h1>Editar Proposta #{id}</h1>
         <div className="user-info">
-            <span>Bem-vindo, Emerson!</span>
-            <div className="user-avatar">E</div>
+            <span>Bem-vindo, {user?.email}!</span>
+            <div className="user-avatar">{user?.email?.charAt(0).toUpperCase()}</div>
         </div>
       </header>
 
@@ -88,7 +80,7 @@ export default function EditarPropostaPage({ params }: { params: Promise<{ id: s
           formData={formData}
           setFormData={setFormData}
           supabase={supabase}
-          propostaId={id} 
+          propostaId={parseInt(id, 10)}
         />
       </main>
     </>

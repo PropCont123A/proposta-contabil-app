@@ -1,11 +1,14 @@
+// app/(dashboard)/configuracoes/servicos/page.tsx - CÓDIGO COMPLETO E CORRIGIDO
 'use client';
 
-import { useEffect, useState, useMemo } from 'react'; // Importamos o useMemo
-import { supabase } from '../../../../lib/supabaseClient';
+import { useEffect, useState, useMemo } from 'react';
+// 1. IMPORTAÇÕES CORRIGIDAS
+import { createSupabaseBrowserClient } from '../../../../lib/supabaseClient';
+import { useAuth } from '../../../context/AuthContext';
 import ServiceModal from '../../components/ServiceModal';
 import CategoryTag from '../../components/CategoryTag';
 
-// Definindo o tipo de serviço para clareza
+// Tipos (sem alterações)
 export type Servico = {
   id: number;
   nome: string;
@@ -13,82 +16,76 @@ export type Servico = {
   valor: number;
   categoria: 'Recorrente' | 'Eventual';
 };
-
-// Definindo o tipo para a configuração de ordenação
 type SortConfig = {
   key: keyof Servico;
   direction: 'ascending' | 'descending';
 } | null;
 
 export default function CadastroServicosPage() {
+  // 2. INICIALIZAÇÃO CORRIGIDA
+  const supabase = createSupabaseBrowserClient();
+  const { user, loading: authLoading } = useAuth();
+
+  // Seus estados (sem alterações)
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceToEdit, setServiceToEdit] = useState<Servico | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
-  // ======================= ESTADOS PARA ORDENAÇÃO E PAGINAÇÃO =======================
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'nome', direction: 'ascending' });
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 10; // Defina quantos itens por página você quer
-  // =================================================================================
+  const ITEMS_PER_PAGE = 10;
 
-  // Função para buscar os serviços (sem alterações)
+  // 3. FUNÇÕES DE DADOS CORRIGIDAS PARA SEGURANÇA
   async function fetchServicos() {
-    const { data, error } = await supabase.from('servicos').select('*').order('id', { ascending: true });
+    if (!user) return; // Guarda de segurança
+    // Adiciona o filtro .eq('user_id', user.id)
+    const { data, error } = await supabase.from('servicos').select('*').eq('user_id', user.id).order('id', { ascending: true });
     if (error) console.error('Erro ao buscar serviços:', error);
     else if (data) setServicos(data);
   }
 
-  useEffect(() => { fetchServicos(); }, []);
+  useEffect(() => {
+    // Roda a busca apenas quando a autenticação estiver pronta
+    if (!authLoading && user) {
+      fetchServicos();
+    }
+  }, [user, authLoading]); // Depende do usuário e do status de loading
 
-  // Funções do Modal (sem alterações)
-  const handleOpenModal = (servico?: Servico) => { setServiceToEdit(servico || null); setIsModalOpen(true); };
-  const handleCloseModal = () => { setIsModalOpen(false); setServiceToEdit(null); };
-  const handleSaveSuccess = () => { fetchServicos(); handleCloseModal(); };
   const handleDelete = async (id: number) => {
+    if (!user) return; // Guarda de segurança
     if (window.confirm('Tem certeza que deseja excluir este serviço?')) {
-      const { error } = await supabase.from('servicos').delete().eq('id', id);
+      // Adiciona o filtro .eq('user_id', user.id) para segurança
+      const { error } = await supabase.from('servicos').delete().eq('id', id).eq('user_id', user.id);
       if (error) alert('Ocorreu um erro ao deletar o serviço.');
       else fetchServicos();
     }
   };
 
-  // ======================= LÓGICA DE PROCESSAMENTO DE DADOS =======================
+  // Funções do Modal (sem alterações)
+  const handleOpenModal = (servico?: Servico) => { setServiceToEdit(servico || null); setIsModalOpen(true); };
+  const handleCloseModal = () => { setIsModalOpen(false); setServiceToEdit(null); };
+  const handleSaveSuccess = () => { fetchServicos(); handleCloseModal(); };
+
+  // Sua lógica de ordenação e paginação (sem NENHUMA alteração)
   const processedServicos = useMemo(() => {
     let processableServicos = [...servicos];
-
-    // 1. Filtrar
     if (searchTerm) {
       processableServicos = processableServicos.filter(servico =>
         servico.nome.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
-    // 2. Ordenar
     if (sortConfig !== null) {
       processableServicos.sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
+        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ascending' ? 1 : -1;
         return 0;
       });
     }
-
     return processableServicos;
   }, [servicos, searchTerm, sortConfig]);
 
-  // 3. Paginar (calculado a partir dos dados já processados)
   const totalPages = Math.ceil(processedServicos.length / ITEMS_PER_PAGE);
-  const paginatedServicos = processedServicos.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-  // =================================================================================
-
-  // Função para solicitar a ordenação
+  const paginatedServicos = processedServicos.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
   const requestSort = (key: keyof Servico) => {
     let direction: 'ascending' | 'descending' = 'ascending';
     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -97,18 +94,29 @@ export default function CadastroServicosPage() {
     setSortConfig({ key, direction });
   };
 
+  // 4. ADICIONA O ESTADO DE LOADING
+  if (authLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        Carregando...
+      </div>
+    );
+  }
+
+  // Seu JSX (com uma pequena alteração no header para ser dinâmico)
   return (
     <>
       <header className="header">
         <h1>Cadastro de Serviços</h1>
         <div className="user-info">
-            <span>Bem-vindo, Emerson!</span>
-            <div className="user-avatar">E</div>
+            <span>Bem-vindo, {user?.email}!</span>
+            <div className="user-avatar">{user?.email?.charAt(0).toUpperCase()}</div>
         </div>
       </header>
 
       <main className="content">
         <div className="content-box">
+          {/* O resto do seu JSX continua exatamente o mesmo */}
           <div className="content-box-header">
             <div className="search-container" style={{ flexGrow: 1 }}>
               <i className="fas fa-search search-icon"></i>
@@ -117,7 +125,7 @@ export default function CadastroServicosPage() {
                 placeholder="Pesquisar por nome do serviço..."
                 className="search-input"
                 value={searchTerm}
-                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }} // Reseta para a pág 1 ao pesquisar
+                onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
               />
             </div>
             <button onClick={() => handleOpenModal()} className="btn-primary">
@@ -128,7 +136,6 @@ export default function CadastroServicosPage() {
           <table className="services-table">
             <thead>
               <tr>
-                {/* ======================= CABEÇALHOS CLICÁVEIS ======================= */}
                 <th onClick={() => requestSort('nome')} className="sortable-header">
                   Tipo de Serviço <i className={`fas ${sortConfig?.key === 'nome' ? (sortConfig.direction === 'ascending' ? 'fa-sort-up' : 'fa-sort-down') : 'fa-sort'}`}></i>
                 </th>
@@ -143,7 +150,6 @@ export default function CadastroServicosPage() {
               </tr>
             </thead>
             <tbody>
-              {/* Mapeamos a lista PAGINADA */}
               {paginatedServicos.map((servico) => (
                 <tr key={servico.id}>
                   <td className="service-name">{servico.nome}</td>
@@ -168,14 +174,11 @@ export default function CadastroServicosPage() {
             </tbody>
           </table>
 
-          {/* ======================= CONTROLES DE PAGINAÇÃO ======================= */}
           <div className="pagination-controls">
             <button onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>Anterior</button>
             <span>Página {currentPage} de {totalPages}</span>
             <button onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Próximo</button>
           </div>
-          {/* ======================================================================= */}
-
         </div>
       </main>
 

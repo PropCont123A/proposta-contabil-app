@@ -1,10 +1,11 @@
-// app/login/page.tsx
+// ARQUIVO COMPLETO E FINALÍSSIMO: app/login/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link'; // Importação do Link
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -31,92 +32,104 @@ export default function LoginPage() {
     }
   };
 
-  const handleSignUp = async () => {
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setMessage('Erro: Por favor, digite seu e-mail no campo acima e clique em "Esqueceu a senha?" novamente.');
+      return;
+    }
     setLoading(true);
     setMessage('');
-    const { error } = await supabase.auth.signUp({ email, password });
+    const redirectTo = `${window.location.origin}/auth/callback?next=/auth/update-password`;
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
     if (error) {
       setMessage(`Erro: ${error.message}`);
     } else {
-      setMessage('Cadastro realizado! Verifique seu e-mail para confirmação.');
+      setMessage('Sucesso! Se o e-mail existir em nossa base, um link para redefinir a senha foi enviado.');
     }
     setLoading(false);
   };
 
   return (
-    <div className="login-page-container">
-      <div className="login-card">
-        <Image
-          className="login-logo"
-          src="https://propostacontabil.com.br/wp-content/uploads/2025/07/proposta-contabil-fundo-transparente.png"
-          alt="Proposta Contábil Logo"
-          width={200}
-          height={80}
-          priority
-        />
-        <h2 className="login-title">
-          Acesse sua conta
-        </h2>
-      </div>
-
-      <div className="login-form-container">
-        <form className="login-form" onSubmit={handleSignIn}>
-          <div className="login-form-group">
-            <label htmlFor="email">Endereço de e-mail</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e ) => setEmail(e.target.value)}
-              required
-              className="login-input"
-            />
-          </div>
-
-          <div className="login-form-group">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label htmlFor="password">Senha</label>
-              <a href="#" className="forgot-password-link">
-                Esqueceu a senha?
-              </a>
+    <div className="login-split-container">
+      <div className="login-form-wrapper">
+        <div className="login-card">
+          <Image
+            className="login-logo"
+            src="https://propostacontabil.com.br/wp-content/uploads/2025/07/proposta-contabil-fundo-transparente.png"
+            alt="Proposta Contábil Logo"
+            width={200}
+            height={80}
+            priority
+          />
+        </div>
+        <div className="login-form-container">
+          <h2 className="login-title">
+            Acesse sua conta
+          </h2>
+          <form className="login-form" onSubmit={handleSignIn}>
+            <div className="login-form-group">
+              <label htmlFor="email">Endereço de e-mail</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e ) => setEmail(e.target.value)}
+                required
+                className="login-input"
+              />
             </div>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="login-input"
-            />
-          </div>
-          
-          {message && (
-            <p className={`login-message ${message.startsWith('Erro') ? 'error' : 'success'}`}>
-              {message}
-            </p>
-          )}
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="login-button"
-            >
-              {loading ? 'Entrando...' : 'Entrar'}
-            </button>
-          </div>
-        </form>
-
-        <p className="signup-text">
-          Não é um membro?{' '}
-          <button onClick={handleSignUp} className="signup-link">
-            Cadastre-se agora
-          </button>
-        </p>
+            <div className="login-form-group">
+              <label htmlFor="password">Senha</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="login-input"
+              />
+            </div>
+            {message && (
+              <p className={`login-message ${message.startsWith('Erro') ? 'error' : 'success'}`}>
+                {message}
+              </p>
+            )}
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="login-button"
+              >
+                {loading ? 'Entrando...' : 'Entrar'}
+              </button>
+              <div className="forgot-password-wrapper">
+                <button type="button" onClick={handlePasswordReset} className="forgot-password-link">
+                  Esqueceu a senha?
+                </button>
+              </div>
+            </div>
+          </form>
+          <p className="signup-text">
+            Não tem uma conta?{' '}
+            <Link href="/cadastro" className="signup-link">
+              Cadastre-se agora
+            </Link>
+          </p>
+        </div>
+      </div>
+      <div className="login-branding-wrapper">
+        <div className="branding-content">
+          <h1 className="branding-title">
+            A sua ferramenta para propostas contábeis de impacto.
+          </h1>
+          <p className="branding-subtitle">
+            Padronize, agilize e converta mais clientes com propostas que impressionam.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1381,26 +1381,29 @@ body {
 }
 
 .login-logo {
-  margin-left: auto;   /* Adicionado para garantir a centralização */
-  margin-right: auto;  /* Adicionado para garantir a centralização */
-  height: 6rem;        /* Aumentamos de 5rem para 6rem (~96px) */
-  width: auto;         /* Mantém a proporção correta */
+  margin-left: auto;
+  margin-right: auto;
+  height: 7rem; /* Aumentamos de 5rem para 7rem (~112px) */
+  width: auto;
+  margin-bottom: 1.5rem; /* Adiciona um espaço abaixo da logo */
 }
 
 .login-title {
-  margin-top: 1.5rem;
   text-align: center;
-  font-size: 1.5rem; /* ~24px */
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-neutral-dark);
+  margin-bottom: 2rem; /* Espaço entre o título e o início do form */
 }
 
 .login-form-container {
-  margin-top: 2.5rem;
+  margin-top: 0; /* Removemos a margem superior antiga */
   background-color: white;
-  padding: 2.5rem; /* ~40px */
-  border-radius: 0.5rem; /* ~8px */
+  padding: 2.5rem;
+  border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  width: 100%;
+  max-width: 28rem;
 }
 
 .login-form {
@@ -1489,4 +1492,119 @@ body {
 }
 .signup-link:hover {
   color: var(--color-primary-blue);
+}
+
+/* =============================================================== */
+/* ESTILOS PARA O NOVO LAYOUT DE LOGIN (DUAS COLUNAS)              */
+/* =============================================================== */
+
+.login-split-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.login-form-wrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--color-neutral-extra-light);
+}
+
+.login-branding-wrapper {
+  width: 50%;
+  background: linear-gradient(135deg, var(--color-primary-purple) 0%, var(--color-primary-blue) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: white;
+}
+
+.branding-content {
+  max-width: 450px;
+  text-align: center;
+}
+
+.branding-title {
+  font-size: 2.5rem; /* ~40px */
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.branding-subtitle {
+  font-size: 1.125rem; /* ~18px */
+  opacity: 0.9;
+}
+
+/* Ajustes para telas menores (responsividade) */
+@media (max-width: 900px) {
+  .login-branding-wrapper {
+    display: none; /* Esconde a coluna de branding em telas pequenas */
+  }
+
+  .login-form-wrapper {
+    width: 100%; /* Faz o formulário ocupar a tela inteira */
+  }
+}
+
+/* Adicionar ao globals.css */
+.forgot-password-wrapper {
+  text-align: center;
+  margin-top: 1rem; /* Espaçamento acima do link */
+}
+
+/* =============================================================== */
+/* CORREÇÃO FINAL PARA CENTRALIZAÇÃO DA LOGO                       */
+/* Adicione este bloco ao final do seu globals.css                 */
+/* =============================================================== */
+
+.login-card {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  justify-content: center; /* Centraliza a logo horizontalmente */
+}
+
+.login-logo {
+  height: 10rem; /* Aumentamos para 8rem (~128px) */
+  width: auto;
+  margin-bottom: 2.5rem; /* Aumenta o espaço abaixo da logo */
+}
+
+/* =============================================================== */
+/* AJUSTE FINAL DE ESTILO PARA OS BOTÕES DE LOGIN                  */
+/* Adicione este bloco ao final do seu globals.css                 */
+/* =============================================================== */
+
+/* Faz o botão "Esqueceu a senha?" parecer um link normal */
+.forgot-password-link {
+  /* Remove qualquer estilo de botão padrão */
+  background: none;
+  border: none;
+  padding: 0;
+  
+  /* Adiciona os estilos de link que queremos */
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary-purple);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.forgot-password-link:hover {
+  color: var(--color-primary-blue);
+  text-decoration: underline;
+}
+
+/* Ajusta o espaçamento da logo */
+.login-logo {
+  height: 10rem;
+  width: auto;
+  margin-bottom: -0.5rem; /* Diminuímos de 2.5rem para 1.5rem */
 }

@@ -1,7 +1,12 @@
-import { createClient } from '@supabase/supabase-js'
+// lib/supabaseClient.ts - CORRIGIDO PARA USAR A BIBLIOTECA NOVA
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+import { createBrowserClient } from '@supabase/ssr';
 
-// A PALAVRA "export" AQUI É A CORREÇÃO.
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// ATENÇÃO: Esta função DEVE ser chamada dentro de um componente de cliente ('use client')
+// ou dentro de um hook. Não pode ser chamada no topo de um arquivo de servidor.
+export function createSupabaseBrowserClient() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}

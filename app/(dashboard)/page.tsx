@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; // LINHA ANTIGA REMOVIDA
 import { createBrowserClient } from '@supabase/ssr'; // LINHA NOVA ADICIONADA
+import ProfileMenu from './components/ProfileMenu';
 
 // Interface para definir o formato dos dados que vamos receber
 interface DashboardStats {
@@ -71,10 +72,8 @@ export default function DashboardPage() {
     <>
       <header className="header">
         <h1>Dashboard</h1>
-        <div className="user-info">
-            <span>Bem-vindo, Emerson!</span>
-            <div className="user-avatar">E</div>
-        </div>
+        {/* O componente ProfileMenu substitui o user-info estático */}
+        <ProfileMenu />
       </header>
 
       <main className="content">

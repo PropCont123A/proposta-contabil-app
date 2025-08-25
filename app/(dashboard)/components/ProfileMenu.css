@@ -1,0 +1,89 @@
+/* NOVO ARQUIVO: app/components/ProfileMenu.css */
+.profile-menu-container {
+  position: relative; /* Essencial para o posicionamento do dropdown */
+  display: inline-block;
+}
+
+.user-avatar-button {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-primary-purple);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.user-avatar-button:hover {
+  transform: scale(1.05);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px); /* Posiciona abaixo do botão com um espaçamento */
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  z-index: 100;
+  border: 1px solid var(--color-gray-light);
+  overflow: hidden; /* Garante que os cantos arredondados funcionem */
+  padding: 8px 0;
+}
+
+.dropdown-header {
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--color-gray-light);
+  margin-bottom: 8px;
+}
+
+.dropdown-text-bold {
+  font-weight: 600;
+  color: var(--color-neutral-dark);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--color-gray-dark);
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-gray-extra-light);
+}
+
+.dropdown-item i {
+  width: 16px; /* Alinha os ícones */
+  text-align: center;
+  color: var(--color-gray-medium-dark);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: var(--color-gray-light);
+  margin: 8px 0;
+}
+
+.dropdown-item-logout span {
+  color: #ef4444; /* Vermelho para a ação de sair */
+}
+.dropdown-item-logout i {
+  color: #ef4444;
+}
