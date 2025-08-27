@@ -1,15 +1,13 @@
-// app/components/ProposalsTable.tsx
+// app/(dashboard)/propostas/components/ProposalsTable.tsx (VERSÃO CORRETA)
 'use client';
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import StatusTag from './StatusTag';
 
-// Definindo o tipo da Proposta para refletir a estrutura REAL dos dados
 type Proposta = {
   id: number;
-  clientes_contato: string | null; // É um texto ou nulo
-  empresas: string | null;         // É um texto ou nulo
+  cliente_nome: string | null;
   data_proposta: string;
   status: string;
   valor_total_recorrente: number;
@@ -36,18 +34,9 @@ export default function ProposalsTable({ propostas, onDelete }: ProposalsTablePr
     }
     if (searchTerm) {
       const lowercasedFilter = searchTerm.toLowerCase();
-      filtered = filtered.filter(p => {
-        // ==================================================================
-        //  A CORREÇÃO FINAL, FINAL, FINAL: Forçando a conversão para String
-        // ==================================================================
-        const clienteStr = String(p.clientes_contato || '');
-        const empresaStr = String(p.empresas || '');
-
-        return (
-          clienteStr.toLowerCase().includes(lowercasedFilter) ||
-          empresaStr.toLowerCase().includes(lowercasedFilter)
-        );
-      });
+      filtered = filtered.filter(p =>
+        (p.cliente_nome || '').toLowerCase().includes(lowercasedFilter)
+      );
     }
     if (sortConfig !== null) {
       filtered.sort((a, b) => {
@@ -86,7 +75,7 @@ export default function ProposalsTable({ propostas, onDelete }: ProposalsTablePr
         <div className="toolbar-left">
           <input
             type="text"
-            placeholder="Pesquisar por cliente ou empresa..."
+            placeholder="Pesquisar por cliente..."
             className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -95,10 +84,10 @@ export default function ProposalsTable({ propostas, onDelete }: ProposalsTablePr
             <label>Status:</label>
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="filter-select">
               <option value="Todos">Todos</option>
-              <option value="Em negociação">Em negociação</option>
+              <option value="Rascunho">Rascunho</option>
+              <option value="Enviado">Enviado</option>
               <option value="Contratado">Contratado</option>
               <option value="Recusado">Recusado</option>
-              <option value="Pendente">Pendente</option>
             </select>
           </div>
         </div>
@@ -115,8 +104,7 @@ export default function ProposalsTable({ propostas, onDelete }: ProposalsTablePr
           <thead>
             <tr>
               <th onClick={() => requestSort('id')}>Nº</th>
-              <th onClick={() => requestSort('clientes_contato')}>Cliente{getSortIcon('clientes_contato')}</th>
-              <th onClick={() => requestSort('empresas')}>Empresa{getSortIcon('empresas')}</th>
+              <th onClick={() => requestSort('cliente_nome')}>Cliente{getSortIcon('cliente_nome')}</th>
               <th onClick={() => requestSort('data_proposta')}>Data{getSortIcon('data_proposta')}</th>
               <th onClick={() => requestSort('status')}>Status{getSortIcon('status')}</th>
               <th>Valor Total</th>
@@ -128,23 +116,22 @@ export default function ProposalsTable({ propostas, onDelete }: ProposalsTablePr
               paginatedPropostas.map(proposta => (
                 <tr key={proposta.id}>
                   <td>{proposta.id}</td>
-                  {/* Exibindo o texto diretamente */}
-                  <td className="service-name">{proposta.clientes_contato || 'N/A'}</td>
-                  <td className="service-name">{proposta.empresas || 'N/A'}</td>
+                  <td className="service-name">{proposta.cliente_nome || 'Cliente não vinculado'}</td>
                   <td>{new Date(proposta.data_proposta).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</td>
                   <td><StatusTag status={proposta.status} /></td>
                   <td>{formatCurrency((proposta.valor_total_recorrente || 0) + (proposta.valor_total_eventual || 0))}</td>
                   <td className="actions-cell">
-                    <Link href={`/propostas/editar/${proposta.id}`} className="btn-action-icon btn-view" title="Visualizar/Editar"><i className="fas fa-eye"></i></Link>
-                    <button className="btn-action-icon btn-pdf" title="Gerar PDF"><i className="fas fa-file-pdf"></i></button>
-                    <button className="btn-action-icon btn-link" title="Gerar Link"><i className="fas fa-link"></i></button>
-                    <button className="btn-action-icon btn-notes" title="Observações"><i className="fas fa-comment-dots"></i></button>
-                    <button onClick={() => onDelete(proposta.id)} className="btn-action-icon btn-delete" title="Excluir"><i className="fas fa-trash"></i></button>
+                    <Link href={`/propostas/editar/${proposta.id}`} className="btn-action-icon btn-view" title="Visualizar/Editar">
+                      <i className="fas fa-eye"></i>
+                    </Link>
+                    <button onClick={() => onDelete(proposta.id)} className="btn-action-icon btn-delete" title="Excluir">
+                      <i className="fas fa-trash"></i>
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
-              <tr><td colSpan={7} style={{ textAlign: 'center', padding: '20px' }}>Nenhuma proposta encontrada.</td></tr>
+              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '20px' }}>Nenhuma proposta encontrada.</td></tr>
             )}
           </tbody>
         </table>

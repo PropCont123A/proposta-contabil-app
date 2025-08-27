@@ -1,10 +1,13 @@
+// next.config.mjs
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // A configuração de images deve ficar DENTRO deste objeto
+  reactStrictMode: false,
+
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: 'https', // <--- ADICIONE A VÍRGULA AQUI
         hostname: 'propostacontabil.com.br',
         port: '',
         pathname: '/wp-content/uploads/**',

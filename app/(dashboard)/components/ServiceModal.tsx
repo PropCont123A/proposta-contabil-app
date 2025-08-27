@@ -2,9 +2,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-// 1. Importa a FUNÇÃO correta e o hook de autenticação
-import { createSupabaseBrowserClient } from '../../../lib/supabaseClient'; 
-import { useAuth } from '../../context/AuthContext'; // Essencial para saber quem é o usuário
+// LINHA 1 CORRIGIDA: Importa 'createClient' usando o atalho '@/'
+import { createClient } from '@/lib/client'; 
+import { useAuth } from '../../context/AuthContext';
 import { Servico } from '../configuracoes/servicos/page';
 import CurrencyInput from 'react-currency-input-field';
 
@@ -16,8 +16,8 @@ type ServiceModalProps = {
 };
 
 export default function ServiceModal({ isOpen, onClose, onSaveSuccess, serviceToEdit }: ServiceModalProps) {
-  // 2. Cria a instância do Supabase e pega o usuário logado
-  const supabase = createSupabaseBrowserClient();
+  // LINHA 2 CORRIGIDA: Usa a função 'createClient' importada
+  const supabase = createClient();
   const { user } = useAuth();
 
   // Seus estados (sem alterações)
@@ -27,7 +27,7 @@ export default function ServiceModal({ isOpen, onClose, onSaveSuccess, serviceTo
   const [descricoes, setDescricoes] = useState<string[]>(['']);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Seu useEffect (sem alterações, a lógica de preenchimento está ótima)
+  // Seu useEffect (sem alterações)
   useEffect(() => {
     if (isOpen && serviceToEdit) {
       setNome(serviceToEdit.nome);
@@ -61,9 +61,9 @@ export default function ServiceModal({ isOpen, onClose, onSaveSuccess, serviceTo
   const addDescricaoField = () => setDescricoes([...descricoes, '']);
   const removeDescricaoField = (index: number) => { const novasDescricoes = descricoes.filter((_, i) => i !== index); setDescricoes(novasDescricoes.length > 0 ? novasDescricoes : ['']); };
 
-  // 3. Função de salvar CORRIGIDA para segurança
+  // Sua função de salvar (sem alterações)
   const handleSave = async () => {
-    if (!user) { // Guarda de segurança
+    if (!user) {
       alert("Sua sessão expirou. Por favor, faça login novamente.");
       return;
     }
@@ -77,10 +77,8 @@ export default function ServiceModal({ isOpen, onClose, onSaveSuccess, serviceTo
     };
     let error;
     if (serviceToEdit) {
-      // Edição: Garante que só edita o que pertence ao usuário
       ({ error } = await supabase.from('servicos').update(servicoData).eq('id', serviceToEdit.id).eq('user_id', user.id));
     } else {
-      // Criação: Adiciona o user_id do dono do novo serviço
       ({ error } = await supabase.from('servicos').insert([{ ...servicoData, user_id: user.id }]));
     }
     if (error) {

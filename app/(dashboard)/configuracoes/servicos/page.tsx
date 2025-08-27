@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 // 1. IMPORTAÇÕES CORRIGIDAS
-import { createSupabaseBrowserClient } from '../../../../lib/supabaseClient';
+import { createClient } from '../../../../lib/client';
 import { useAuth } from '../../../context/AuthContext';
 import ServiceModal from '../../components/ServiceModal';
 import CategoryTag from '../../components/CategoryTag';
@@ -23,7 +23,7 @@ type SortConfig = {
 
 export default function CadastroServicosPage() {
   // 2. INICIALIZAÇÃO CORRIGIDA
-  const supabase = createSupabaseBrowserClient();
+  const supabase = createClient();
   const { user, loading: authLoading } = useAuth();
 
   // Seus estados (sem alterações)

@@ -1,17 +1,15 @@
-// app/propostas/page.tsx
+// app/(dashboard)/propostas/page.tsx (VERSÃO LIMPA E CORRETA)
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; // 1. LINHA ANTIGA REMOVIDA
-import { createBrowserClient } from '@supabase/ssr'; // 1. LINHA NOVA ADICIONADA
+import { createClient } from '@/lib/client';
+import { useAuth } from '@/app/context/AuthContext';
 import ProposalsTable from '../components/ProposalsTable';
 
-// O tipo da Proposta
+// Interface para a proposta, refletindo a consulta que fazemos
 export interface Proposta {
   id: number;
-  clientes_contato: string;
-  empresas: string;
+  cliente_nome: string | null;
   data_proposta: string;
   status: string;
   valor_total_recorrente: number;
@@ -19,33 +17,59 @@ export interface Proposta {
 }
 
 export default function MinhasPropostasPage() {
+  const supabase = createClient();
+  const { user } = useAuth();
   const [propostas, setPropostas] = useState<Proposta[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // 2. INICIALIZAÇÃO DO SUPABASE ATUALIZADA
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
-  //
-  // ===== NENHUMA OUTRA MUDANÇA NECESSÁRIA =====
-  // Todo o resto do seu código permanece idêntico.
-  //
-
-  const fetchPropostas = useCallback(async () => {
+const fetchPropostas = useCallback(async () => {
+    if (!user) {
+      console.log("Usuário não autenticado, busca de propostas abortada.");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
+    
+    // Consulta corrigida para ser mais robusta
     const { data, error } = await supabase
       .from('propostas')
-      .select(`id,clientes_contato,empresas,data_proposta,status,valor_total_recorrente,valor_total_eventual`);
+      .select(`
+        id,
+        data_proposta,
+        status,
+        valor_total_recorrente,
+        valor_total_eventual,
+        cliente_nome_avulso,
+        clientes ( id, nome_fantasia_ou_nome )
+      `)
+      .eq('user_id', user.id)
+      .order('id', { ascending: false });
 
     if (error) {
-      console.error('Erro ao buscar propostas:', error);
-    } else {
-      setPropostas(data || []);
+      // Agora, vamos logar o erro completo para diagnóstico
+      console.error('Erro detalhado ao buscar propostas:', error);
+      setPropostas([]);
+    } else if (data) {
+      // Mapeamento seguro dos dados recebidos
+      const propostasFormatadas = data.map(p => {
+        // O Supabase retorna a tabela relacionada como um objeto ou array.
+        // Vamos tratar ambos os casos para segurança.
+        const clienteData = Array.isArray(p.clientes) ? p.clientes[0] : p.clientes;
+        
+        return {
+          id: p.id,
+          data_proposta: p.data_proposta,
+          status: p.status,
+          valor_total_recorrente: p.valor_total_recorrente,
+          valor_total_eventual: p.valor_total_eventual,
+          // A lógica para definir o nome do cliente fica mais clara
+          cliente_nome: clienteData?.nome_fantasia_ou_nome || p.cliente_nome_avulso || 'Cliente não vinculado',
+        };
+      });
+      setPropostas(propostasFormatadas);
     }
     setLoading(false);
-  }, [supabase]);
+  }, [supabase, user]);
 
   useEffect(() => {
     fetchPropostas();
@@ -53,10 +77,15 @@ export default function MinhasPropostasPage() {
 
   const handleDelete = async (id: number) => {
     if (confirm(`Tem certeza que deseja excluir a proposta #${id}?`)) {
+      // Primeiro, exclui os itens da proposta
+      await supabase.from('proposta_itens').delete().match({ proposta_id: id });
+      // Depois, exclui a proposta principal
       const { error } = await supabase.from('propostas').delete().match({ id });
+
       if (error) {
         alert('Falha ao excluir a proposta.');
       } else {
+        // Atualiza a lista de propostas na tela
         setPropostas(prev => prev.filter(p => p.id !== id));
       }
     }
@@ -74,9 +103,8 @@ export default function MinhasPropostasPage() {
 
       <main className="content">
         <div className="content-box">
-          {/* O content-box-header foi removido, pois a barra de ferramentas agora está na tabela */}
           {loading ? (
-            <p style={{ textAlign: 'center', padding: '20px' }}>Carregando propostas...</p>
+            <p style={{ textAlign: 'center', padding: '40px' }}>Carregando propostas...</p>
           ) : (
             <ProposalsTable propostas={propostas} onDelete={handleDelete} />
           )}

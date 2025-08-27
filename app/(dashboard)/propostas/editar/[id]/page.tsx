@@ -1,87 +1,72 @@
-// app/(dashboard)/propostas/editar/[id]/page.tsx - CÓDIGO COMPLETO COM TODOS OS IMPORTS CORRIGIDOS
+// app/(dashboard)/propostas/editar/[id]/page.tsx (VERSÃO CORRIGIDA E SIMPLIFICADA)
 'use client';
 
-import { useState, useEffect, use } from 'react';
-// 1. IMPORTS CORRIGIDOS COM BASE NA SUA ESTRUTURA DE PASTAS
-import { createSupabaseBrowserClient } from '../../../../../lib/supabaseClient';
-import { useAuth } from '../../../../context/AuthContext';
-import TabsContainer from '../../nova/components/TabsContainer';
-import styles from '../../nova/styles/gerar-proposta.module.css';
+import { useState, useEffect } from 'react';
+import ProposalForm from '../../nova/components/ProposalForm';
+import { createClient } from '@/lib/client';
+import { ProposalState } from '../../nova/state';
 
-export default function EditarPropostaPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  
-  const supabase = createSupabaseBrowserClient();
-  const { user, loading: authLoading } = useAuth();
-
-  const [formData, setFormData] = useState<any>(null);
+export default function EditarPropostaPage({ params }: { params: { id: string } }) {
+  const supabase = createClient();
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState(0);
+  const [initialData, setInitialData] = useState<Partial<ProposalState> | undefined>(undefined);
 
   useEffect(() => {
-    const fetchPropostaData = async () => {
-      if (!id || !user) {
+    const fetchProposta = async () => {
+      const { data: proposta, error: propostaError } = await supabase
+        .from('propostas')
+        .select('*')
+        .eq('id', params.id)
+        .single();
+
+      if (propostaError || !proposta) {
+        console.error('Erro ao buscar proposta:', propostaError);
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from('propostas')
+      const { data: itens, error: itensError } = await supabase
+        .from('proposta_itens')
         .select('*')
-        .eq('id', id)
-        .eq('user_id', user.id)
-        .single();
+        .eq('proposta_id', params.id);
 
-      if (error) {
-        console.error('Erro ao buscar dados da proposta:', error);
-        alert('Não foi possível carregar os dados da proposta. Você tem permissão para vê-la?');
+      if (itensError) {
+        console.error('Erro ao buscar itens da proposta:', itensError);
         setLoading(false);
-      } else if (data) {
-        const loadedFormData = {
-          dadosCliente: { tipoNegociacao: data.tipo_negociacao, statusNegociacao: data.status_negociacao, vendedorResponsavel: data.vendedor_responsavel, clientes: data.clientes_contato, empresas: data.empresas, telefone: data.telefone, dataProposta: data.data_proposta, validadeProposta: data.validade_dias, },
-          servicos: data.servicos_detalhes || [],
-          condicoes: { textoCondicoes: data.condicoes_pagamento, textoComplementares: data.informacoes_complementares, },
-          resumo: { totalRecorrente: data.valor_total_recorrente, totalEventual: data.valor_total_eventual, },
-        };
-        setFormData(loadedFormData);
-        setLoading(false);
-      } else {
-        setLoading(false);
+        return;
       }
+
+      // Mapeia os dados do banco para o formato do nosso estado
+      const dadosFormatados: Partial<ProposalState> = {
+        clienteSelecionado: proposta.cliente_id ? { id: proposta.cliente_id, nome_fantasia_ou_nome: proposta.cliente_nome_avulso || '' } as any : null,
+        servicosSelecionados: itens || [],
+        condicoesPagamento: proposta.condicoes_pagamento || '',
+        informacoesComplementares: proposta.informacoes_complementares || '',
+        validadeDias: proposta.validade_dias || 30,
+      };
+
+      setInitialData(dadosFormatados);
+      setLoading(false);
     };
 
-    if (!authLoading) {
-      fetchPropostaData();
-    }
-  }, [id, user, authLoading, supabase]);
-
-  if (loading || authLoading) {
-    return <div style={{ padding: '2rem' }}>Carregando dados da proposta...</div>;
-  }
-
-  if (!formData) {
-    return <div style={{ padding: '2rem' }}>Proposta com ID {id} não encontrada ou você não tem permissão para acessá-la.</div>;
-  }
+    fetchProposta();
+  }, [params.id, supabase]);
 
   return (
     <>
       <header className="header">
-        <h1>Editar Proposta #{id}</h1>
+        <h1>Editar Proposta #{params.id}</h1>
         <div className="user-info">
-            <span>Bem-vindo, {user?.email}!</span>
-            <div className="user-avatar">{user?.email?.charAt(0).toUpperCase()}</div>
+          <span>Bem-vindo, Emerson!</span>
+          <div className="user-avatar">E</div>
         </div>
       </header>
-
       <main className="content">
-        <TabsContainer
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          formData={formData}
-          setFormData={setFormData}
-          supabase={supabase}
-          propostaId={parseInt(id, 10)}
-        />
+        {loading ? (
+          <p style={{ textAlign: 'center', padding: '40px' }}>Carregando dados da proposta...</p>
+        ) : (
+          <ProposalForm initialData={initialData} /> // Passa os dados iniciais para o formulário
+        )}
       </main>
     </>
   );

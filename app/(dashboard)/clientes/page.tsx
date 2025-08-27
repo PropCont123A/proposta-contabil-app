@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { createSupabaseBrowserClient } from '../../../lib/supabaseClient';
+import { createClient } from '../../../lib/client';
 import ClientModal from '../components/ClientModal';
 import { formatCnpjCpf, formatTelefone } from '../../../utils/formatters';
 import { useAuth } from '../../context/AuthContext';
@@ -11,7 +11,7 @@ export type Cliente = { id: number; tipo_pessoa: string; cnpj_cpf: string; nome_
 type SortConfig = { key: keyof Cliente; direction: 'ascending' | 'descending'; } | null;
 
 export default function ClientesPage() {
-  const supabase = createSupabaseBrowserClient();
+  const supabase = createClient();
   const { user, loading: authLoading } = useAuth();
   
   const [clientes, setClientes] = useState<Cliente[]>([]);

@@ -3,8 +3,8 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-// 1. Importa a FUNÇÃO em vez da variável
-import { createSupabaseBrowserClient } from '../../lib/supabaseClient'; 
+// LINHA 1 CORRIGIDA: Importa a função 'createClient' usando o atalho '@/'
+import { createClient } from '@/lib/client'; 
 import { User } from '@supabase/supabase-js';
 
 type AuthContextType = {
@@ -15,8 +15,8 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({ user: null, loading: true });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // 2. Cria a instância do Supabase DENTRO do provedor
-  const supabase = createSupabaseBrowserClient(); 
+  // LINHA 2 CORRIGIDA: Usa a função 'createClient' que foi importada
+  const supabase = createClient(); 
   
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       authListener?.subscription.unsubscribe();
     };
-    // Adiciona 'supabase' como dependência do useEffect
   }, [supabase]); 
 
   const value = {

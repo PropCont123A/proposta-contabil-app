@@ -1,3 +1,51 @@
+/* ================================================================== */
+/*  ESTRUTURA PRINCIPAL DO FORMULÁRIO (WIZARD)                      */
+/* ================================================================== */
+
+.form-wizard-container {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.tabs-header {
+  display: flex;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px 15px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  position: relative;
+}
+
+.tab-button.active {
+  background-color: white;
+  color: #B733F0;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tab-content {
+  padding: 2rem;
+}
+
+/* ================================================================== */
+/*  O RESTO DO SEU CSS VEM AQUI...                                    */
+/* ================================================================== */
+
+
 /* --- Estrutura Principal da Página --- */
 .content {
   padding: 0;
@@ -866,4 +914,863 @@
 }
 .btn-save:hover {
   background-color: var(--color-primary-purple-dark);
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA A NOVA ETAPA DE SERVIÇOS (DRAG & DROP)              */
+/* ================================================================== */
+
+/* Alça para arrastar o card (drag handle) */
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  cursor: grab; /* Muda o cursor para indicar que é arrastável */
+  color: #a0aec0; /* Cinza claro */
+  transition: color 0.2s;
+}
+
+.drag-handle:hover {
+  color: #4a5568; /* Cinza mais escuro no hover */
+}
+
+/* Estilo do card ENQUANTO está sendo arrastado */
+.dragging {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.15);
+  transform: rotate(2deg); /* Leve inclinação para dar feedback */
+  background-color: #f7fafc; /* Fundo levemente acinzentado */
+}
+
+/* Ajustes no header do card para acomodar a alça */
+.servico-card-header {
+  display: flex;
+  align-items: center;
+}
+
+/* O título do serviço agora ocupa o espaço restante */
+.servico-card-title-input {
+  flex-grow: 1;
+  border: none; /* Remove a borda para parecer mais um título */
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding-left: 10px;
+}
+.servico-card-title-input:focus {
+  outline: none;
+  background-color: #edf2f7; /* Fundo sutil ao focar */
+}
+
+/* Ajustes no grupo de botões de descrição */
+.dynamic-field-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.dynamic-field-group .form-control {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+/* Botão para remover descrição (ícone de 'x') */
+.btn-remove-dynamic {
+  background: none;
+  border: 1px solid #e2e8f0;
+  color: #718096;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-remove-dynamic:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+
+/* Botão para adicionar nova descrição */
+.btn-add-dynamic {
+  background: none;
+  border: 1px dashed #cbd5e0;
+  color: #4a5568;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.btn-add-dynamic:hover {
+  background-color: #f7fafc;
+  border-color: #a0aec0;
+}
+
+/* Ícone dentro do botão de adicionar */
+.btn-add-dynamic .fa-plus {
+  margin-right: 8px;
+}
+
+/* Fundo branco para o dropdown de pesquisa */
+.dropdown-options-list {
+  background-color: white;
+  /* Adicione outras propriedades que já existiam se necessário, como box-shadow, etc. */
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA O MODO LEITURA E EDIÇÃO DOS CARDS DE SERVIÇO        */
+/* ================================================================== */
+
+/* Container principal do card no modo leitura */
+.card-read-mode {
+  display: flex;
+  width: 100%;
+  padding: 16px 0;
+  align-items: flex-start;
+}
+
+.read-main-content {
+  flex-grow: 1;
+  padding: 0 16px;
+}
+
+.read-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+}
+
+.read-description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.read-description-list li {
+  margin-bottom: 4px;
+}
+
+.read-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espaçamento entre os itens */
+}
+
+.read-price {
+  font-weight: 600;
+  color: #2d3748;
+  min-width: 100px; /* Garante alinhamento */
+  text-align: right;
+}
+
+/* Botões de ícone genéricos para o modo leitura */
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+  font-size: 1rem;
+  padding: 4px;
+}
+.btn-action-icon:hover {
+  color: #2d3748;
+}
+
+/* Footer do card no modo de edição */
+.card-edit-footer {
+  padding: 16px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-concluir-edicao {
+  background-color: #4f46e5; /* Roxo */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-concluir-edicao:hover {
+  background-color: #4338ca;
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA A NOVA ETAPA DE SERVIÇOS (DRAG & DROP)              */
+/* ================================================================== */
+
+/* Alça para arrastar o card (drag handle) */
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  cursor: grab;
+  color: #a0aec0;
+  transition: color 0.2s;
+}
+.drag-handle:hover {
+  color: #4a5568;
+}
+
+/* Estilo do card ENQUANTO está sendo arrastado */
+.dragging {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.15);
+  transform: rotate(2deg);
+  background-color: #f7fafc;
+}
+
+/* Ajustes no header do card de edição */
+.servico-card-header {
+  display: flex;
+  align-items: center;
+}
+.servico-card-title-input {
+  flex-grow: 1;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding-left: 10px;
+}
+.servico-card-title-input:focus {
+  outline: none;
+  background-color: #edf2f7;
+}
+
+/* Grupo de botões de descrição */
+.dynamic-field-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.dynamic-field-group .form-control {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+.btn-remove-dynamic {
+  background: none;
+  border: 1px solid #e2e8f0;
+  color: #718096;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.btn-remove-dynamic:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+.btn-add-dynamic {
+  background: none;
+  border: 1px dashed #cbd5e0;
+  color: #4a5568;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.btn-add-dynamic:hover {
+  background-color: #f7fafc;
+  border-color: #a0aec0;
+}
+.btn-add-dynamic .fa-plus {
+  margin-right: 8px;
+}
+
+/* Fundo branco para o dropdown de pesquisa */
+.dropdown-options-list {
+  background-color: white;
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA O MODO LEITURA DOS CARDS DE SERVIÇO                 */
+/* ================================================================== */
+
+.card-read-mode {
+  display: flex;
+  width: 100%;
+  padding: 16px 0;
+  align-items: flex-start;
+}
+.read-main-content {
+  flex-grow: 1;
+  padding: 0 16px;
+}
+.read-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+}
+.read-description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+.read-description-list li {
+  margin-bottom: 4px;
+}
+.read-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.read-price {
+  font-weight: 600;
+  color: #2d3748;
+  min-width: 100px;
+  text-align: right;
+}
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+  font-size: 1rem;
+  padding: 4px;
+}
+.btn-action-icon:hover {
+  color: #2d3748;
+}
+.card-edit-footer {
+  padding: 16px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-concluir-edicao {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-concluir-edicao:hover {
+  background-color: #4338ca;
+}
+
+/* Adiciona uma borda sutil abaixo de cada card, exceto o último */
+.servico-card:not(:last-child) {
+  border-bottom: 1px solid #e2e8f0; /* Linha cinza clara */
+}
+
+/* Ajusta o título no modo de leitura para ter mais destaque */
+.read-title {
+  font-size: 1.1rem;
+  font-weight: 600; /* Mais forte que o 'bold' padrão */
+  color: #1a202c; /* Preto mais escuro */
+  margin-bottom: 12px; /* Aumenta o espaço abaixo do título */
+}
+
+/* Suaviza a lista de descrições */
+.read-description-list {
+  color: #4a5568; /* Cinza mais escuro, para boa legibilidade */
+  font-size: 0.95rem; /* Um pouco maior para conforto na leitura */
+  list-style-position: inside; /* Coloca os marcadores dentro do bloco de texto */
+}
+
+/* Melhora a área de ações no modo de leitura */
+.read-actions {
+  gap: 8px; /* Diminui o espaço entre os itens para um look mais compacto */
+}
+
+/* Aumenta o tamanho e melhora o feedback dos ícones de ação */
+.btn-action-icon {
+  font-size: 1.1rem; /* Ícones maiores */
+  padding: 8px; /* Área de clique maior */
+  border-radius: 50%; /* Deixa o fundo redondo no hover */
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-action-icon:hover {
+  color: #4f46e5; /* Roxo da sua identidade visual */
+  background-color: #eef2ff; /* Fundo roxo bem clarinho */
+}
+
+/* Garante que o preço tenha um bom destaque */
+.read-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Ajusta a tag para ficar mais alinhada e com padding */
+.servico-tag {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* -- 1. DRAG HANDLE MELHORADO -- */
+.drag-handle {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center;
+  padding: 0 16px; /* Aumenta o espaçamento */
+  cursor: grab;
+  color: #a0aec0;
+  font-size: 1.2rem; /* Ícone maior */
+  transition: color 0.2s;
+}
+.drag-handle:hover {
+  color: #4f46e5; /* Roxo no hover */
+}
+
+/* -- 2. ESPAÇO NO ÍCONE DA TAG -- */
+.servico-tag .fas {
+  margin-right: 6px;
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA A NOVA ETAPA DE SERVIÇOS (DRAG & DROP) - VERSÃO 2.0  */
+/* ================================================================== */
+
+/* -- 1. DRAG HANDLE MELHORADO -- */
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  cursor: grab;
+  color: #a0aec0;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+.drag-handle:hover {
+  color: #4f46e5;
+}
+
+/* Estilo do card ENQUANTO está sendo arrastado */
+.dragging {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.15);
+  transform: rotate(1deg);
+  background-color: #f7fafc;
+}
+
+/* Fundo branco para o dropdown de pesquisa */
+.dropdown-options-list {
+  background-color: white;
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA O MODO LEITURA DOS CARDS DE SERVIÇO                 */
+/* ================================================================== */
+
+.card-read-mode {
+  display: flex;
+  width: 100%;
+  padding: 16px 0;
+  align-items: center; /* Centraliza tudo verticalmente */
+}
+.read-main-content {
+  flex-grow: 1;
+  padding: 0 16px;
+}
+.read-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+}
+.read-description-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+.read-description-list li {
+  margin-bottom: 4px;
+}
+.read-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.read-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  min-width: 120px; /* Aumenta o espaço para o valor não cortar */
+  text-align: right;
+}
+.btn-action-icon {
+  font-size: 1.1rem;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+}
+.btn-action-icon:hover {
+  color: #4f46e5;
+  background-color: #eef2ff;
+}
+.servico-tag {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+.servico-tag .fas {
+  margin-right: 6px;
+}
+.servico-tag.recorrente {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+.servico-tag.eventual {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* ================================================================== */
+/*  ESTILOS PARA O MODO EDIÇÃO DOS CARDS DE SERVIÇO                  */
+/* ================================================================== */
+
+.card-edit-mode {
+  padding: 16px 0;
+}
+.edit-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.edit-header .drag-handle {
+  padding: 0; /* Remove padding extra no modo edição */
+}
+.edit-title-input {
+  flex-grow: 1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: border-color 0.2s;
+}
+.edit-title-input:hover, .edit-title-input:focus {
+  border-color: #d1d5db;
+  outline: none;
+}
+.edit-price-input {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 150px; /* Garante espaço suficiente */
+  transition: border-color 0.2s;
+}
+.edit-price-input:hover, .edit-price-input:focus {
+  border-color: #d1d5db;
+  outline: none;
+}
+.edit-body {
+  padding-left: 48px; /* Alinha com o título */
+}
+.edit-body label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #374151;
+}
+.edit-description-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.edit-description-item .form-control {
+  flex-grow: 1;
+}
+.btn-remove-desc {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.btn-remove-desc:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border-color: #fca5a5;
+}
+.btn-add-desc {
+  background: none;
+  border: none;
+  color: #4f46e5;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+.btn-add-desc:hover {
+  background-color: #eef2ff;
+}
+.btn-add-desc .fa-plus {
+  margin-right: 8px;
+}
+.edit-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+.btn-concluir-edicao {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-remover-servico {
+  background-color: transparent;
+  color: #ef4444;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-remover-servico:hover {
+  background-color: #fef2f2;
+}
+
+/* -- 1b. ETIQUETAS REFINADAS (CORES E ESPAÇAMENTO) -- */
+.servico-tag .fas {
+  margin-right: 8px; /* Aumenta o espaço entre ícone e texto */
+}
+.servico-tag.recorrente {
+  background-color: #dcfce7; /* Verde claro */
+  color: #166534; /* Verde escuro */
+}
+.servico-tag.eventual {
+  background-color: #e0f2fe; /* Azul claro */
+  color: #0369a1; /* Azul escuro */
+}
+
+/* -- 1c. ESPAÇAMENTO ENTRE OS CARDS -- */
+.servico-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 16px; /* Aumenta o espaço inferior de cada card */
+  overflow: hidden; /* Garante que o conteúdo respeite as bordas arredondadas */
+}
+
+/* -- 2a. BORDA VISÍVEL NO TÍTULO EM EDIÇÃO -- */
+.edit-title-input {
+  flex-grow: 1;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: 1px solid #d1d5db; /* Borda visível por padrão */
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.2s;
+}
+.edit-title-input:focus {
+  border-color: #4f46e5; /* Borda roxa no foco */
+  box-shadow: 0 0 0 2px #c7d2fe; /* Efeito de anel no foco */
+  outline: none;
+}
+
+/* -- 2c. BOTÃO 'X' REFINADO -- */
+.btn-remove-desc {
+  background: none;
+  border: none;
+  color: #9ca3af; /* Cinza claro */
+  font-size: 1.1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.btn-remove-desc:hover {
+  background-color: #fee2e2; /* Fundo vermelho claro */
+  color: #ef4444; /* Vermelho forte */
+}
+
+/* Adicione ao final do arquivo */
+
+.feedback-selecao {
+  background-color: #eef2ff; /* Roxo bem claro */
+  color: #4338ca; /* Roxo escuro */
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: -1rem; /* Puxa para perto do botão */
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ================================================================== */
+/*  ESTILOS ESPECÍFICOS E SEM CONFLITOS PARA O FORMULÁRIO DE PROPOSTA */
+/* ================================================================== */
+
+.proposal-etapa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 2rem;
+}
+
+.proposal-form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.proposal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.proposal-form-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.proposal-form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.proposal-dynamic-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.proposal-dynamic-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.proposal-dynamic-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proposal-dynamic-row .proposal-form-control {
+  flex-grow: 1;
+}
+
+.proposal-dynamic-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.proposal-btn-dynamic {
+  background-color: transparent;
+  border: 2px solid;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.proposal-btn-add {
+  border-color: #B733F0;
+  color: #B733F0;
+}
+.proposal-btn-add:hover {
+  background-color: #B733F0;
+  color: white;
+}
+
+.proposal-btn-remove {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.proposal-btn-remove:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+.proposal-btn-client-action {
+  background-color: #f3f4f6;
+  color: #B733F0;
+  border: 1px solid #B733F0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.proposal-btn-client-action:hover {
+  background-color: #e5e7eb;
+}
+
+.proposal-form-navigation {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
