@@ -1,13 +1,13 @@
 // Caminho: app/proposta/[id]/page.tsx
-// VERSÃO 3.0 - LÓGICA DE SELEÇÃO REATIVADA
+// VERSÃO 3.1 - CORREÇÃO DE TIPAGEM PARA BUILD
 
 import { createServerClient } from '@/lib/server';
 import { notFound } from 'next/navigation';
 
-// Importa nossos componentes de template
 import TemplateModerno from './templates/moderno/TemplateModerno';
 import TemplatePadrao from './templates/padrao/TemplatePadrao'; 
 
+// --- TIPAGENS (sem alteração) ---
 type PropostaCompleta = {
   id: number;
   data_proposta: string;
@@ -39,10 +39,16 @@ type PropostaCompleta = {
   }[];
 };
 
+// --- INTERFACE PARA AS PROPS DA PÁGINA (A CORREÇÃO) ---
+interface PaginaPropostaProps {
+  params: {
+    id: string;
+  };
+}
+
 async function getProposta(id: string): Promise<PropostaCompleta | null> {
   const supabase = await createServerClient();
   
-  // ✅✅✅ CHAMANDO A NOVA FUNÇÃO SEGURA ✅✅✅
   const { data, error } = await supabase
     .rpc('get_public_proposal', { share_id_param: id })
     .single();
@@ -52,20 +58,17 @@ async function getProposta(id: string): Promise<PropostaCompleta | null> {
     return null;
   }
 
-  // O retorno da função RPC é um único objeto JSON, então já temos os dados aninhados.
   return data as PropostaCompleta;
 }
 
-export default async function PaginaPropostaPublica({ params }: { params: { id: string } }) {
+// --- FUNÇÃO DA PÁGINA COM A TIPAGEM CORRIGIDA ---
+export default async function PaginaPropostaPublica({ params }: PaginaPropostaProps) {
   const proposta = await getProposta(params.id);
 
   if (!proposta || !proposta.escritorios) {
     notFound();
   }
 
-  // ✅✅✅ LÓGICA REATIVADA ✅✅✅
-  // Agora o sistema vai ler o 'template_selecionado' do banco de dados
-  // e carregar o componente correto.
   const templateId = proposta.escritorios.template_selecionado;
 
   switch (templateId) {
@@ -74,7 +77,6 @@ export default async function PaginaPropostaPublica({ params }: { params: { id: 
     case 'moderno':
       return <TemplateModerno proposta={proposta} />;
     default:
-      // Se o valor for nulo ou inesperado, usa o Moderno como padrão.
       return <TemplateModerno proposta={proposta} />;
   }
 }
