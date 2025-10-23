@@ -1,0 +1,85 @@
+/* Caminho: app/dashboard/configuracoes/templates/templates.css */
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.template-card {
+  background-color: white;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.template-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.template-card.active {
+  border-color: #B733F0; /* Roxo da sua marca */
+  box-shadow: 0 8px 25px rgba(183, 51, 240, 0.2);
+}
+
+.template-card.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.template-card.disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.template-imagem-wrapper {
+  width: 100%;
+  height: 180px;
+  background-color: #f3f4f6;
+}
+
+.template-imagem-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.template-info {
+  padding: 1.5rem;
+}
+
+.template-info h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #1f2937;
+}
+
+.template-info p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.template-tag-ativo {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #B733F0;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}

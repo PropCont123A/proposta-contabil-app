@@ -1,0 +1,50 @@
+/* Caminho: app/dashboard/components/Tabs/Tabs.module.css */
+/* VERSÃO 2.0 - Com o design "sublinhado" e comportamento "sticky" */
+
+/* ✅ 1. O WRAPPER QUE DEIXA AS ABAS FIXAS */
+.tabsWrapper {
+  position: sticky;
+  top: 81px; /* Altura do Header (80px) + 1px da borda dele */
+  background-color: white;
+  z-index: 998; /* Um pouco abaixo do Header (que tem z-index 999) */
+  border-bottom: 1px solid #e5e7eb; /* Linha de separação sutil */
+}
+
+/* ✅ 2. O HEADER DAS ABAS (O CONTAINER) */
+.tabsHeader {
+  display: flex;
+  /* Removemos o padding e background daqui para o wrapper controlar */
+}
+
+/* ✅ 3. O BOTÃO DA ABA COM O ESTILO "SUBLINHADO" */
+.tabButton {
+  flex: 1;
+  padding: 18px 20px;
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent; /* Borda transparente por padrão */
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6b7280; /* Cinza médio */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 5px;
+  white-space: nowrap;
+}
+
+.tabButton:hover:not(:disabled) {
+  background-color: #f9fafb; /* Fundo cinza bem claro no hover */
+  color: #B733F0; /* Roxo no hover */
+}
+
+.tabButton.active {
+  color: #B733F0; /* Roxo quando ativo */
+  font-weight: 600;
+  border-bottom: 4px solid #B733F0; /* O SUBLINHADO ROXO! */
+}
+
+.tabButton:disabled {
+    color: #d1d5db;
+    cursor: not-allowed;
+}

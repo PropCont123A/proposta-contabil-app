@@ -1,0 +1,49 @@
+/* Caminho: app/dashboard/components/Header.css */
+/* VERSÃO COMPLETA E CORRIGIDA */
+
+.header-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  width: 100%;
+  box-sizing: border-box;
+
+  /* ✅ ================= INÍCIO DA CORREÇÃO ================= ✅ */
+  /* As 4 linhas que fazem a mágica acontecer */
+  position: sticky; /* Torna o elemento "pegajoso" */
+  top: 0; /* Define que ele deve "grudar" no topo da tela */
+  z-index: 20; /* Garante que ele fique acima do conteúdo que rola por baixo */
+  /* A cor de fundo é crucial para que o conteúdo não fique transparente por trás */
+  /* ✅ ================== FIM DA CORREÇÃO =================== ✅ */
+}
+
+.header-title {
+  font-size: 2rem; /* 32px */
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-welcome-message {
+  font-size: 1rem;
+  color: #374151;
+  font-weight: 500;
+  margin-right: 8px;
+  display: none; /* Escondido em telas pequenas */
+}
+
+/* Mostra a mensagem de boas-vindas em telas maiores */
+@media (min-width: 768px) {
+  .header-welcome-message {
+    display: block;
+  }
+}

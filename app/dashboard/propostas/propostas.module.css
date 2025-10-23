@@ -1,0 +1,161 @@
+/* ================================================================== */
+/*  ESTRUTURA GERAL E ESPAÇAMENTO                                     */
+/* ================================================================== */
+.etapa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espaçamento entre as seções (linhas, botões, etc.) */
+  padding-top: 2rem; /* ADICIONADO: Espaço entre as abas e o formulário */
+}
+
+/* Linha com 3 colunas */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Grupo de formulário padrão (Label + Input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* ================================================================== */
+/*  INPUTS DINÂMICOS (A CORREÇÃO PRINCIPAL)                           */
+/* ================================================================== */
+.dynamic-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dynamic-input-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Linha individual que contém o input e os botões */
+.dynamic-input-row {
+  display: flex; /* CORRIGIDO: Garante que input e botões fiquem na mesma linha */
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dynamic-input-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Faz o input ocupar todo o espaço disponível na linha */
+.dynamic-input-row .form-control {
+  flex-grow: 1;
+}
+
+/* Container para os botões de ação da linha (+ e -) */
+.dynamic-input-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Estilo base para os botões de ação (+ e -) */
+.btn-dynamic {
+  background-color: transparent;
+  border: 2px solid;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.btn-add {
+  border-color: #B733F0;
+  color: #B733F0;
+}
+.btn-add:hover {
+  background-color: #B733F0;
+  color: white;
+}
+
+.btn-remove {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.btn-remove:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* ================================================================== */
+/*  BOTÃO BUSCAR / CADASTRAR CLIENTE (ESTILO CORRIGIDO)               */
+/* ================================================================== */
+.btn-client-action {
+  background-color: #f3f4f6; /* Fundo cinza claro */
+  color: #B733F0; /* Texto roxo */
+  border: 1px solid #B733F0; /* Borda roxa */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content; /* Largura se ajusta ao conteúdo */
+  transition: background-color 0.2s;
+  align-self: flex-start; /* Alinha o botão à esquerda */
+}
+
+.btn-client-action:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-client-action i {
+  margin-right: 8px;
+}
+
+/* ================================================================== */
+/*  NAVEGAÇÃO (BOTÃO PRÓXIMO)                                         */
+/* ================================================================== */
+.form-navigation {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-nav {
+  padding: 0.75rem 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-next {
+  background-color: #B733F0;
+  color: white;
+}

@@ -1,0 +1,156 @@
+/* Caminho: app/proposta/[id]/proposta-publica.css */
+
+body {
+  background-color: #f3f4f6;
+  font-family: 'Poppins', sans-serif;
+  color: #374151;
+  margin: 0;
+}
+
+.proposta-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.proposta-header {
+  background-color: #4f46e5; /* Roxo */
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.escritorio-logo {
+  max-width: 150px;
+  max-height: 80px;
+  margin-bottom: 1rem;
+}
+
+.proposta-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.proposta-main {
+  padding: 2rem;
+}
+
+.proposta-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.proposta-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.proposta-section h2 {
+  font-size: 1.5rem;
+  color: #111827;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.proposta-section h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4f46e5;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.cliente-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.servicos-tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.servicos-tabela td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.servicos-tabela tr:last-child td {
+  border-bottom: none;
+}
+
+.servicos-tabela .valor {
+  text-align: right;
+  font-weight: 600;
+  color: #111827;
+}
+
+.resumo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.resumo-item {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.resumo-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.resumo-item p {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.pre-wrap {
+  white-space: pre-wrap; /* Mantém as quebras de linha do texto */
+  line-height: 1.6;
+}
+
+.proposta-footer {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-acao {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-acao:hover {
+  opacity: 0.9;
+}
+
+.btn-acao.aceitar {
+  background-color: #10b981; /* Verde */
+  color: white;
+}
+
+.btn-acao.recusar {
+  background-color: #ef4444; /* Vermelho */
+  color: white;
+}

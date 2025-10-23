@@ -1,0 +1,1768 @@
+/* ======================================== */
+/* ARQUIVO CSS GLOBAL - PROPOSTA CONTÁBIL   */
+/* ======================================== */
+
+/* ===== VARIÁVEIS CSS ===== */
+:root {
+    /* Paleta Principal */
+    --color-primary-blue: #0000CB;
+    --color-primary-purple: #B733F0;
+    --color-primary-pink: #FD7BF6;
+
+    /* Cores Neutras */
+    --color-neutral-dark: #1A1A1A;
+    --color-neutral-medium: #A0A0A0;
+    --color-neutral-light: #E5E5E5;
+    --color-neutral-extra-light: #FAFAFA;
+
+    /* Tons de Apoio / Complementares */
+    --color-support-blue: #5050FF;
+    --color-support-purple: #D9A8FA;
+    --color-support-pink: #FFA8F9;
+
+    /* Escala de Cinza Profissional */
+    --color-gray-lightest: #F9F9F9;
+    --color-gray-extra-light: #F0F0F0;
+    --color-gray-light: #E5E5E5;
+    --color-gray-medium-light: #CFCFCF;
+    --color-gray-medium: #A0A0A0;
+    --color-gray-medium-dark: #707070;
+    --color-gray-dark: #4A4A4A;
+    --color-gray-extra-dark: #2B2B2B;
+}
+
+/* ===== RESET E BASE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-neutral-extra-light);
+    color: var(--color-neutral-dark);
+}
+
+.flex-container {
+    display: flex;
+}
+
+/* ===== MENU LATERAL ===== */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: var(--color-primary-purple);
+    transition: width 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .logo {
+    display: none;
+}
+
+.sidebar-menu {
+    padding: 20px 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item i {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.toggle-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #FFFFFF;
+    border: 2px solid var(--color-primary-purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* ===== ÁREA PRINCIPAL ===== */
+.main-content {
+    flex-grow: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Garante que o header e o content fiquem um em cima do outro */
+}
+
+/* ===== CABEÇALHO (Agora dentro de cada página) ===== */
+.header {
+    background-color: #FFFFFF;
+    padding: 20px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ocupa toda a largura da main-content */
+}
+
+.header h1 {
+    color: var(--color-neutral-dark);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary-purple);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+}
+
+/* ===== CONTEÚDO ===== */
+.content {
+    padding: 30px;
+    flex-grow: 1; /* Faz o conteúdo ocupar o espaço restante */
+}
+
+/* ===== CARDS DE ESTATÍSTICAS (DASHBOARD) ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-title {
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.stat-change {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.stat-change.positive { color: #10b981; }
+.stat-change.negative { color: #ef4444; }
+.icon-purple { background-color: var(--color-primary-purple); }
+.icon-blue { background-color: #3b82f6; }
+.icon-green { background-color: #10b981; }
+.icon-orange { background-color: #f59e0b; }
+
+/* ===== AÇÕES RÁPIDAS (DASHBOARD) ===== */
+.quick-actions {
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.quick-actions h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, var(--color-primary-purple), #9333ea);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.action-btn i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* ===== BOTÕES DE CONFIGURAÇÃO ===== */
+.config-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.config-button {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-gray-light);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-neutral-dark);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.config-button i {
+    font-size: 48px;
+    color: var(--color-primary-purple);
+    margin-bottom: 20px;
+}
+
+.config-button h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.config-button p {
+    font-size: 14px;
+    color: var(--color-gray-medium-dark);
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA CADASTRO DE SERVIÇOS ===== */
+.content-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.content-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content-box-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary-purple), #9333ea);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary i {
+    font-size: 14px;
+}
+
+.services-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.services-table th,
+.services-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-gray-light);
+}
+
+.services-table th {
+    background-color: var(--color-gray-extra-light);
+    font-weight: 600;
+}
+
+.btn-edit, .btn-delete {
+    background: none;
+    border: 1px solid var(--color-gray-medium-light);
+    color: var(--color-gray-medium-dark);
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-right: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ===== MODAL DE FORMULÁRIO ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.modal-form-group {
+    margin-bottom: 15px;
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-gray-medium-light);
+    border-radius: 8px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.btn-secondary {
+    background: var(--color-gray-light);
+    color: var(--color-gray-dark);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.dynamic-field-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.dynamic-field-group input {
+    flex-grow: 1;
+}
+
+.btn-add-dynamic, .btn-remove-dynamic {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btn-add-dynamic { color: var(--color-support-blue); }
+.btn-remove-dynamic { color: #dc3545; }
+
+/* ===== ESTILOS PARA O WIZARD DE PROPOSTAS ===== */
+
+.wizard-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 0 20px;
+}
+
+.wizard-steps::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-gray-light);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  background-color: var(--color-neutral-extra-light);
+  padding: 0 15px;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--color-gray-light);
+  color: var(--color-gray-medium-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.step-label {
+  font-size: 12px;
+  color: var(--color-gray-medium-dark);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+  background-color: var(--color-primary-purple);
+  color: white;
+}
+
+.step.active .step-label {
+  color: var(--color-primary-purple);
+}
+
+.wizard-content {
+  padding: 20px 0;
+  min-height: 250px; /* Garante uma altura mínima */
+}
+
+.wizard-navigation {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-gray-light);
+}
+
+/* Lista de Serviços para Seleção */
+.servicos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.servico-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.servico-item:hover {
+  border-color: var(--color-primary-purple);
+  background-color: var(--color-gray-lightest);
+}
+
+.servico-item input[type="checkbox"] {
+  margin-top: 5px;
+  margin-right: 15px;
+  width: 18px;
+  height: 18px;
+}
+
+.servico-item label {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.servico-item label p {
+  font-size: 12px;
+  color: var(--color-gray-medium-dark);
+  margin-top: 4px;
+}
+
+/* ===== ESTILOS PARA A TELA DE GERAR PROPOSTA ===== */
+
+.tabs-container {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tabs-header {
+  display: flex;
+  background-color: var(--color-gray-extra-light);
+  border-bottom: 1px solid var(--color-gray-light);
+  padding: 10px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 15px 20px;
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-medium-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0 5px;
+}
+
+.tab-button.active {
+  background-color: var(--color-primary-purple);
+  color: white;
+  box-shadow: 0 4px 10px rgba(183, 51, 240, 0.3);
+}
+
+.tab-content {
+  padding: 30px;
+}
+
+.servicos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.servico-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.servico-item:hover {
+  border-color: var(--color-primary-purple);
+  background-color: var(--color-gray-lightest);
+}
+
+.servico-item input[type="checkbox"] {
+  margin-top: 5px;
+  margin-right: 15px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.servico-item label {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.servico-item label p {
+  font-size: 12px;
+  color: var(--color-gray-medium-dark);
+  margin-top: 4px;
+}
+
+.service-category-box {
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.service-category-box h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--color-neutral-dark);
+}
+
+.service-category-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.service-category-box li {
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--color-gray-light);
+}
+
+.service-category-box li:last-child {
+  border-bottom: none;
+}
+
+.total-value {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: right;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 2px solid var(--color-primary-purple);
+}
+
+.btn-action-edit, .btn-action-delete {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-action-edit { color: #007bff; }
+.btn-action-edit:hover { background-color: #007bff; color: white; }
+.btn-action-delete { color: #dc3545; }
+.btn-action-delete:hover { background-color: #dc3545; color: white; }
+
+.services-table .service-name {
+  font-weight: 500;
+  color: #000000; /* Um tom de preto um pouco mais suave */
+}
+
+/* Estilos para a barra de pesquisa */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px; /* Ajuste a largura máxima conforme necessário */
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 35px; /* Espaço à esquerda para o ícone */
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #8B2FC7; /* Cor roxa do seu tema */
+  box-shadow: 0 0 0 2px rgba(139, 47, 199, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #6c757d; /* Cinza */
+}
+
+/* Estilos para cabeçalhos de tabela ordenáveis */
+.sortable-header {
+  cursor: pointer;
+  user-select: none; /* Impede a seleção de texto ao clicar */
+}
+
+.sortable-header:hover {
+  background-color: #f1f3f5; /* Um cinza bem claro no hover */
+}
+
+.sortable-header i {
+  margin-left: 8px;
+  color: #adb5bd; /* Cor para o ícone de ordenação padrão */
+}
+
+.sortable-header i.fa-sort-up,
+.sortable-header i.fa-sort-down {
+  color: #343a40; /* Cor mais escura para o ícone ativo */
+}
+
+/* Estilos para os controles de paginação */
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 16px 0;
+  gap: 12px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ================== ESTILOS PARA O NOVO MODAL ================== */
+
+/* Aumenta o tamanho do modal para acomodar o novo layout */
+.modal-content.modal-lg {
+  max-width: 800px; /* Largura maior */
+}
+
+/* Reorganiza o modal para ter cabeçalho, corpo e rodapé */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.modal-body {
+  padding: 24px 0;
+}
+
+/* Estilos para as seções expansíveis (Accordion) */
+.form-section {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden; /* Garante que o conteúdo não vaze */
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  user-select: none;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.section-header i {
+  transition: transform 0.3s ease;
+}
+
+.section-header i.open {
+  transform: rotate(180deg);
+}
+
+.section-content {
+  padding: 16px;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Layout em Grid para os campos do formulário */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Permite que um item ocupe mais de uma coluna */
+.span-2 {
+  grid-column: span 2;
+}
+.span-3 {
+  grid-column: span 3;
+}
+
+/* Estilos para agrupar um input com um botão */
+.input-with-button {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-button .modal-input {
+  flex-grow: 1; /* Faz o input ocupar o espaço disponível */
+}
+
+.btn-input-action {
+  flex-shrink: 0; /* Impede que o botão encolha */
+  padding: 0 12px;
+  border: 1px solid #ced4da;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-input-action:hover {
+  background-color: #e9ecef;
+}
+
+/* app/globals.css */
+
+/* ... (seus outros estilos) ... */
+
+/* Barra de Ferramentas da Tabela (Pesquisa e Filtros) */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+}
+
+/* Rodapé da Paginação */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Estilos para os botões de ação com ícones */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-action-icon:hover {
+  color: #343a40;
+}
+
+.btn-action-icon.btn-delete:hover {
+  color: #dc3545;
+}
+
+/* app/globals.css */
+
+/* ... (seus outros estilos existentes) ... */
+
+/* BARRA DE FERRAMENTAS PADRONIZADA (USADA EM SERVIÇOS, CLIENTES E PROPOSTAS) */
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+  font-size: 14px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+}
+
+/* Garante que a tabela não quebre o layout */
+.table-wrapper {
+  overflow-x: auto; /* Adiciona scroll horizontal se a tabela for muito larga */
+}
+
+/* RODAPÉ DA PAGINAÇÃO PADRONIZADO */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* BOTÕES DE AÇÃO PADRONIZADOS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #6c757d;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-action-icon:hover {
+  color: #343a40;
+}
+
+.btn-action-icon.btn-delete:hover {
+  color: #dc3545;
+}
+
+/* =============================================================== */
+/* ESTILOS ADICIONAIS PARA A TELA DE PROPOSTAS E PADRONIZAÇÃO      */
+/* Adicione este bloco ao FINAL do seu arquivo app/globals.css     */
+/* =============================================================== */
+
+/* Remove o sublinhado de links com a classe de botão */
+.btn-primary, .btn-secondary {
+  text-decoration: none;
+}
+
+/* Cores para os ícones de ação específicos */
+.btn-action-icon.btn-view:hover { color: #007bff; } /* Azul para visualizar */
+.btn-action-icon.btn-pdf:hover { color: #dc3545; } /* Vermelho para PDF */
+.btn-action-icon.btn-link:hover { color: #28a745; } /* Verde para link */
+.btn-action-icon.btn-notes:hover { color: #ffc107; } /* Amarelo para notas */
+
+/* =============================================================== */
+/* ESTILOS FINAIS PARA PADRONIZAÇÃO DAS TABELAS                    */
+/* Substitua as regras anteriores por este bloco                   */
+/* =============================================================== */
+
+/* BARRA DE FERRAMENTAS PADRONIZADA */
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  gap: 16px; /* Adiciona um espaço entre os grupos */
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toolbar-right {
+  display: flex;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  width: 300px;
+  font-size: 14px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  font-size: 14px;
+}
+
+/* Garante que a tabela não quebre o layout */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* RODAPÉ DA PAGINAÇÃO PADRONIZADO */
+.pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* BOTÕES DE AÇÃO PADRONIZADOS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.btn-action-icon:hover {
+  transform: scale(1.1); /* Efeito de zoom sutil ao passar o mouse */
+}
+
+/* ÍCONES SEMPRE COLORIDOS */
+.btn-action-icon.btn-view { color: #007bff; }
+.btn-action-icon.btn-pdf { color: #dc3545; }
+.btn-action-icon.btn-link { color: #28a745; }
+.btn-action-icon.btn-notes { color: #ffc107; }
+.btn-action-icon.btn-delete { color: #6c757d; } /* Cinza padrão */
+.btn-action-icon.btn-delete:hover { color: #dc3545; } /* Vermelho ao passar o mouse */
+
+/* Remove o sublinhado de links com a classe de botão */
+.btn-primary, .btn-secondary {
+  text-decoration: none;
+}
+
+/* =============================================================== */
+/* MELHORIAS DE DESIGN PARA A PÁGINA DE CADASTRO DO ESCRITÓRIO     */
+/* Adicione este bloco ao FINAL do seu arquivo app/globals.css     */
+/* =============================================================== */
+
+/* Container principal da página de formulário */
+.form-page-container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Título da seção do formulário (ex: "Dados Gerais", "Endereço") */
+.form-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-neutral-dark);
+  padding-bottom: 10px;
+  margin-top: 25px; /* Espaçamento acima do título */
+  margin-bottom: 20px; /* Espaçamento abaixo do título */
+  border-bottom: 1px solid var(--color-gray-light);
+}
+.form-section-title:first-child {
+  margin-top: 0; /* Remove a margem do primeiro título */
+}
+
+/* Grid para o formulário */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Layout padrão de 3 colunas */
+  gap: 20px; /* Espaçamento entre os campos */
+}
+
+/* Grupo de formulário (label + input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-gray-dark);
+}
+
+/* Estilo aprimorado para inputs, selects e textareas */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-gray-medium-light);
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary-purple);
+  box-shadow: 0 0 0 3px rgba(183, 51, 240, 0.2);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Utilitários de Grid (você já tem alguns, estes garantem consistência) */
+.grid-col-span-2 { grid-column: span 2; }
+.grid-col-span-3 { grid-column: span 3; }
+
+/* Ações do formulário (botão de salvar) */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-gray-light);
+}
+
+/* =============================================================== */
+/* ESTILOS PARA O PREVIEW DO LOGO                                  */
+/* Adicione este bloco ao FINAL do seu arquivo app/globals.css     */
+/* =============================================================== */
+
+.logo-preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px; /* Largura fixa para o preview */
+  height: 150px; /* Altura fixa para o preview */
+  border: 2px dashed var(--color-gray-medium-light);
+  border-radius: 8px;
+  padding: 10px;
+  background-color: var(--color-gray-lightest);
+  margin-right: 20px; /* Espaço entre o preview e o campo de upload */
+  flex-shrink: 0; /* Impede que o wrapper encolha */
+}
+
+.logo-preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Garante que a imagem caiba sem distorcer */
+}
+
+.logo-preview-placeholder {
+  font-size: 14px;
+  color: var(--color-gray-medium-dark);
+  text-align: center;
+}
+
+/* Ajuste para o container principal do logo para alinhar os itens */
+.logo-upload-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-upload-fields {
+  flex-grow: 1; /* Faz os campos de input e botão ocuparem o espaço restante */
+}
+
+
+/* =============================================================== */
+/* ESTILOS PARA A PÁGINA DE LOGIN                                  */
+/* =============================================================== */
+
+.login-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  background-color: var(--color-neutral-extra-light);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 28rem; /* ~448px */
+}
+
+.login-logo {
+  margin-left: auto;
+  margin-right: auto;
+  height: 7rem; /* Aumentamos de 5rem para 7rem (~112px) */
+  width: auto;
+  margin-bottom: 1.5rem; /* Adiciona um espaço abaixo da logo */
+}
+
+.login-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-neutral-dark);
+  margin-bottom: 2rem; /* Espaço entre o título e o início do form */
+}
+
+.login-form-container {
+  margin-top: 0; /* Removemos a margem superior antiga */
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  width: 100%;
+  max-width: 28rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espaço entre os campos */
+}
+
+.login-form-group label {
+  display: block;
+  font-size: 0.875rem; /* ~14px */
+  font-weight: 500;
+  color: var(--color-neutral-dark);
+  margin-bottom: 0.5rem;
+}
+
+.login-input {
+  display: block;
+  width: 100%;
+  border-radius: 0.375rem; /* ~6px */
+  border: 1px solid var(--color-gray-medium-light);
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.login-input:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-color: var(--color-primary-purple);
+  box-shadow: 0 0 0 3px rgba(183, 51, 240, 0.2);
+}
+
+.login-form-group .forgot-password-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary-purple);
+  text-decoration: none;
+}
+.login-form-group .forgot-password-link:hover {
+  color: var(--color-primary-blue);
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.375rem;
+  border: none;
+  color: white;
+  font-weight: 600;
+  background-color: var(--color-primary-purple);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-button:hover {
+  background-color: var(--color-primary-blue);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-message {
+  font-size: 0.875rem;
+  text-align: center;
+  font-weight: 500;
+}
+.login-message.error { color: #ef4444; }
+.login-message.success { color: #10b981; }
+
+.signup-text {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-gray-medium-dark);
+}
+
+.signup-link {
+  font-weight: 600;
+  color: var(--color-primary-purple);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.signup-link:hover {
+  color: var(--color-primary-blue);
+}
+
+/* =============================================================== */
+/* ESTILOS PARA O NOVO LAYOUT DE LOGIN (DUAS COLUNAS)              */
+/* =============================================================== */
+
+.login-split-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.login-form-wrapper {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--color-neutral-extra-light);
+}
+
+.login-branding-wrapper {
+  width: 50%;
+  background: linear-gradient(135deg, var(--color-primary-purple) 0%, var(--color-primary-blue) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: white;
+}
+
+.branding-content {
+  max-width: 450px;
+  text-align: center;
+}
+
+.branding-title {
+  font-size: 2.5rem; /* ~40px */
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.branding-subtitle {
+  font-size: 1.125rem; /* ~18px */
+  opacity: 0.9;
+}
+
+/* Ajustes para telas menores (responsividade) */
+@media (max-width: 900px) {
+  .login-branding-wrapper {
+    display: none; /* Esconde a coluna de branding em telas pequenas */
+  }
+
+  .login-form-wrapper {
+    width: 100%; /* Faz o formulário ocupar a tela inteira */
+  }
+}
+
+/* Adicionar ao globals.css */
+.forgot-password-wrapper {
+  text-align: center;
+  margin-top: 1rem; /* Espaçamento acima do link */
+}
+
+/* =============================================================== */
+/* CORREÇÃO FINAL PARA CENTRALIZAÇÃO DA LOGO                       */
+/* Adicione este bloco ao final do seu globals.css                 */
+/* =============================================================== */
+
+.login-card {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  justify-content: center; /* Centraliza a logo horizontalmente */
+}
+
+.login-logo {
+  height: 10rem; /* Aumentamos para 8rem (~128px) */
+  width: auto;
+  margin-bottom: 2.5rem; /* Aumenta o espaço abaixo da logo */
+}
+
+/* =============================================================== */
+/* AJUSTE FINAL DE ESTILO PARA OS BOTÕES DE LOGIN                  */
+/* Adicione este bloco ao final do seu globals.css                 */
+/* =============================================================== */
+
+/* Faz o botão "Esqueceu a senha?" parecer um link normal */
+.forgot-password-link {
+  /* Remove qualquer estilo de botão padrão */
+  background: none;
+  border: none;
+  padding: 0;
+  
+  /* Adiciona os estilos de link que queremos */
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary-purple);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.forgot-password-link:hover {
+  color: var(--color-primary-blue);
+  text-decoration: underline;
+}
+
+/* Ajusta o espaçamento da logo */
+.login-logo {
+  height: 10rem;
+  width: auto;
+  margin-bottom: -0.5rem; /* Diminuímos de 2.5rem para 1.5rem */
+}
+
+.etapa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.dynamic-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dynamic-input-group label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.dynamic-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dynamic-input-row:last-child {
+  margin-bottom: 0;
+}
+
+.dynamic-input-row .form-control {
+  flex-grow: 1;
+}
+
+.dynamic-input-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-dynamic {
+  background-color: transparent;
+  border: 2px solid;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.btn-add {
+  border-color: #B733F0;
+  color: #B733F0;
+}
+.btn-add:hover {
+  background-color: #B733F0;
+  color: white;
+}
+
+.btn-remove {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.btn-remove:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-client-action {
+  background-color: #f3f4f6;
+  color: #B733F0;
+  border: 1px solid #B733F0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.btn-client-action:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-client-action i {
+  margin-right: 8px;
+}
+
+.form-navigation {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn-nav {
+  padding: 0.75rem 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-next {
+  background-color: #B733F0;
+  color: white;
+}
+
+/* CSS para o rodapé de ações do formulário */
+.form-actions-footer {
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  /* As margens negativas compensam o padding da div 'content-box' pai */
+  margin: 2rem -2rem -2rem -2rem; 
+  border-radius: 0 0 0.5rem 0.5rem;
+}

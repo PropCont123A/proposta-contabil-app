@@ -1,0 +1,298 @@
+/* Caminho: app/proposta/[id]/templates/padrao/padrao.css */
+/* VERSÃO 2.0 - ESTILIZAÇÃO COMPLETA DO ACORDEÃO */
+
+/* --- GERAL --- */
+.template-padrao-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5; /* Um cinza um pouco mais claro */
+  color: #343a40;
+}
+
+.padrao-main {
+  padding: 2rem;
+  background-color: transparent; /* Remove o fundo branco do container principal */
+}
+
+/* --- CABEÇALHO SUPERIOR (VERSÃO FINAL) --- */
+.padrao-header {
+  background-color: white; /* Fundo branco */
+  color: #001f54; /* Cor primária do texto */
+  padding: 2rem;
+  text-align: left; /* Alinhamento à esquerda */
+  border-radius: 0;
+  margin: 30;
+  box-shadow: none;
+}
+
+.header-title-tag {
+  background-color: #001f54;
+  color: white;
+  padding: 4px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-block; /* Para o padding funcionar */
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.padrao-header h1 {
+  margin: 0;
+  font-size: 2.2rem; /* Levemente menor para ficar mais elegante */
+  font-weight: 700;
+  color: #001f54;
+}
+
+.header-divider {
+  height: 1px;
+  background-color: #dee2e6; /* Linha cinza */
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.padrao-header-info {
+  display: block; /* ✅ MUDANÇA PRINCIPAL: Faz os itens ficarem um abaixo do outro */
+  font-size: 1rem;
+  color: #343a40;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espaço entre o ícone e o texto */
+  margin-bottom: 0.5rem; /* ✅ Adiciona um pequeno espaço entre a linha de Data e a de Validade */
+}
+
+.info-item:last-child {
+  margin-bottom: 0; /* Remove a margem do último item */
+}
+
+/* --- ESTRUTURA DO ACORDEÃO --- */
+.accordion-item {
+  margin-bottom: 1rem; /* ✅ Espaço entre os botões */
+  border: none; /* Remove a linha divisória antiga */
+  border-radius: 8px; /* Arredondamento geral */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* Essencial para o efeito de cantos arredondados */
+  transition: all 0.3s ease;
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #001f54; /* ✅ Preenchimento azul */
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white; /* ✅ Letras brancas */
+  text-align: left;
+  transition: border-radius 0.1s ease-in-out;
+}
+
+.accordion-header:hover {
+    background-color: #002b75; /* Um pouco mais claro no hover */
+}
+
+/* Quando o acordeão está aberto, os cantos inferiores do header ficam retos */
+.accordion-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.accordion-icon {
+  transition: transform 0.3s ease;
+  font-size: 1rem;
+}
+
+/* Ícone de seta para baixo quando aberto */
+.accordion-icon.open {
+  transform: rotate(90deg);
+}
+
+/* --- CONTEÚDO DO ACORDEÃO --- */
+.accordion-content {
+  background: white; /* ✅ Fundo branco */
+  border: 1px solid #dee2e6;
+  border-top: none; /* Remove a borda de cima para conectar com o header */
+  border-radius: 0 0 8px 8px; /* Arredonda só os cantos de baixo */
+}
+
+.accordion-body {
+    padding: 1.5rem;
+    line-height: 1.7;
+    color: #001f54; /* ✅ Letras azuis */
+}
+
+.accordion-body p {
+  margin: 0 0 0.5rem 0;
+}
+
+.servico-item-padrao {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+.servico-item-padrao:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.servico-item-padrao p {
+  margin: 0;
+}
+
+/* --- RODAPÉ --- */
+.padrao-footer {
+  background-color: #f0f2f5;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 0 0 8px 8px;
+}
+
+/* ... (O resto do CSS do rodapé que já fizemos pode continuar aqui) ... */
+/* Se você substituir o arquivo todo, cole o CSS do rodapé abaixo desta linha */
+
+.logo-wrapper-circular {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin: 30px auto;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.padrao-logo-footer {
+    max-width: 75%;
+    max-height: 75%;
+    object-fit: contain;
+}
+
+.marketing-title-wrapper {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.marketing-title-highlight {
+    background-color: #001f54;
+    color: white;
+    padding: 5px 15px;
+    font-weight: 600;
+    font-size: 1.5rem;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.marketing-title-normal {
+    display: block;
+    font-size: 1.2rem;
+    color: #4a5568;
+    font-weight: 400;
+}
+
+.padrao-footer h2 {
+    display: none;
+}
+
+.redes-sociais {
+    margin-top: 50px;
+}
+
+.icones-sociais {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.icones-sociais a {
+  color: #000066;
+  font-size: 1.9rem;
+  transition: transform 0.2s;
+}
+
+.icones-sociais a:hover {
+  transform: scale(1.2);
+}
+
+.social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5em;
+    transition: all 0.3s ease;
+    background: #FFFFFF;
+    border: 1px solid #e5e7eb;
+    color: #001f54;
+}
+
+.social-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: #00379e;
+}
+
+.sobre-nos-box {
+    background-color: #001f54;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin: 40px auto;
+    max-width: 700px;
+    text-align: justify;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.creditos-finais {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.creditos-finais p {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.logo-proposta-contabil {
+    max-width: 150px;
+    height: auto;
+}
+
+/* === ESTILOS DE CONTEÚDO DO ACORDEÃO - ADICIONAR AO FINAL === */
+
+.accordion-body ul {
+  list-style-type: disc; /* Garante que o marcador seja uma bolinha */
+  padding-left: 20px; /* Adiciona um recuo à esquerda para a lista */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-body li {
+  margin-bottom: 0.5rem; /* Espaçamento entre os itens da lista */
+}
+
+.accordion-body h4 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #001f54;
+}
+.accordion-body h4:first-child {
+    margin-top: 0;
+}
