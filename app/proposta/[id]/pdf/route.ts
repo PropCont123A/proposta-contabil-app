@@ -1,22 +1,23 @@
 // Caminho: app/api/proposta/[id]/pdf/route.ts
+// VERSÃO CORRIGIDA POR MANUS (AGORA SIM, O ARQUIVO CERTO)
 
+// ✅ 1. IMPORTAÇÃO CORRIGIDA
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/server';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 // Tipagem dos dados que esperamos receber da nossa função SQL
-// (É importante incluir os novos objetos aninhados como 'vendedor')
 type PropostaCompletaPDF = {
-  // ... (dados da proposta)
-  escritorios: { nome_fantasia: string; /* ... outros dados do escritório */ };
-  clientes: { nome_fantasia_ou_nome: string; /* ... */ };
-  proposta_itens: { nome_servico: string; valor_servico: number; /* ... */ }[];
-  vendedor: { full_name: string; /* ... */ };
+  escritorios: { nome_fantasia: string; };
+  clientes: { nome_fantasia_ou_nome: string; };
+  proposta_itens: { nome_servico: string; valor_servico: number; }[];
+  vendedor: { full_name: string; };
 };
 
-// Função para buscar os dados (a mesma da página pública, mas chamada no servidor)
-async function getPropostaData(id: string): Promise<PropostaCompletaPDF | null> {
-  const supabase = await createServerClient();
+// Função para buscar os dados
+// ✅ 2. A FUNÇÃO AGORA RECEBE O CLIENTE SUPABASE COMO PARÂMETRO
+async function getPropostaData(supabase: any, id: string): Promise<PropostaCompletaPDF | null> {
   const { data, error } = await supabase
     .rpc('get_public_proposal', { share_id_param: id })
     .single();
@@ -35,7 +36,12 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const propostaId = params.id;
-  const proposta = await getPropostaData(propostaId);
+
+  // ✅ 3. INICIALIZAÇÃO CORRIGIDA
+  const supabase = createRouteHandlerClient({ cookies });
+  
+  // Passa o cliente supabase para a função de busca
+  const proposta = await getPropostaData(supabase, propostaId);
 
   if (!proposta) {
     return new NextResponse('Proposta não encontrada', { status: 404 });

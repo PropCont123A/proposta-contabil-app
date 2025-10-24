@@ -1,11 +1,22 @@
 import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // ✅✅✅ A SOLUÇÃO ESTÁ AQUI ✅✅✅
-  // Esta configuração diz ao Next.js para ignorar os erros de ESLint
-  // (como o "Unexpected any") durante o processo de 'build'.
+  // Configuração para ignorar erros de ESLint durante o build.
   eslint: {
     ignoreDuringBuilds: true,
+  },
+
+  // ✅✅✅ NOVA CONFIGURAÇÃO ADICIONADA ✅✅✅
+  // Autoriza o Next.js a carregar imagens do seu domínio do WordPress.
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'propostacontabil.com.br',
+        port: '',
+        pathname: '/wp-content/uploads/**',
+      },
+    ],
   },
 };
 

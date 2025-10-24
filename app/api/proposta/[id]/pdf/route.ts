@@ -1,14 +1,16 @@
-// Caminho: app/proposta/[id]/pdf/route.ts
-// VERSÃO CORRIGIDA POR MANUS
+// Caminho: app/api/proposta/[id]/pdf/route.ts
+// VERSÃO CORRIGIDA POR MANUS (AGORA PARA O ARQUIVO CERTO)
 
 import { NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/server';
+// ✅ 1. IMPORTAÇÃO CORRIGIDA
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import { PDFDocument, rgb, PDFFont, PDFHexString, PageSizes, degrees } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 import fs from 'fs/promises';
 import path from 'path';
 
-// --- TIPAGENS ---
+// --- TIPAGENS (sem alteração) ---
 type ServicoProposta = {
     nome: string;
     valor: number;
@@ -46,7 +48,7 @@ type IconImages = {
     site: any | null;
 }
 
-// --- FUNÇÕES DE DESENHO ---
+// --- FUNÇÕES DE DESENHO (sem alteração) ---
 async function drawPageTemplate(page: any) {
     const { width, height } = page.getSize();
     const accentColor = rgb(122 / 255, 193 / 255, 67 / 255);
@@ -113,14 +115,14 @@ async function drawFooter(page: any, data: PropostaData, fonts: Fonts, icons: Ic
         if (!url) return null;
         if (type === 'whatsapp') {
             const digits = url.replace(/\D/g, '');
-            return `https://wa.me/${digits.startsWith('55'    ) ? digits : '55' + digits}`;
+            return `https://wa.me/${digits.startsWith('55'     ) ? digits : '55' + digits}`;
         }
-        if (url.startsWith('http://'    ) || url.startsWith('https://'    )) {
+        if (url.startsWith('http://'     ) || url.startsWith('https://'     )) {
             return url;
         }
         return `https://${url}`;
     };
-    if (data.escritorio?.instagram && icons.instagram    ) iconsToDraw.push({ image: icons.instagram, url: sanitizeUrl(data.escritorio.instagram) });
+    if (data.escritorio?.instagram && icons.instagram     ) iconsToDraw.push({ image: icons.instagram, url: sanitizeUrl(data.escritorio.instagram) });
     if (data.escritorio?.facebook && icons.facebook) iconsToDraw.push({ image: icons.facebook, url: sanitizeUrl(data.escritorio.facebook) });
     if (data.escritorio?.whatsapp && icons.whatsapp) iconsToDraw.push({ image: icons.whatsapp, url: sanitizeUrl(data.escritorio.whatsapp, 'whatsapp') });
     if (data.escritorio?.linkedin && icons.linkedin) iconsToDraw.push({ image: icons.linkedin, url: sanitizeUrl(data.escritorio.linkedin) });
@@ -279,15 +281,16 @@ async function drawServicesPage(pdfDoc: PDFDocument, data: PropostaData, fonts: 
     }
 }
 
-// --- FUNÇÃO GET (Com a tipagem CORRIGIDA) ---
+// --- FUNÇÃO GET (Com a tipagem e o cliente Supabase CORRIGIDOS) ---
 export async function GET(
-    request: Request, // O primeiro argumento é sempre o request
-    { params }: { params: { id: string } } // O segundo argumento é desestruturado para pegar os 'params'
+    request: Request,
+    { params }: { params: { id: string } }
 ) {
-  const { id } = params; // 'id' vem de 'params'
+  const { id } = params;
   if (!id) { return new NextResponse('ID da proposta não fornecido', { status: 400 }); }
 
-  const supabase = createServerClient();
+  // ✅ 2. INICIALIZAÇÃO CORRIGIDA
+  const supabase = createRouteHandlerClient({ cookies });
   
   const { data, error: rpcError } = await supabase.rpc('get_proposal_details_for_pdf', { p_share_id: id }).single();
 
