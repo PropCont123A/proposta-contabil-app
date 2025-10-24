@@ -1,7 +1,6 @@
-// Caminho: app/api/proposta/[id]/pdf/generate.ts
-// VERSÃO 33.1 - USANDO 'any' PARA FORÇAR BUILD
+// Caminho CORRETO: app/proposta/[id]/pdf/route.ts
 
-import { NextResponse } from 'next/server'; // Removido NextRequest que não será usado
+import { NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/server';
 import { PDFDocument, rgb, PDFFont, PDFHexString, PageSizes, degrees } from 'pdf-lib';
 import * as fontkit from 'fontkit';
@@ -113,14 +112,14 @@ async function drawFooter(page: any, data: PropostaData, fonts: Fonts, icons: Ic
         if (!url) return null;
         if (type === 'whatsapp') {
             const digits = url.replace(/\D/g, '');
-            return `https://wa.me/${digits.startsWith('55'  ) ? digits : '55' + digits}`;
+            return `https://wa.me/${digits.startsWith('55'   ) ? digits : '55' + digits}`;
         }
-        if (url.startsWith('http://'  ) || url.startsWith('https://'  )) {
+        if (url.startsWith('http://'   ) || url.startsWith('https://'   )) {
             return url;
         }
         return `https://${url}`;
     };
-    if (data.escritorio?.instagram && icons.instagram  ) iconsToDraw.push({ image: icons.instagram, url: sanitizeUrl(data.escritorio.instagram) });
+    if (data.escritorio?.instagram && icons.instagram   ) iconsToDraw.push({ image: icons.instagram, url: sanitizeUrl(data.escritorio.instagram) });
     if (data.escritorio?.facebook && icons.facebook) iconsToDraw.push({ image: icons.facebook, url: sanitizeUrl(data.escritorio.facebook) });
     if (data.escritorio?.whatsapp && icons.whatsapp) iconsToDraw.push({ image: icons.whatsapp, url: sanitizeUrl(data.escritorio.whatsapp, 'whatsapp') });
     if (data.escritorio?.linkedin && icons.linkedin) iconsToDraw.push({ image: icons.linkedin, url: sanitizeUrl(data.escritorio.linkedin) });
@@ -279,9 +278,12 @@ async function drawServicesPage(pdfDoc: PDFDocument, data: PropostaData, fonts: 
     }
 }
 
-// --- FUNÇÃO GET (Com a tipagem simplificada) ---
-export async function GET(request: any, context: any) {
-  const { id } = context.params;
+// --- FUNÇÃO GET (Com a tipagem CORRIGIDA) ---
+export async function GET(
+    request: Request, // O primeiro argumento é sempre o request
+    { params }: { params: { id: string } } // O segundo argumento é desestruturado para pegar os 'params'
+) {
+  const { id } = params; // 'id' vem de 'params'
   if (!id) { return new NextResponse('ID da proposta não fornecido', { status: 400 }); }
 
   const supabase = createServerClient();
