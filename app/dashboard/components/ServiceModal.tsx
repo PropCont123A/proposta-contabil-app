@@ -37,7 +37,7 @@ export default function ServiceModal({ isOpen, onClose, onSaveSuccess, serviceTo
       const descFromDb = serviceToEdit.descricao;
       if (Array.isArray(descFromDb)) {
         descricoesIniciais = descFromDb.length > 0 ? descFromDb : [''];
-      } else if (typeof descFromDb === 'string' && descFromDb.startsWith('[') && descFromDb.endsWith(']')) {
+      } else if (typeof descFromDb === 'string' && (descFromDb as any).startsWith('[') && (descFromDb as any).endsWith(']')) {
         try {
           const parsedDesc = JSON.parse(descFromDb);
           if (Array.isArray(parsedDesc)) { descricoesIniciais = parsedDesc.length > 0 ? parsedDesc : ['']; }
