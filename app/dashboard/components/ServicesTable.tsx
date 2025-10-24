@@ -1,5 +1,4 @@
-import { Service } from '../../../../types';
-
+import { Service } from '@/types';
 type ServicesTableProps = {
   services: Service[];
   onEdit: (service: Service) => void;
