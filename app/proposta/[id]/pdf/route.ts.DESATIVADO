@@ -1,10 +1,9 @@
-// Caminho: app/api/proposta/[id]/pdf/route.ts
-// VERSÃO CORRIGIDA POR MANUS (AGORA PARA O ARQUIVO CERTO)
+// Caminho: app/proposta/[id]/pdf/route.ts
+// VERSÃO CORRIGIDA (USA CLIENTE PÚBLICO)
 
 import { NextResponse } from 'next/server';
-// ✅ 1. IMPORTAÇÃO CORRIGIDA
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+// ✅ 1. IMPORTAÇÃO CORRIGIDA PARA CLIENTE PÚBLICO
+import { createClient } from '@supabase/supabase-js';
 import { PDFDocument, rgb, PDFFont, PDFHexString, PageSizes, degrees } from 'pdf-lib';
 import * as fontkit from 'fontkit';
 import fs from 'fs/promises';
@@ -48,7 +47,8 @@ type IconImages = {
     site: any | null;
 }
 
-// --- FUNÇÕES DE DESENHO (sem alteração) ---
+// --- FUNÇÕES DE DESENHO (sem alteração, omitidas por brevidade) ---
+// ... (todas as funções drawPageTemplate, drawInternalPageLogo, etc. continuam aqui)
 async function drawPageTemplate(page: any) {
     const { width, height } = page.getSize();
     const accentColor = rgb(122 / 255, 193 / 255, 67 / 255);
@@ -281,7 +281,7 @@ async function drawServicesPage(pdfDoc: PDFDocument, data: PropostaData, fonts: 
     }
 }
 
-// --- FUNÇÃO GET (Com a tipagem e o cliente Supabase CORRIGIDOS) ---
+// --- FUNÇÃO GET ---
 export async function GET(
     request: Request,
     { params }: { params: { id: string } }
@@ -289,8 +289,11 @@ export async function GET(
   const { id } = params;
   if (!id) { return new NextResponse('ID da proposta não fornecido', { status: 400 }); }
 
-  // ✅ 2. INICIALIZAÇÃO CORRIGIDA
-  const supabase = createRouteHandlerClient({ cookies });
+  // ✅ 2. INICIALIZAÇÃO CORRIGIDA PARA ROTA PÚBLICA
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
   
   const { data, error: rpcError } = await supabase.rpc('get_proposal_details_for_pdf', { p_share_id: id }).single();
 
@@ -355,3 +358,4 @@ export async function GET(
     return new NextResponse('Erro interno ao gerar o PDF', { status: 500 });
   }
 }
+

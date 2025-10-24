@@ -147,7 +147,7 @@ export default function ProposalsTable({ propostas, onDelete, loading, error }: 
                     <Link href={`/dashboard/propostas/editar/${proposta.id}`} className="btn-action-icon btn-edit" title="Editar"><i className="fas fa-pencil-alt"></i></Link>
                     <button onClick={() => onDelete(proposta.id)} className="btn-action-icon btn-delete" title="Excluir"><i className="fas fa-trash"></i></button>
                     
-                    <a 
+                    {/* <a 
                       href={`/api/proposta/${proposta.share_id}/pdf`} // ✅ GARANTIR QUE ESTÁ USANDO share_id
                       target="_blank"
                       rel="noopener noreferrer"
@@ -155,7 +155,7 @@ export default function ProposalsTable({ propostas, onDelete, loading, error }: 
                       title="Baixar PDF"
                     >
                       <FaFilePdf />
-                    </a>
+                    </a> */}
 
                     {/* ✅ BOTÃO DE LINK AGORA É UM LINK DE VERDADE */}
                     <a 

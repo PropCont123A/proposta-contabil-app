@@ -1,8 +1,8 @@
 // Caminho: app/api/proposta/[id]/pdf/route.ts
-// VERSÃO CORRIGIDA POR MANUS (AGORA SIM, O ARQUIVO CERTO)
+// VERSÃO CORRIGIDA (CLIENTE AUTENTICADO E TIPAGEM CERTA)
 
 // ✅ 1. IMPORTAÇÃO CORRIGIDA
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'; // Usa NextResponse e não NextRequest
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
@@ -16,7 +16,6 @@ type PropostaCompletaPDF = {
 };
 
 // Função para buscar os dados
-// ✅ 2. A FUNÇÃO AGORA RECEBE O CLIENTE SUPABASE COMO PARÂMETRO
 async function getPropostaData(supabase: any, id: string): Promise<PropostaCompletaPDF | null> {
   const { data, error } = await supabase
     .rpc('get_public_proposal', { share_id_param: id })
@@ -31,16 +30,15 @@ async function getPropostaData(supabase: any, id: string): Promise<PropostaCompl
 
 
 // A função principal que gera o PDF
+// ✅ 2. TIPAGEM DO REQUEST CORRIGIDA
 export async function GET(
-  request: NextRequest,
+  request: Request, // Apenas 'Request'
   { params }: { params: { id: string } }
 ) {
   const propostaId = params.id;
 
-  // ✅ 3. INICIALIZAÇÃO CORRIGIDA
   const supabase = createRouteHandlerClient({ cookies });
   
-  // Passa o cliente supabase para a função de busca
   const proposta = await getPropostaData(supabase, propostaId);
 
   if (!proposta) {
